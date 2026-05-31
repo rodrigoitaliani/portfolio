@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rodrigo Italiani — desenvolvedor de automações de IA e sistemas sob medida. De Itu, São Paulo.">
+    <title>Rodrigo Italiani | Automações de IA & Sistemas sob Medida</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!-- Subtle Animated Background Grid (Deactivated) -->
+    <!-- <div class="grid-backdrop"></div> -->
+
+    <!-- Light Pillar Background (Deactivated) -->
+    <!--
+    <div class="light-pillars">
+        <div class="pillar"></div>
+        <div class="pillar"></div>
+        <div class="pillar"></div>
+        <div class="pillar"></div>
+        <div class="pillar"></div>
+    </div>
+    -->
+
+    <!-- Letter Glitch Background -->
+    <canvas id="bg-glitch-canvas" class="bg-glitch"></canvas>
+    <div class="glow-effect" id="cursor-glow"></div>
+
+    <main class="bento-container" id="main-bento">
+
+        <!-- ================= LEFT COLUMN — QUEM SOU ================= -->
+        <section class="bento-column left-column">
+
+            <!-- Card 1: Polaroid Profile, Bio & Origin -->
+            <div class="bento-card card-profile" id="card-profile">
+                <div class="profile-top">
+                    <div class="ios-avatar-wrapper">
+                        <img src="assets/avatar_certo.jpg" alt="Rodrigo Italiani" class="ios-avatar" id="img-avatar">
+                        <div class="ios-avatar-gloss"></div>
+                    </div>
+                    <div class="profile-headline">
+                        <h1 class="profile-name">Rodrigo Italiani</h1>
+                        <p class="profile-tagline">Sistemas Sob Medida &amp; Automações de IA</p>
+                        <div class="profile-origin">
+                            <svg class="icon-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <span>Itu, São Paulo — Brasil</span>
+                            <span class="availability-badge" id="badge-avail">
+                                <span class="pulse-dot"></span>
+                                Disponível
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <p class="profile-bio">
+                    Depois de 10 anos gerando mais de R$ 1 milhão em tráfego e copy para clientes, cansei de ver o marketing travar em processos manuais. Comecei a programar para resolver meus próprios gargalos. Hoje, construo sistemas e automações de IA sob medida que rodam sozinhos — criados por quem entende de código, conversão e funil.
+                </p>
+            </div>
+
+            <!-- Card 2: Skills & Stack (direto, sem barrinhas) -->
+            <div class="bento-card card-skills" id="card-skills">
+                <div class="card-head">
+                    <h3 class="card-title">Habilidades e Ferramentas</h3>
+                </div>
+                <div class="skills-groups">
+                    <div class="skill-group">
+                        <span class="skill-label">Desenvolvimento &amp; Dados</span>
+                        <div class="skill-tags">
+                            <span class="tech-tag" style="--tag-color: #F7DF1E; --tag-rgb: 247, 223, 30;">Python</span>
+                            <span class="tech-tag" style="--tag-color: #336791; --tag-rgb: 51, 103, 145;">SQL / Supabase</span>
+                            <span class="tech-tag" style="--tag-color: #4285F4; --tag-rgb: 66, 133, 244;">GA4 &amp; GTM</span>
+                        </div>
+                    </div>
+                    <div class="skill-group">
+                        <span class="skill-label">Automação &amp; APIs</span>
+                        <div class="skill-tags">
+                            <span class="tech-tag" style="--tag-color: #FF6D5A; --tag-rgb: 255, 109, 90;">n8n</span>
+                            <span class="tech-tag" style="--tag-color: #007BFF; --tag-rgb: 0, 123, 255;">APIs &amp; Webhooks</span>
+                            <span class="tech-tag" style="--tag-color: #9C27B0; --tag-rgb: 156, 39, 176;">Make</span>
+                        </div>
+                    </div>
+                    <div class="skill-group">
+                        <span class="skill-label">Inteligência Artificial</span>
+                        <div class="skill-tags">
+                            <span class="tech-tag" style="--tag-color: #10A37F; --tag-rgb: 16, 163, 127;">Agentes de IA</span>
+                            <span class="tech-tag" style="--tag-color: #EAB308; --tag-rgb: 234, 179, 8;">Prompt Engineering</span>
+                            <span class="tech-tag" style="--tag-color: #8B5CF6; --tag-rgb: 139, 92, 246;">Playwright</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: CTA — contato direto -->
+            <div class="bento-card card-cta" id="card-cta">
+                <h3 class="cta-title">Quer automatizar sua operação?</h3>
+                <p class="cta-subtitle">Pare de desperdiçar horas com tarefas repetitivas. Me chama.</p>
+                <div class="cta-actions">
+                    <a href="https://wa.me/5511987429611" target="_blank" rel="noopener noreferrer" class="btn btn-premium btn-premium-green" id="btn-wa">
+                        <canvas class="btn-matrix-canvas" id="wa-btn-canvas"></canvas>
+                        <div class="btn-vignette"></div>
+                        <svg class="btn-border-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <rect x="0" y="0" width="100%" height="100%" rx="12" fill="none" pathLength="100" />
+                        </svg>
+                        <span class="btn-content">
+                            <svg class="icon-btn" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.455 5.703 1.456h.008c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path>
+                            </svg>
+                            Conversar no WhatsApp
+                        </span>
+                    </a>
+                    <div class="cta-secondary">
+                        <a href="mailto:rodrigoitaliani@gmail.com" class="btn btn-ghost" id="btn-email-cta">
+                            <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                <path d="m22 7-10 5L2 7"></path>
+                            </svg>
+                            E-mail
+                        </a>
+                        <a href="https://www.linkedin.com/in/rodrigo-italiani/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" id="btn-linkedin">
+                            <svg class="icon-btn" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+                            </svg>
+                            LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= MIDDLE COLUMN (CANVAS) ================= -->
+        <section class="bento-column middle-column">
+
+            <!-- Main Interactive Canvas Card -->
+            <div class="bento-card card-showcase" id="card-showcase">
+
+                <!-- 1. FEATURED SHOWCASE VIEWER (Default State) -->
+                <div class="showcase-content-wrapper" id="showcase-viewer">
+                    <div class="showcase-tag">PROJETO EM DESTAQUE</div>
+
+                    <div class="showcase-body">
+                        <div class="showcase-visual">
+                            <img src="assets/tts_factory.png" alt="TTS Factory UI Mockup" id="showcase-hero-img" class="hero-showcase-img">
+                            <div class="audio-waves" id="waves-anim">
+                                <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                            </div>
+                        </div>
+
+                        <div class="showcase-info">
+                            <h2 class="showcase-title" id="showcase-title">TTS Factory</h2>
+                            <p class="showcase-subtitle" id="showcase-subtitle">Automação Desktop de Voz Realista por IA</p>
+                            <p class="showcase-desc" id="showcase-desc">
+                                Aplicativo desktop de alta performance construído para otimizar pipelines de canais automatizados. Evita rate limits, elimina sussurros e processa roteiros longos em lote de forma autônoma.
+                            </p>
+
+                            <div class="showcase-meta">
+                                <span class="meta-pill" id="meta-tech1">Python</span>
+                                <span class="meta-pill" id="meta-tech2">PySide6</span>
+                                <span class="meta-pill" id="meta-tech3">Gemini TTS</span>
+                                <span class="meta-pill" id="meta-tech4">SQLite</span>
+                            </div>
+
+                            <button class="btn btn-premium btn-premium-red" id="btn-open-case" data-current-project="tts_factory">
+                                <canvas class="btn-matrix-canvas" id="case-btn-canvas"></canvas>
+                                <div class="btn-vignette"></div>
+                                <svg class="btn-border-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <rect x="0" y="0" width="100%" height="100%" rx="12" fill="none" pathLength="100" />
+                                </svg>
+                                <span class="btn-content">
+                                    Ver estudo de caso
+                                    <svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <polyline points="5 12 12 19 19 12"></polyline>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. CASE STUDY READER (Expanded State - Substack Style) -->
+                <div class="case-study-reader" id="case-study-reader" style="display: none;">
+                    <div class="reader-header">
+                        <button class="btn-back" id="btn-close-case">
+                            <svg class="icon-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="12 19 5 12 12 5"></polyline>
+                            </svg>
+                            Voltar ao painel
+                        </button>
+                        <span class="reader-publication">Estudos de Caso • Rodrigo</span>
+                    </div>
+
+                    <article class="reader-article" id="reader-article-content">
+                        <!-- Case Study Content Injected Dynamically by JS from Templates below -->
+                    </article>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================= RIGHT COLUMN — PROVA ================= -->
+        <section class="bento-column right-column">
+
+            <!-- Card 4: Other Case Studies Directory -->
+            <div class="bento-card card-projects-list" id="card-projects-list">
+                <h3 class="card-title">Outros estudos de caso</h3>
+
+                <div class="projects-feed">
+
+                    <!-- Item 1: TTS Factory (Active by default) -->
+                    <div class="project-item active" data-project-id="tts_factory" id="item-tts">
+                        <div class="project-thumb">
+                            <img src="assets/tts_factory.png" alt="Thumbnail TTS Factory">
+                            <div class="thumb-glow" style="--thumb-color: #EF4444;"></div>
+                        </div>
+                        <div class="project-meta-info">
+                            <div class="project-header">
+                                <h4 class="project-name">TTS Factory</h4>
+                                <span class="project-microtag">PySide6</span>
+                            </div>
+                            <p class="project-summary">Desktop app para processar áudio em lote sem sussurros.</p>
+                        </div>
+                        <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+
+                    <!-- Item 2: Narrator Bot -->
+                    <div class="project-item" data-project-id="narrator_bot" id="item-narrator">
+                        <div class="project-thumb">
+                            <img src="assets/narrator_bot.png" alt="Thumbnail Narrator Bot">
+                            <div class="thumb-glow" style="--thumb-color: #8B5CF6;"></div>
+                        </div>
+                        <div class="project-meta-info">
+                            <div class="project-header">
+                                <h4 class="project-name">Narrator Bot</h4>
+                                <span class="project-microtag">Playwright</span>
+                            </div>
+                            <p class="project-summary">Automação para AI Studio com login persistente.</p>
+                        </div>
+                        <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+
+                    <!-- Item 3: Creative Writer Agent -->
+                    <div class="project-item" data-project-id="creative_writer" id="item-writer">
+                        <div class="project-thumb">
+                            <img src="assets/creative_writer.png" alt="Thumbnail Creative Writer">
+                            <div class="thumb-glow" style="--thumb-color: #EAB308;"></div>
+                        </div>
+                        <div class="project-meta-info">
+                            <div class="project-header">
+                                <h4 class="project-name">Creative Writer</h4>
+                                <span class="project-microtag">Python</span>
+                            </div>
+                            <p class="project-summary">Escritor autônomo focado na regra Bathetic Drop.</p>
+                        </div>
+                        <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Card 5: Testimonials Gallery (prints reais) -->
+            <div class="bento-card card-testimonials" id="card-testimonials">
+                <div class="card-head">
+                    <h3 class="card-title">Depoimentos</h3>
+                    <span class="card-tag">prints reais</span>
+                </div>
+
+                <!--
+                  COMO ADICIONAR UM DEPOIMENTO:
+                  Substitua um bloco ".testi-frame is-empty" abaixo por:
+                  <div class="testi-frame"><img src="assets/depoimento_1.png" alt="Depoimento de cliente"></div>
+                  A imagem abre ampliada ao clicar (lightbox).
+                -->
+                <div class="testimonials-gallery" id="testi-gallery">
+                    <div class="testi-frame is-empty">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        <span>Print em breve</span>
+                    </div>
+                    <div class="testi-frame is-empty">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        <span>Print em breve</span>
+                    </div>
+                    <div class="testi-frame is-empty">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        <span>Print em breve</span>
+                    </div>
+                    <div class="testi-frame is-empty">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        <span>Print em breve</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ================= LIGHTBOX (depoimentos ampliados) ================= -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+        <button class="lightbox-close" id="lightbox-close" aria-label="Fechar">&times;</button>
+        <img src="" alt="Depoimento ampliado" id="lightbox-img">
+    </div>
+
+    <!-- ================= FLOATING QUICK CONTACT (mobile speed-dial) ================= -->
+    <div class="fab-contact" id="fab-contact">
+        <div class="fab-actions">
+            <a href="https://www.linkedin.com/in/rodrigo-italiani/" target="_blank" rel="noopener noreferrer" class="fab-action fab-linkedin">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
+                LinkedIn
+            </a>
+            <a href="mailto:rodrigoitaliani@gmail.com" class="fab-action fab-email">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 5L2 7"></path></svg>
+                E-mail
+            </a>
+            <a href="https://wa.me/5511987429611" target="_blank" rel="noopener noreferrer" class="fab-action fab-whatsapp">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.455 5.703 1.456h.008c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg>
+                WhatsApp
+            </a>
+        </div>
+        <button class="fab-toggle" id="fab-toggle" aria-label="Contato rápido" aria-expanded="false">
+            <svg class="fab-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            <svg class="fab-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+    </div>
+
+    <!-- ================= CASE STUDIES TEMPLATES (HTML only, for JS rendering) ================= -->
+
+    <!-- Template 1: TTS Factory -->
+    <template id="template-case-tts_factory">
+        <h1 class="article-title">Como automatizei a geração de áudio de alta retenção sem limites de API e sem sussurros</h1>
+        <div class="article-meta">Estudo de Caso • Desktop Automation • 5 min de leitura</div>
+
+        <p>Se você já tentou usar voz de IA para produzir vídeos de alta qualidade em escala, conhece bem o drama: as APIs bloqueiam por excesso de requisições, a voz começa a sussurrar do nada, e você perde horas preciosas dividindo textos longos manualmente.</p>
+
+        <figure class="article-figure">
+            <img src="assets/tts_factory.png" alt="Painel Desktop do TTS Factory">
+            <figcaption>Interface do TTS Factory: design escuro premium feito em PySide6 rodando localmente.</figcaption>
+        </figure>
+
+        <h3>O Gargalo de Produção</h3>
+        <p>A API de Text-to-Speech gratuita do Gemini 2.5 Pro é incrível, mas possui limites estritos de requisições por minuto no tier gratuito. Além disso, se os blocos de texto contiverem quebras confusas ou pontuações estranhas, o modelo tende a começar a narrar em tom de sussurro dramático. Para canais de alta retenção, isso é inaceitável.</p>
+
+        <h3>A Solução Técnica Desenvolvida</h3>
+        <p>Criei o <strong>TTS Factory</strong>, um aplicativo desktop robusto e completo construído em <strong>Python, PySide6 e SQLite</strong>. O sistema resolve esses gargalos implementando as seguintes engenharias:</p>
+        <ul>
+            <li><strong>Chunking Inteligente de 400 Palavras:</strong> O app analisa semanticamente o roteiro e o divide em pedaços exatos sem cortar frases ao meio.</li>
+            <li><strong>Controle de Delay Anti-Rate-Limit:</strong> Executa um timer assíncrono de 35 segundos entre o envio de cada bloco, permitindo processar textos gigantescos inteiramente no tier gratuito sem erros.</li>
+            <li><strong>Impedimento de Sussurros via Prompt:</strong> Injeção automatizada de instruções de sistema e metadados específicos para o modelo, gerando um áudio claro, linear e consistente.</li>
+            <li><strong>SQLite local:</strong> Rastreio de histórico de geração, permitindo que você retome exportações falhas do exato ponto em que parou.</li>
+        </ul>
+
+        <blockquote>
+            "Você insere um roteiro longo de 10.000 palavras, clica em rodar, e o software entrega o arquivo consolidado pronto para edição enquanto você toma um café. O trabalho manual foi reduzido a zero."
+        </blockquote>
+
+        <h3>Métricas de Impacto</h3>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">0%</div>
+                <div class="metric-label">Falhas por limite de requisições</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">100%</div>
+                <div class="metric-label">De automação sem cliques manuais</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">10k+</div>
+                <div class="metric-label">Palavras processadas por execução</div>
+            </div>
+        </div>
+
+        <div class="article-cta-box">
+            <h4>Quer uma automação robusta como esta na sua empresa?</h4>
+            <p>Seja para produção de conteúdo ou otimização de fluxos operacionais, eu construo a ferramenta desktop sob medida que sua equipe precisa.</p>
+            <a href="https://wa.me/5511987429611" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Fazer meu projeto sob medida</a>
+        </div>
+    </template>
+
+    <!-- Template 2: Narrator Bot -->
+    <template id="template-case-narrator_bot">
+        <h1 class="article-title">Playwright &amp; Persistência de Sessão: Como domei a interface do Google AI Studio</h1>
+        <div class="article-meta">Estudo de Caso • Browser Automation • 4 min de leitura</div>
+
+        <p>Entrar no navegador, fazer login, digitar o texto, ajustar a voz, desmarcar a opção "Thinking", marcar "Affective", e só então gerar o áudio. Repetir isso 30 vezes ao dia consome horas úteis de trabalho e gera desgaste mental. A automação web pura foi a chave.</p>
+
+        <figure class="article-figure">
+            <img src="assets/narrator_bot.png" alt="Interface de controle do bot de navegação">
+            <figcaption>Estrutura de automação que substitui a interação manual na UI complexa do Google AI Studio.</figcaption>
+        </figure>
+
+        <h3>O Desafio Técnico dos Seletores Dinâmicos</h3>
+        <p>Interfaces modernas de IA como o Google AI Studio são dinâmicas, repletas de classes CSS geradas dinamicamente e componentes aninhados em Shadow DOM. Criar uma automação robusta exige contornar seletores que mudam a cada atualização e lidar com o fluxo de autenticação do Google.</p>
+
+        <h3>A Engenharia Aplicada</h3>
+        <p>Escrevi um robô autônomo em <strong>Python e Playwright</strong> focado em precisão absoluta:</p>
+        <ul>
+            <li><strong>Perfil de Navegação Persistente:</strong> O robô é inicializado a partir de um diretório de perfil local. A sessão de login do Google permanece persistente — o bot pula qualquer tela de login e vai direto ao ponto.</li>
+            <li><strong>Seletores Altamente Resilientes:</strong> Em vez de confiar em classes CSS efêmeras, mapeei elementos usando seletores baseados em texto e caminhos relativos sobre o DOM estático do AI Studio.</li>
+            <li><strong>Auto-Configuração Automatizada:</strong> O script localiza os seletores de voz, seleciona automaticamente a voz desejada, define a temperatura ideal e liga/desliga as caixas de "Thinking" e "Affective" em milissegundos.</li>
+        </ul>
+
+        <blockquote>
+            "O Narrator Bot reduziu o tempo de configuração manual de um único lote de áudio de 5 minutos para apenas 15 segundos de processamento em background."
+        </blockquote>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">15s</div>
+                <div class="metric-label">Tempo total de setup e exportação</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">Zero</div>
+                <div class="metric-label">Cliques manuais no navegador</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">100%</div>
+                <div class="metric-label">De precisão nas vozes e toggles</div>
+            </div>
+        </div>
+
+        <div class="article-cta-box">
+            <h4>Sua empresa tem processos de navegador repetitivos que sugam tempo?</h4>
+            <p>Seja para scraping, preenchimento de planilhas ou automação de ferramentas de IA sem API oficial, eu crio soluções de browser invisíveis e resilientes.</p>
+            <a href="https://wa.me/5511987429611" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Automação Web sob Medida</a>
+        </div>
+    </template>
+
+    <!-- Template 3: Creative Writer Agent -->
+    <template id="template-case-creative_writer">
+        <h1 class="article-title">A Psicologia do Bathetic Drop: Engenharia de Roteiro de Alta Retenção por IA</h1>
+        <div class="article-meta">Estudo de Caso • Engenharia de Prompt &amp; IA • 4 min de leitura</div>
+
+        <p>Roteiros genéricos de IA gritam "eu fui feito pelo ChatGPT" a quilômetros de distância. Eles usam clichês, frases longas e carecem de quebra de ritmo. Para prender a atenção do público moderno, o roteiro precisa ser cirúrgico e adaptado para consumo sonoro.</p>
+
+        <figure class="article-figure">
+            <img src="assets/creative_writer.png" alt="Conceito do Creative Writer Agent">
+            <figcaption>Processamento lógico de estruturas rítmicas e batéticas programado para o gerador de roteiros.</figcaption>
+        </figure>
+
+        <h3>O Segredo da Retenção: Audio-First e Bathetic Drop</h3>
+        <p>Para canais automatizados, o roteiro não é feito para ser lido com os olhos, mas para ser consumido pelos ouvidos. Isso exige frases curtas, micro-ganchos de atenção a cada 10 segundos, e uma técnica psicológica conhecida como <strong>Bathetic Drop</strong>: levar o espectador a um clímax dramático elevado para, de repente, derrubá-lo com um contraste cômico ou anticlimático. Essa quebra constante impede que o cérebro do usuário se disperse.</p>
+
+        <h3>A Solução: Um Agente de Roteirização Autônomo</h3>
+        <p>Desenvolvi o <strong>Creative Writer Agent</strong>, uma ferramenta em Python integrada com a API do Gemini. Ele opera sob regras restritas de formatação:</p>
+        <ul>
+            <li><strong>Regras Audio-First:</strong> Pontuação planejada para pausas naturais de respiração da voz sintética, evitando atropelos na fala.</li>
+            <li><strong>Engenharia de Tensão/Quebra (Bathetic Drop):</strong> Regras embutidas no system prompt que forçam o modelo a oscilar entre seriedade absoluta e humor cínico.</li>
+            <li><strong>Automação de Arquivos:</strong> O script aceita uma ideia central via terminal, processa a estrutura narrativa completa e salva o roteiro formatado direto na pasta de drafts, integrado ao pipeline de voz e edição.</li>
+        </ul>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">1 Clique</div>
+                <div class="metric-label">Da ideia ao roteiro estruturado</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">Audio-First</div>
+                <div class="metric-label">Totalmente adaptado para narração de IA</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">Substack Vibe</div>
+                <div class="metric-label">Escrita focada em alta conexão emocional</div>
+            </div>
+        </div>
+
+        <div class="article-cta-box">
+            <h4>Quer que a IA escreva com a voz única da sua marca?</h4>
+            <p>Esqueça os prompts genéricos de internet. Eu programo agentes de conteúdo que pensam, estruturam e escrevem de acordo com a psicologia exata do seu público-alvo.</p>
+            <a href="https://wa.me/5511987429611" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Falar com Rodrigo</a>
+        </div>
+    </template>
+
+    <!-- Local Script -->
+    <script src="index.js"></script>
+</body>
+</html>
