@@ -149,27 +149,24 @@
 
                     <div class="showcase-body">
                         <div class="showcase-visual">
-                            <img src="assets/tts_factory.png" alt="TTS Factory UI Mockup" id="showcase-hero-img" class="hero-showcase-img">
-                            <div class="audio-waves" id="waves-anim">
-                                <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                            </div>
+                            <img src="assets/tts_factory.png" alt="Redação de YouTube UI Mockup" id="showcase-hero-img" class="hero-showcase-img">
                         </div>
 
                         <div class="showcase-info">
-                            <h2 class="showcase-title" id="showcase-title">TTS Factory</h2>
-                            <p class="showcase-subtitle" id="showcase-subtitle">Automação Desktop de Voz Realista por IA</p>
+                            <h2 class="showcase-title" id="showcase-title">Redação de YouTube</h2>
+                            <p class="showcase-subtitle" id="showcase-subtitle">Esteira de Conteúdo 100% Autônoma</p>
                             <p class="showcase-desc" id="showcase-desc">
-                                Aplicativo desktop de alta performance construído para otimizar pipelines de canais automatizados. Evita rate limits, elimina sussurros e processa roteiros longos em lote de forma autônoma.
+                                Uma redação inteira de YouTube (pesquisa, roteiro, voz sintética, visual e montagem) rodando sem intervenção humana, retroalimentada por análise de comentários.
                             </p>
 
                             <div class="showcase-meta">
                                 <span class="meta-pill" id="meta-tech1">Python</span>
-                                <span class="meta-pill" id="meta-tech2">PySide6</span>
-                                <span class="meta-pill" id="meta-tech3">Gemini TTS</span>
-                                <span class="meta-pill" id="meta-tech4">SQLite</span>
+                                <span class="meta-pill" id="meta-tech2">Playwright</span>
+                                <span class="meta-pill" id="meta-tech3">FFmpeg</span>
+                                <span class="meta-pill" id="meta-tech4">Gemini API</span>
                             </div>
 
-                            <button class="btn btn-premium btn-premium-red" id="btn-open-case" data-current-project="tts_factory">
+                            <button class="btn btn-premium btn-premium-red" id="btn-open-case" data-current-project="redacao_youtube">
                                 <canvas class="btn-matrix-canvas" id="case-btn-canvas"></canvas>
                                 <div class="btn-vignette"></div>
                                 <svg class="btn-border-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -218,8 +215,27 @@
 
                 <div class="projects-feed">
 
-                    <!-- Item 1: TTS Factory (Active by default) -->
-                    <div class="project-item active" data-project-id="tts_factory" id="item-tts">
+                    <!-- Item 0: Redação de YouTube (Active by default) -->
+                    <div class="project-item active" data-project-id="redacao_youtube" id="item-redacao">
+                        <div class="project-thumb">
+                            <img src="assets/tts_factory.png" alt="Thumbnail Redação de YouTube">
+                            <div class="thumb-glow" style="--thumb-color: #10B981;"></div>
+                        </div>
+                        <div class="project-meta-info">
+                            <div class="project-header">
+                                <h4 class="project-name">Redação Automática</h4>
+                                <span class="project-microtag">Python</span>
+                            </div>
+                            <p class="project-summary">Uma esteira completa de YouTube rodando sem cliques.</p>
+                        </div>
+                        <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+
+                    <!-- Item 1: TTS Factory -->
+                    <div class="project-item" data-project-id="tts_factory" id="item-tts">
                         <div class="project-thumb">
                             <img src="assets/tts_factory.png" alt="Thumbnail TTS Factory">
                             <div class="thumb-glow" style="--thumb-color: #EF4444;"></div>
@@ -344,6 +360,72 @@
     </div>
 
     <!-- ================= CASE STUDIES TEMPLATES (HTML only, for JS rendering) ================= -->
+
+    <!-- Template 0: Redação de YouTube -->
+    <template id="template-case-redacao_youtube">
+        <h1 class="article-title">Uma redação de YouTube rodando com zero pessoas (e o que eu aprendi fazendo essa loucura)</h1>
+        <div class="article-meta">Estudo de Caso • Automação de Conteúdo • 6 min de leitura</div>
+
+        <p>Se você já tentou manter um canal ativo no YouTube, sabe que o processo é um moedor de carne. Antes do vídeo ir pro ar, tem que acontecer um monte de coisa chata ao mesmo tempo. Você precisa minerar o tema, escrever um roteiro que preste, gravar a narração, caçar ou gerar imagens que façam sentido, jogar tudo numa timeline, rezar pro editor não travar e, depois de tudo, ainda ler os comentários pra ver se alguém xingou sua mãe.</p>
+
+        <p>Geralmente, isso é trabalho para uma redação de cinco ou seis pessoas. Só que eu fazia tudo isso sozinho, três vezes por semana, no grito.</p>
+
+        <p>Obviamente, minha cabeça pifou. Eu estava quase pirando, sem grana para contratar uma equipe e cansado de passar madrugadas arrastando faixa de áudio em timeline de editor. Então fiz o que qualquer programador teimoso faria: comecei a escrever scripts em Python para automatizar minhas próprias tarefas. O resultado foi um monstro que hoje roda sozinho enquanto eu cuido da minha vida.</p>
+
+        <h3>1. Limpando a matéria-prima (Chega de copiar e colar)</h3>
+        <p>A primeira parte chata era a pesquisa. Passar horas copiando transcrições de vídeos de referência, limpando formatação quebrada e organizando tudo no Bloco de Notas é um trabalho burro.</p>
+        <p>Montei um script simples. Agora, eu só jogo uma lista de links lá dentro. O sistema puxa o áudio, extrai a transcrição de tudo de uma vez, limpa o lixo e me entrega a matéria-prima mastigada. Aquela tarde inteira que eu perdia fazendo trabalho de estagiário virou um processo de 30 segundos em background.</p>
+
+        <h3>2. O Creative Writer e a técnica do "Bathetic Drop"</h3>
+        <p>Roteiro escrito por IA pura é insuportável. Você abre o ChatGPT, pede um roteiro e ele te cospe aquele texto engessado que parece panfleto de imobiliária ou post chato de LinkedIn corporativo. <em>"Em um mundo cada vez mais digital..."</em> — convenhamos, ninguém aguenta isso. O espectador fecha o vídeo nos primeiros 5 segundos.</p>
+        <p>Para contornar isso, criei um agente em Python (o <strong>Creative Writer</strong>) rodando com a API do Gemini, mas enchi o bicho de regras de copywriting humano:</p>
+        <ul>
+            <li><strong>Bathetic Drop</strong>: É um truque narrativo onde o roteiro constrói um clima super dramático e sério para, de repente, dar uma rasteira no espectador com uma quebra irônica ou uma piada meio cínica. Mantém o cérebro da pessoa acordado.</li>
+            <li><strong>Frases Curtas (Audio-First)</strong>: Roteiro de vídeo é feito para ser ouvido, não lido. O agente escreve com pausas pensadas para a respiração da voz sintética, sem palavras difíceis ou construções simétricas perfeitas.</li>
+        </ul>
+
+        <h3>3. A batalha contra o "bug do sussurro" no áudio</h3>
+        <p>A narração foi o meu maior quebra-cabeça. Eu queria usar as vozes ultra-realistas do Gemini, mas caí em duas armadilhas: o plano gratuito bloqueia você se mandar o roteiro de uma vez (Rate Limit) e, de vez em quando, a IA simplesmente cismava em sussurrar o roteiro, parecendo um psicopata de filme de terror gótico.</p>
+        <p>Pra domar esse comportamento, criei um programinha desktop em <strong>PySide6 e SQLite</strong> chamado <strong>TTS Factory</strong>.</p>
+        <ul>
+            <li><strong>Chunking Semântico</strong>: Fatia o roteiro em pedaços pequenos de 400 palavras para não engasgar.</li>
+            <li><strong>Delay Cirúrgico</strong>: Enfia um delay de 35 segundos entre cada pedaço. É o tempo exato para o plano gratuito respirar e não me dar um bloqueio na testa.</li>
+            <li><strong>Prompt Anti-Sussurro</strong>: Injeta uma instrução de sistema em inglês (<em>“Read aloud in a cynical and friendly manner. Do not whisper.”</em>), usando a voz <em>Sadaltager</em> e temperatura em 1.4 para simular as oscilações naturais da fala.</li>
+        </ul>
+
+        <h3>4. Playwright para automatizar o que "não dava" para automatizar</h3>
+        <p>Configurar a voz da IA manualmente todo santo dia é um porre. Entrar no site, fazer login no Google, selecionar a voz Sadaltager, desligar o recurso "Thinking" (para não pagar por processamento à toa) e ligar o tom "Affective" toma um tempo precioso.</p>
+        <p>Para matar essa etapa, escrevi o <strong>Narrator Bot</strong> usando <strong>Playwright</strong>. É um robô que roda silenciosamente em background. Ele usa um perfil de navegador que salvei localmente (pula a autenticação do Google por estar com a sessão persistida), entra no AI Studio, faz os cliques chatos in milissegundos, cola o roteiro gerado pelo Creative Writer, baixa o áudio e fecha a janela.</p>
+
+        <h3>5. Imagens com a mesma cara e montagem sem abrir o Premiere</h3>
+        <p>Canais de IA costumam parecer uma colcha de retalhos horrorosa. Uma foto realista, depois um desenho 3D, depois um vetor flat. Fica muito amador.</p>
+        <p>No meu sistema, o agente que escreve o roteiro também cospe os prompts das imagens estruturados em JSON, forçando o mesmo estilo visual (tipo <em>vintage photographic style, grainy 35mm</em>). Todas as imagens bebem da mesma fonte estética. Depois, o <strong>FFmpeg</strong> roda um script de terminal que pega a narração, o lote de imagens geradas, a trilha sonora e costura tudo matematicamente. O vídeo sai pronto, editado e renderizado.</p>
+
+        <h3>6. O ciclo de feedback que ninguém constrói</h3>
+        <p>Fazer vídeo pro YouTube e não ouvir a audiência é jogar dinheiro no lixo. Mas convenhamos, passar horas lendo centenas de comentários para extrair dados é um saco. Fechei o ciclo de um jeito inteligente: um script roda de tempos em tempos raspando os comentários dos vídeos novos. Outro script de IA tabula esses textos e tenta entender: onde a galera cansou? O que querem ver no próximo?</p>
+        <p>Toda segunda-feira de manhã, um relatório simples cai no meu e-mail dizendo o que funcionou e o que deu errado. A esteira aprende com a própria audiência. O próximo roteiro sempre nasce melhor que o anterior.</p>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">6 → 0</div>
+                <div class="metric-label">Pessoas necessárias na redação diária</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">15s</div>
+                <div class="metric-label">De setup manual do áudio (era 10 minutos)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">R$ 0,00</div>
+                <div class="metric-label">De custo de narração em 90% dos vídeos</div>
+            </div>
+        </div>
+
+        <div class="article-cta-box">
+            <h4>Seu processo repetitivo deveria ser código</h4>
+            <p>Seja para eliminar cliques manuais ou economizar milhares de reais na sua operação, eu crio soluções e esteiras de automação sob medida.</p>
+            <a href="https://wa.me/5511987429611" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Chamar Rodrigo no WhatsApp</a>
+        </div>
+    </template>
 
     <!-- Template 1: TTS Factory -->
     <template id="template-case-tts_factory">

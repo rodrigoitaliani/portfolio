@@ -93,40 +93,40 @@ document.addEventListener("DOMContentLoaded", () => {
        2. CASE STUDIES & SHOWCASE DATA
        ========================================== */
     const projectsData = {
-        whatsapp_leads: {
-            title: "Motor de Leads WhatsApp",
-            subtitle: "Resposta de 3h pra 30s, zero lead perdido",
-            desc: "O lead chega, a IA qualifica e responde em segundos no WhatsApp. Tudo vai direto pro CRM e o vendedor só entra quando o cliente está quente.",
-            image: "assets/whatsapp_leads.png",
-            techs: ["n8n", "WhatsApp API", "Claude", "React"]
+        redacao_youtube: {
+            title: "Redação de YouTube",
+            subtitle: "Esteira de Conteúdo 100% Autônoma",
+            desc: "Uma redação inteira de YouTube (pesquisa, roteiro, voz sintética, visual e montagem) rodando sem intervenção humana, retroalimentada por análise de comentários.",
+            image: "assets/tts_factory.png", // Usando o painel de exemplo
+            techs: ["Python", "Playwright", "FFmpeg", "Gemini API"]
         },
-        auto_reports: {
-            title: "Relatório Automático",
-            subtitle: "8h/mês de relatório viram zero",
-            desc: "Puxa os dados das campanhas de Meta e Google Ads, monta um PDF com a sua marca e dispara no e-mail e WhatsApp do cliente toda segunda às 8h.",
-            image: "assets/auto_reports.png",
-            techs: ["Python", "Google/Meta APIs", "React", "Supabase"]
+        tts_factory: {
+            title: "TTS Factory",
+            subtitle: "Automação Desktop de Voz Realista por IA",
+            desc: "Aplicativo desktop construído para otimizar pipelines de canais automatizados. Evita rate limits, elimina sussurros e processa roteiros gigantes em lote.",
+            image: "assets/tts_factory.png",
+            techs: ["Python", "PySide6", "Gemini TTS", "SQLite"]
         },
-        proposal_generator: {
-            title: "Gerador de Propostas IA",
-            subtitle: "Proposta de 2h pra 2min",
-            desc: "Preencha um brief curto, e a IA estrutura escopo, preço e argumentação persuasiva. Sai um PDF limpo e pronto para enviar ao cliente instantaneamente.",
-            image: "assets/proposal_generator.png",
-            techs: ["React", "Claude", "PDF Gen", "Supabase"]
+        narrator_bot: {
+            title: "Narrator Bot",
+            subtitle: "Automação de Voz no Google AI Studio",
+            desc: "Robô de browser em Playwright para gerar narrações com login persistente, driblando seletores dinâmicos e configurando parâmetros ideais em segundos.",
+            image: "assets/narrator_bot.png",
+            techs: ["Python", "Playwright", "Google AI", "Automation"]
         },
-        client_onboarding: {
-            title: "Portal de Onboarding",
-            subtitle: "Recepção e comunicação sem atrito",
-            desc: "Um portal dedicado ao cliente novo. Libera acessos automaticamente, envia mensagens programadas no WhatsApp e garante que ele se sinta cuidado.",
-            image: "assets/client_onboarding.png",
-            techs: ["Next.js", "n8n", "Webhooks", "Supabase"]
+        creative_writer: {
+            title: "Creative Writer",
+            subtitle: "Escritor Autônomo de Alta Retenção",
+            desc: "Agente inteligente focado na regra Bathetic Drop e em escrita audio-first. Cospe roteiros formatados direto na pasta de rascunhos com ritmo humano.",
+            image: "assets/creative_writer.png",
+            techs: ["Python", "Gemini API", "Prompt Eng.", "Copywriting"]
         }
     };
 
     /* ==========================================
        3. INTERACTIVE STATE MANAGEMENT
        ========================================== */
-    let currentProjectId = "whatsapp_leads";
+    let currentProjectId = "redacao_youtube";
     let isCaseOpen = false;
 
     // Mobile = where the case reader becomes a full-screen overlay
