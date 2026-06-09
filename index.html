@@ -62,7 +62,11 @@
                     </div>
                 </div>
                 <p class="profile-bio">
-                    Depois de 10 anos gerando mais de R$ 1 milhão em tráfego e copy para clientes, cansei de ver o marketing travar em processos manuais. Comecei a programar para resolver meus próprios gargalos. Hoje, construo sistemas e automações de IA sob medida que rodam sozinhos — criados por quem entende de código, conversão e funil.
+                    Escrevo código para resolver o problema mais caro de qualquer empresa: a fricção do trabalho manual.
+                    <br><br>
+                    Passei dez anos lidando com tráfego e vendas no marketing digital. Se há algo que aprendi nesse tempo, é que de nada adianta ter uma ótima ideia se a execução trava porque alguém precisa copiar dados de um sistema e colar em outro trinta vezes por dia.
+                    <br><br>
+                    Comecei a programar para resolver meus próprios gargalos de tempo. Hoje, crio sistemas e automações sob medida. O objetivo é simples: liberar o cérebro das pessoas para o trabalho que realmente gera receita, deixando a rotina chata para as máquinas rodarem sozinhas.
                 </p>
             </div>
 
@@ -272,18 +276,18 @@
                         </svg>
                     </div>
 
-                    <!-- Item 3: Creative Writer Agent -->
-                    <div class="project-item" data-project-id="creative_writer" id="item-writer">
+                    <!-- Item 3: Gerador de Propostas -->
+                    <div class="project-item" data-project-id="gerador_propostas" id="item-propostas">
                         <div class="project-thumb">
-                            <img src="assets/creative_writer.png" alt="Thumbnail Creative Writer">
-                            <div class="thumb-glow" style="--thumb-color: #EAB308;"></div>
+                            <img src="assets/gerador_propostas.png" alt="Thumbnail Gerador de Propostas">
+                            <div class="thumb-glow" style="--thumb-color: #F24E1E;"></div>
                         </div>
                         <div class="project-meta-info">
                             <div class="project-header">
-                                <h4 class="project-name">Creative Writer</h4>
-                                <span class="project-microtag">Python</span>
+                                <h4 class="project-name">Gerador de Propostas</h4>
+                                <span class="project-microtag">Figma API</span>
                             </div>
-                            <p class="project-summary">Escritor autônomo focado na regra Bathetic Drop.</p>
+                            <p class="project-summary">Automação de PDFs comerciais sob medida para vendas.</p>
                         </div>
                         <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -527,48 +531,61 @@
         </div>
     </template>
 
-    <!-- Template 3: Creative Writer Agent -->
-    <template id="template-case-creative_writer">
-        <h1 class="article-title">A Psicologia do Bathetic Drop: Engenharia de Roteiro de Alta Retenção por IA</h1>
-        <div class="article-meta">Estudo de Caso • Engenharia de Prompt &amp; IA • 4 min de leitura</div>
+    <!-- Template 3: Gerador de Propostas -->
+    <template id="template-case-gerador_propostas">
+        <h1 class="article-title">O dia em que tiramos os designers da linha de produção de propostas (e passamos a fechar negócios mais rápido)</h1>
+        <div class="article-meta">Estudo de Caso • Automação de Processos Comerciais • 5 min de leitura</div>
 
-        <p>Roteiros genéricos de IA gritam "eu fui feito pelo ChatGPT" a quilômetros de distância. Eles usam clichês, frases longas e carecem de quebra de ritmo. Para prender a atenção do público moderno, o roteiro precisa ser cirúrgico e adaptado para consumo sonoro.</p>
+        <p>Imagine o seguinte: o time de vendas é o motorista de um carro de corrida. O cliente em potencial é a linha de chegada. Quando o cliente mostra interesse real, você precisa acelerar e entregar a proposta comercial o mais rápido possível, enquanto a conversa ainda está fresca na cabeça dele.</p>
+
+        <p>Mas em uma agência de marketing movimentada, o processo era diferente. Para gerar uma proposta em PDF que fosse visualmente atraente e personalizada, o vendedor dependia do time de design. Toda pequena alteração no escopo ou um ajuste de R$ 500 no valor final significava abrir um chamado interno. O designer precisava interromper a criação de campanhas para ajustar textos no Figma. A proposta demorava dias para ficar pronta, e o lead esfriava.</p>
 
         <figure class="article-figure">
-            <img src="assets/creative_writer.png" alt="Conceito do Creative Writer Agent">
-            <figcaption>Processamento lógico de estruturas rítmicas e batéticas programado para o gerador de roteiros.</figcaption>
+            <img src="assets/gerador_propostas.png" alt="Interface do Gerador de Propostas">
+            <figcaption>O painel web integrado à API do Figma: vendedores editam dados e a automação constrói o PDF.</figcaption>
         </figure>
 
-        <h3>O Segredo da Retenção: Audio-First e Bathetic Drop</h3>
-        <p>Para canais automatizados, o roteiro não é feito para ser lido com os olhos, mas para ser consumido pelos ouvidos. Isso exige frases curtas, micro-ganchos de atenção a cada 10 segundos, e uma técnica psicológica conhecida como <strong>Bathetic Drop</strong>: levar o espectador a um clímax dramático elevado para, de repente, derrubá-lo com um contraste cômico ou anticlimático. Essa quebra constante impede que o cérebro do usuário se disperse.</p>
+        <h3>O Problema: Designers atuando como digitadores de luxo</h3>
+        <p>Os designers são profissionais criativos caros. Usá-los para atualizar tabelas de preços e copiar logos de clientes em slides institucionais é um desperdício de talento e dinheiro. Ao mesmo tempo, mandar uma proposta comercial feia, feita em Word, prejudicava a percepção de valor dos serviços da agência. A solução óbvia era automatizar a geração desses documentos.</p>
 
-        <h3>A Solução: Um Agente de Roteirização Autônomo</h3>
-        <p>Desenvolvi o <strong>Creative Writer Agent</strong>, uma ferramenta em Python integrada com a API do Gemini. Ele opera sob regras restritas de formatação:</p>
+        <h3>A Engenharia por Trás do Gerador</h3>
+        <p>Construí um sistema que une um painel de controle simples a uma ponte inteligente com o Figma. A lógica funciona em três etapas claras:</p>
         <ul>
-            <li><strong>Regras Audio-First:</strong> Pontuação planejada para pausas naturais de respiração da voz sintética, evitando atropelos na fala.</li>
-            <li><strong>Engenharia de Tensão/Quebra (Bathetic Drop):</strong> Regras embutidas no system prompt que forçam o modelo a oscilar entre seriedade absoluta e humor cínico.</li>
-            <li><strong>Automação de Arquivos:</strong> O script aceita uma ideia central via terminal, processa a estrutura narrativa completa e salva o roteiro formatado direto na pasta de drafts, integrado ao pipeline de voz e edição.</li>
+            <li><strong>Interface Web de Entrada:</strong> Desenvolvi um painel web hospedado na nuvem interna da agência. O vendedor digita os dados do cliente, seleciona as caixas dos serviços contratados (o escopo) e faz o upload do logotipo da empresa interessada.</li>
+            <li><strong>Lógica de Tratamento de Dados (Python):</strong> O script recebe o formulário, calcula os valores corretos e limpa os textos. Ele analisa as proporções da imagem do logo para garantir que ela caiba na área reservada do design sem ficar esticada ou achatada.</li>
+            <li><strong>Geração Headless via Figma API:</strong> A automação injeta as variáveis no Figma usando um plugin customizado, preenche os slides com os dados do vendedor e aciona a exportação direta para PDF de alta resolução. Em 2 minutos, o arquivo está pronto para envio.</li>
         </ul>
 
+        <blockquote>
+            "O vendedor consegue alterar o escopo e enviar o PDF de 15 páginas enquanto está na ligação com o cliente. O designer nem fica sabendo que a proposta existiu."
+        </blockquote>
+
+        <h3>Os Bastidores e as Gambiarras Necessárias</h3>
+        <p>Nenhuma automação sobrevive ao primeiro contato com a realidade sem alguns ajustes. Durante o desenvolvimento, enfrentamos problemas que exigiram soluções práticas:</p>
+        <p><strong>A briga com os logos dos clientes:</strong> Vendedores subiam imagens de todos os formatos possíveis. Se o logo era muito vertical ou quadrado, a API do Figma esticava a imagem como se fosse um chiclete. Tivemos que programar uma regra em Python que identifica a proporção da imagem antes do envio e a acomoda de forma centralizada dentro de uma caixa invisível com tamanho fixo.</p>
+        <p><strong>Fontes invisíveis:</strong> No servidor headless, a API do Figma às vezes falhava em renderizar as fontes customizadas da marca da agência, substituindo-as por Arial e destruindo o layout. A solução foi forçar o carregamento de toda a árvore tipográfica no início do script de injeção de texto.</p>
+        <p><strong>A ansiedade do comercial:</strong> A renderização completa do PDF de alta resolução demorava cerca de 15 segundos. Para evitar que os vendedores clicassem repetidamente em "Gerar" achando que o sistema tinha travado, inserimos uma barra de carregamento e mensagens bem-humoradas na tela.</p>
+
+        <h3>Resultados Comerciais Reais</h3>
         <div class="metrics-grid">
             <div class="metric-card">
-                <div class="metric-value">1 Clique</div>
-                <div class="metric-label">Da ideia ao roteiro estruturado</div>
+                <div class="metric-value">2 min</div>
+                <div class="metric-label">Tempo de geração de proposta (era 45 minutos)</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value">Audio-First</div>
-                <div class="metric-label">Totalmente adaptado para narração de IA</div>
+                <div class="metric-value">Zero</div>
+                <div class="metric-label">Chamados de suporte abertos para os designers</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value">Substack Vibe</div>
-                <div class="metric-label">Escrita focada em alta conexão emocional</div>
+                <div class="metric-value">100%</div>
+                <div class="metric-label">De propostas enviadas no padrão visual da marca</div>
             </div>
         </div>
 
         <div class="article-cta-box">
-            <h4>Quer que a IA escreva com a voz única da sua marca?</h4>
-            <p>Esqueça os prompts genéricos de internet. Eu programo agentes de conteúdo que pensam, estruturam e escrevem de acordo com a psicologia exata do seu público-alvo.</p>
-            <a href="https://wa.me/5511987429611" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Falar com Rodrigo</a>
+            <h4>Sua equipe comercial perde tempo com tarefas repetitivas?</h4>
+            <p>Se você tem vendedores gastando horas editando documentos ou esperando designers para enviar propostas, nós podemos resolver esse atrito com automações inteligentes e painéis sob medida.</p>
+            <a href="https://wa.me/5511987429611" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Fazer meu projeto de automação comercial</a>
         </div>
     </template>
 

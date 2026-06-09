@@ -114,12 +114,12 @@ document.addEventListener("DOMContentLoaded", () => {
             image: "assets/narrator_bot.png",
             techs: ["Python", "Playwright", "Google AI", "Automation"]
         },
-        creative_writer: {
-            title: "Creative Writer",
-            subtitle: "Escritor Autônomo de Alta Retenção",
-            desc: "Agente inteligente focado na regra Bathetic Drop e em escrita audio-first. Cospe roteiros formatados direto na pasta de rascunhos com ritmo humano.",
-            image: "assets/creative_writer.png",
-            techs: ["Python", "Gemini API", "Prompt Eng.", "Copywriting"]
+        gerador_propostas: {
+            title: "Gerador de Propostas",
+            subtitle: "Automação de PDFs via Figma API",
+            desc: "Painel web interativo para vendedores estruturarem escopos e orçamentos, gerando propostas comerciais prontas em PDF direto no Figma sem precisar de design.",
+            image: "assets/gerador_propostas.png",
+            techs: ["Python", "Figma API", "Cloud Panel", "Automation"]
         }
     };
 
