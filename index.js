@@ -107,12 +107,12 @@ document.addEventListener("DOMContentLoaded", () => {
             image: "assets/tts_factory.png",
             techs: ["Python", "PySide6", "Gemini TTS", "SQLite"]
         },
-        narrator_bot: {
-            title: "Narrator Bot",
-            subtitle: "Automação de Voz no Google AI Studio",
-            desc: "Robô de browser em Playwright para gerar narrações com login persistente, driblando seletores dinâmicos e configurando parâmetros ideais em segundos.",
-            image: "assets/narrator_bot.png",
-            techs: ["Python", "Playwright", "Google AI", "Automation"]
+        agente_sdr: {
+            title: "Agente de Voz IA",
+            subtitle: "Qualificação, Agenda e Follow-up",
+            desc: "Agente autônomo que realiza chamadas telefônicas para novos leads em menos de 5 minutos, qualificando com RAG, agendando com Round-Robin e gerenciando WhatsApp.",
+            image: "assets/agente_sdr.png",
+            techs: ["Vapi.ai", "n8n", "Python", "WhatsApp API"]
         },
         gerador_propostas: {
             title: "Gerador de Propostas",

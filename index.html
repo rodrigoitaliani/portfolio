@@ -257,18 +257,18 @@
                         </svg>
                     </div>
 
-                    <!-- Item 2: Narrator Bot -->
-                    <div class="project-item" data-project-id="narrator_bot" id="item-narrator">
+                    <!-- Item 2: Agente de Voz SDR -->
+                    <div class="project-item" data-project-id="agente_sdr" id="item-narrator">
                         <div class="project-thumb">
-                            <img src="assets/narrator_bot.png" alt="Thumbnail Narrator Bot">
-                            <div class="thumb-glow" style="--thumb-color: #8B5CF6;"></div>
+                            <img src="assets/agente_sdr.png" alt="Thumbnail Agente de Voz SDR">
+                            <div class="thumb-glow" style="--thumb-color: #3B82F6;"></div>
                         </div>
                         <div class="project-meta-info">
                             <div class="project-header">
-                                <h4 class="project-name">Narrator Bot</h4>
-                                <span class="project-microtag">Playwright</span>
+                                <h4 class="project-name">Agente de Voz</h4>
+                                <span class="project-microtag">Vapi.ai</span>
                             </div>
-                            <p class="project-summary">Automação para AI Studio com login persistente.</p>
+                            <p class="project-summary">Ligação e qualificação automática de leads em 2 minutos.</p>
                         </div>
                         <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -482,52 +482,69 @@
         </div>
     </template>
 
-    <!-- Template 2: Narrator Bot -->
-    <template id="template-case-narrator_bot">
-        <h1 class="article-title">Playwright &amp; Persistência de Sessão: Como domei a interface do Google AI Studio</h1>
-        <div class="article-meta">Estudo de Caso • Browser Automation • 4 min de leitura</div>
+    <!-- Template 2: Agente de Voz SDR -->
+    <template id="template-case-agente_sdr">
+        <h1 class="article-title">O dia em que trocamos o telemarketing chato por uma IA que liga para o cliente em 2 minutos (e o inferno do "Alô... Alô?")</h1>
+        <div class="article-meta">Estudo de Caso • Voice AI SDR &amp; Lead Management • 6 min de leitura</div>
 
-        <p>Entrar no navegador, fazer login, digitar o texto, ajustar a voz, desmarcar a opção "Thinking", marcar "Affective", e só então gerar o áudio. Repetir isso 30 vezes ao dia consome horas úteis de trabalho e gera desgaste mental. A automação web pura foi a chave.</p>
+        <p>Se você vende serviços ou produtos de ticket mais alto, sabe que o tempo é o seu ativo mais escasso.</p>
+
+        <p>Se um potencial cliente preenche o formulário do seu site demonstrando interesse e você liga para ele em menos de 5 minutos, a chance de fechar o negócio é alta. Se você demorar uma hora, ele provavelmente já voltou a trabalhar, esqueceu quem você é ou fechou com o concorrente que atendeu primeiro. É a física simples da venda.</p>
+
+        <p>O problema é que sua equipe de vendas não pode viver colada no telefone esperando o formulário apitar. Eles estão em reuniões, almoçando ou focados em fechar contratos.</p>
+
+        <p>Para resolver essa fricção, desenhamos um sistema que faz o trabalho chato e cansativo de qualificação em minutos, deixando para os humanos apenas a parte de negociar e assinar o contrato.</p>
 
         <figure class="article-figure">
-            <img src="assets/narrator_bot.png" alt="Interface de controle do bot de navegação">
-            <figcaption>Estrutura de automação que substitui a interação manual na UI complexa do Google AI Studio.</figcaption>
+            <img src="assets/agente_sdr.png" alt="Interface de controle do agente de voz">
+            <figcaption>Visualização integrada do fluxo: transcrições de chamada em tempo real, distribuição na agenda dos vendedores e relatórios automáticos.</figcaption>
         </figure>
 
-        <h3>O Desafio Técnico dos Seletores Dinâmicos</h3>
-        <p>Interfaces modernas de IA como o Google AI Studio são dinâmicas, repletas de classes CSS geradas dinamicamente e componentes aninhados em Shadow DOM. Criar uma automação robusta exige contornar seletores que mudam a cada atualização e lidar com o fluxo de autenticação do Google.</p>
-
-        <h3>A Engenharia Aplicada</h3>
-        <p>Escrevi um robô autônomo em <strong>Python e Playwright</strong> focado em precisão absoluta:</p>
+        <h3>A Arquitetura do Sistema</h3>
+        <p>Em vez de criar algo complexo demais para o próprio bem, dividimos a engrenagem em cinco etapas diretas:</p>
         <ul>
-            <li><strong>Perfil de Navegação Persistente:</strong> O robô é inicializado a partir de um diretório de perfil local. A sessão de login do Google permanece persistente — o bot pula qualquer tela de login e vai direto ao ponto.</li>
-            <li><strong>Seletores Altamente Resilientes:</strong> Em vez de confiar em classes CSS efêmeras, mapeei elementos usando seletores baseados em texto e caminhos relativos sobre o DOM estático do AI Studio.</li>
-            <li><strong>Auto-Configuração Automatizada:</strong> O script localiza os seletores de voz, seleciona automaticamente a voz desejada, define a temperatura ideal e liga/desliga as caixas de "Thinking" e "Affective" em milissegundos.</li>
+            <li><strong>O Gatilho:</strong> Assim que o formulário do site é enviado, o <strong>n8n</strong> (que atua como os tubos de conexão dos dados) captura o lead e aciona o motor de telefonia.</li>
+            <li><strong>A Ligação via Vapi.ai + Groq:</strong> A API da Vapi liga para o número do cliente em menos de 2 minutos. Usamos o modelo Llama 3 rodando nos servidores da Groq para garantir que a latência (o tempo que a IA leva para processar a fala e responder) ficasse abaixo de <strong>800 milissegundos</strong>. Qualquer atraso maior do que isso faz a ligação parecer aquele delay irritante de chamada internacional de TV, e o cliente desliga na hora.</li>
+            <li><strong>Qualificação RAG:</strong> A IA tem acesso a um banco de dados de conhecimento da agência (RAG). Ela não inventa respostas. Ela explica o serviço de forma simples, ouve as necessidades do lead e avalia se ele atende aos critérios mínimos de orçamento e perfil.</li>
+            <li><strong>Distribuição Round-Robin (Python):</strong> Se o lead é qualificado, o agente avisa o cliente que vai agendar um horário com um especialista. Nosso script em Python bate na API do Google Calendar, analisa a carga de trabalho de cada vendedor e reserva a sala de reunião no calendário do vendedor disponível da vez.</li>
+            <li><strong>O Relatório de Inteligência:</strong> A gravação e a transcrição da chamada são lidas pelo Claude 3.5 Sonnet, que resume a conversa no modelo BANT (Orçamento, Autoridade, Necessidade e Tempo) e envia um relatório formatado direto no WhatsApp do dono da empresa.</li>
         </ul>
 
         <blockquote>
-            "O Narrator Bot reduziu o tempo de configuração manual de um único lote de áudio de 5 minutos para apenas 15 segundos de processamento em background."
+            "O tempo médio para a primeira ligação após o lead entrar no site caiu para menos de 5 minutos, com latência de conversa abaixo de 800ms."
         </blockquote>
 
+        <h3>Os Bastidores e as Cicatrizes do Desenvolvimento</h3>
+        <p>Qualquer um que diga que implementar IA de voz é "só apertar um botão" nunca tentou fazer uma rodar no mundo real. Tivemos que resolver três problemas graves que quase arruinaram o projeto:</p>
+        <p><strong>1. O bug do "Alô... Alô?"</strong><br>
+        Nas primeiras versões, a IA interrompia as pessoas constantemente. A detecção de voz (VAD) interpretava qualquer pausa do lead para respirar como se ele tivesse terminado de falar. O resultado era um robô atropelando a fala do cliente, parecendo um vendedor de telemarketing desesperado. Tivemos que aumentar o tempo de silêncio tolerado e programar a IA para injetar marcadores de escuta natural (como <em>"Aham"</em>, <em>"Entendi"</em>, e <em>"Perfeito, continue"</em>), dando ritmo e humanidade à conversa.</p>
+
+        <p><strong>2. O inferno dos Fusos Horários</strong><br>
+        No mundo da programação, tudo roda no fuso UTC (Horário de Greenwich). Quando o script agendava uma reunião para as 14h de Brasília, ela era registrada no calendário do vendedor como 17h. Vendedores perdiam reuniões e clientes ficavam esperando em salas virtuais vazias. A correção exigiu mapear rigorosamente a conversão de fuso horário em todas as pontas do Python para forçar o padrão <code>America/Sao_Paulo</code> antes de qualquer requisição.</p>
+
+        <p><strong>3. O banimento iminente no WhatsApp</strong><br>
+        Quando o sistema começou a enviar os links das reuniões por mensagens automatizadas no WhatsApp, o algoritmo da Meta começou a bloquear os números da agência. Disparos rápidos com links são o caminho mais curto para ser banido por spam. Tivemos que implementar um fluxo de "aquecimento" de chips, reduzir a frequência de envio e programar o script da Evolution API para incluir variações de tempo randômicas (entre 15 e 45 segundos) entre cada mensagem, simulando um humano real no teclado.</p>
+
+        <h3>Métricas de Negócio</h3>
         <div class="metrics-grid">
             <div class="metric-card">
-                <div class="metric-value">15s</div>
-                <div class="metric-label">Tempo total de setup e exportação</div>
+                <div class="metric-value">Sub-5 min</div>
+                <div class="metric-label">Tempo de resposta inicial de novos leads</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">&lt; 800ms</div>
+                <div class="metric-label">Latência de resposta da IA na chamada</div>
             </div>
             <div class="metric-card">
                 <div class="metric-value">Zero</div>
-                <div class="metric-label">Cliques manuais no navegador</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">100%</div>
-                <div class="metric-label">De precisão nas vozes e toggles</div>
+                <div class="metric-label">Esforço manual para qualificar e agendar</div>
             </div>
         </div>
 
         <div class="article-cta-box">
-            <h4>Sua empresa tem processos de navegador repetitivos que sugam tempo?</h4>
-            <p>Seja para scraping, preenchimento de planilhas ou automação de ferramentas de IA sem API oficial, eu crio soluções de browser invisíveis e resilientes.</p>
-            <a href="https://wa.me/5511987429611" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Automação Web sob Medida</a>
+            <h4>Seu processo comercial perde leads por demora no atendimento?</h4>
+            <p>Se você tem leads esfriando no seu site ou quer que seu time comercial foque apenas em reuniões qualificadas e prontas, nós podemos desenhar essa automação sob medida.</p>
+            <a href="https://wa.me/5511987429611" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Falar com Rodrigo no WhatsApp</a>
         </div>
     </template>
 
