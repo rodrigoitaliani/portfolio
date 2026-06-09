@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Voice SDR Agent - Console de Operações</title>
+    
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons (feather-like icons) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --bg-main: #060913;
+            --bg-card: rgba(13, 20, 38, 0.45);
+            --bg-card-hover: rgba(13, 20, 38, 0.7);
+            --border-color: rgba(255, 255, 255, 0.06);
+            --border-glow: rgba(16, 185, 129, 0.2);
+            
+            --color-text-primary: #F3F4F6;
+            --color-text-secondary: #9CA3AF;
+            --color-text-muted: #6B7280;
+            
+            --color-primary: #10B981; /* Neon green */
+            --color-primary-rgb: 16, 185, 129;
+            --color-accent: #3B82F6;  /* Electric Blue */
+            --color-purple: #8B5CF6;  /* AI Violet */
+            --color-error: #EF4444;   /* Neon Red */
+            
+            --font-display: 'Outfit', sans-serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--color-text-primary);
+            font-family: var(--font-sans);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 40%);
+        }
+
+        /* HEADER */
+        header {
+            height: 70px;
+            background: rgba(6, 9, 19, 0.8);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 10;
+            flex-shrink: 0;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .logo-icon i {
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 20px;
+            background: linear-gradient(to right, #fff, #9CA3AF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-tag {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--color-primary);
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 2px 8px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .status-indicators {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--color-text-secondary);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--color-primary);
+            position: relative;
+        }
+
+        .dot.pulse::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: inherit;
+            animation: pulse-ring 1.5s infinite ease-in-out;
+        }
+
+        .dot.blue { background-color: var(--color-accent); }
+        .dot.purple { background-color: var(--color-purple); }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(2.8); opacity: 0; }
+        }
+
+        /* MAIN DASHBOARD LAYOUT */
+        .dashboard-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        /* Sidebar: Leads Queue */
+        .leads-sidebar {
+            width: 300px;
+            border-right: 1px solid var(--border-color);
+            background: rgba(4, 6, 14, 0.5);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-header h2 {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .leads-count {
+            font-size: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 2px 8px;
+            border-radius: 20px;
+            color: var(--color-text-secondary);
+        }
+
+        .leads-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .lead-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lead-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: transparent;
+            transition: all 0.2s;
+        }
+
+        .lead-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .lead-card.active {
+            background: rgba(16, 185, 129, 0.05);
+            border-color: rgba(16, 185, 129, 0.25);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.05);
+        }
+
+        .lead-card.active::before {
+            background: var(--color-primary);
+        }
+
+        .lead-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+
+        .lead-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--color-text-primary);
+        }
+
+        .lead-time {
+            font-size: 11px;
+            color: var(--color-text-muted);
+        }
+
+        .lead-company {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .lead-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lead-source {
+            font-size: 11px;
+            color: var(--color-text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .lead-status {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Status colors */
+        .status-captured { background: rgba(59, 130, 246, 0.1); color: var(--color-accent); border: 1px solid rgba(59, 130, 246, 0.15); }
+        .status-dialing { background: rgba(245, 158, 11, 0.1); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.15); animation: flash 1s infinite alternate; }
+        .status-calling { background: rgba(16, 185, 129, 0.1); color: var(--color-primary); border: 1px solid rgba(16, 185, 129, 0.15); }
+        .status-scheduled { background: rgba(139, 92, 246, 0.1); color: var(--color-purple); border: 1px solid rgba(139, 92, 246, 0.15); }
+        .status-unreachable { background: rgba(239, 68, 68, 0.1); color: var(--color-error); border: 1px solid rgba(239, 68, 68, 0.15); }
+
+        @keyframes flash {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        /* Center Column: Console & Call Simulator */
+        .center-console {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: rgba(6, 9, 19, 0.3);
+            border-right: 1px solid var(--border-color);
+        }
+
+        /* Quick KPIs row */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .kpi-label {
+            font-size: 11px;
+            color: var(--color-text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .kpi-value-group {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .kpi-value {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .kpi-change {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--color-primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .kpi-change.down {
+            color: var(--color-error);
+        }
+
+        /* CALL WORKSPACE */
+        .call-workspace {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow: hidden;
+        }
+
+        .panel-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(16px);
+        }
+
+        .call-simulator-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .panel-header {
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(13, 20, 38, 0.2);
+        }
+
+        .panel-title {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-header-test {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--color-primary);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-header-test:hover {
+            background: var(--color-primary);
+            color: #fff;
+        }
+
+        /* Call Status Widget */
+        .call-status-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 30px;
+            font-size: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .call-duration {
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            color: var(--color-text-secondary);
+        }
+
+        /* ACTIVE CALL STATE (WAVEFORM & AUDIO CONTROLS) */
+        .active-call-view {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(4, 6, 14, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 180px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Waveform Animation */
+        .waveform-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            height: 60px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .wave-bar {
+            width: 4px;
+            height: 6px;
+            border-radius: 4px;
+            background-color: var(--color-primary);
+            transition: height 0.1s ease;
+            box-shadow: 0 0 5px rgba(16, 185, 129, 0.4);
+        }
+
+        .wave-bar.blue {
+            background-color: var(--color-accent);
+            box-shadow: 0 0 5px rgba(59, 130, 246, 0.4);
+        }
+
+        .avatar-group {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-top: 5px;
+            position: relative;
+        }
+
+        .avatar-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .avatar-circle {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--border-color);
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .avatar-circle.active {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+            animation: breathe-border 2s infinite ease-in-out;
+        }
+
+        .avatar-circle.active.blue {
+            border-color: var(--color-accent);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .avatar-circle img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .avatar-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+        }
+
+        .avatar-role {
+            font-size: 10px;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .call-flow-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-muted);
+        }
+
+        .call-flow-indicator i {
+            animation: flow-arrow 1.5s infinite linear;
+        }
+
+        @keyframes flow-arrow {
+            0% { transform: translateX(-5px); opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { transform: translateX(5px); opacity: 0.2; }
+        }
+
+        @keyframes breathe-border {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* TRANSCRIPTION / LOG CONTEXT */
+        .transcript-area {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .transcript-message {
+            display: flex;
+            gap: 12px;
+            max-width: 85%;
+            animation: slide-up-fade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .transcript-message.ai {
+            align-self: flex-start;
+        }
+
+        .transcript-message.lead {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .msg-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .ai .msg-avatar {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--color-primary);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+        }
+
+        .lead .msg-avatar {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--color-accent);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+        }
+
+        .msg-bubble {
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 13.5px;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .ai .msg-bubble {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            border-top-left-radius: 2px;
+            color: var(--color-text-primary);
+        }
+
+        .lead .msg-bubble {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-top-right-radius: 2px;
+            color: var(--color-text-primary);
+        }
+
+        .msg-time {
+            font-size: 10px;
+            color: var(--color-text-muted);
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        @keyframes slide-up-fade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typing cursor */
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 12px;
+            background-color: var(--color-primary);
+            margin-left: 2px;
+            animation: cursor-blink 0.8s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes cursor-blink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        /* Right Column: WhatsApp and CRM integrations */
+        .right-integration {
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            overflow-y: auto;
+            flex-shrink: 0;
+            background: rgba(4, 6, 14, 0.5);
+        }
+
+        .integration-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+        }
+
+        /* WhatsApp Mockup Widget */
+        .whatsapp-widget {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 280px;
+        }
+
+        .wa-header {
+            background: #075E54;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+        }
+
+        .wa-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .wa-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wa-name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .wa-status {
+            font-size: 10px;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .wa-body {
+            flex: 1;
+            background: #0b141a;
+            background-image: radial-gradient(rgba(255,255,255,0.02) 1px, transparent 0);
+            background-size: 16px 16px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+        }
+
+        .wa-bubble {
+            max-width: 85%;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            position: relative;
+            line-height: 1.4;
+            animation: slide-up-fade 0.3s forwards;
+        }
+
+        .wa-bubble.sent {
+            background: #005c4b;
+            color: #e9edef;
+            align-self: flex-end;
+            border-top-right-radius: 0;
+        }
+
+        .wa-bubble.received {
+            background: #202c33;
+            color: #e9edef;
+            align-self: flex-start;
+            border-top-left-radius: 0;
+        }
+
+        .wa-bubble-time {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.4);
+            text-align: right;
+            margin-top: 4px;
+        }
+
+        .wa-link {
+            color: #53bdeb;
+            text-decoration: none;
+            word-break: break-all;
+            display: block;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* CRM Report Widget */
+        .crm-widget {
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            gap: 12px;
+        }
+
+        .crm-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 12.5px;
+        }
+
+        .crm-row:last-child {
+            border: none;
+        }
+
+        .crm-key {
+            color: var(--color-text-secondary);
+        }
+
+        .crm-val {
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .score-pill {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--color-primary);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .crm-summary-box {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            line-height: 1.45;
+        }
+
+        /* UTILITY CLASSES */
+        .pulsing-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--color-primary);
+            margin-right: 6px;
+            animation: pulse-op 1s infinite alternate;
+        }
+
+        @keyframes pulse-op {
+            from { opacity: 0.3; }
+            to { opacity: 1; }
+        }
+
+        /* Back to portfolio floating button */
+        .btn-back-portfolio {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--border-color);
+            color: var(--color-text-secondary);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 12.5px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            transition: all 0.3s;
+        }
+
+        .btn-back-portfolio:hover {
+            color: #fff;
+            background: rgba(15, 23, 42, 0.95);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* MEDIA QUERIES FOR RESPONSIVENESS */
+        @media (max-width: 1024px) {
+            body {
+                overflow-y: auto;
+                height: auto;
+            }
+            .dashboard-container {
+                flex-direction: column;
+                overflow: visible;
+                height: auto;
+            }
+            .leads-sidebar, .right-integration {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                height: 400px;
+            }
+            .right-integration {
+                height: auto;
+            }
+            .center-console {
+                border-right: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FLOATING BACK LINK -->
+    <a href="../../index.html" class="btn-back-portfolio">
+        <i data-lucide="arrow-left"></i> Voltar ao Portfólio
+    </a>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo-area">
+            <div class="logo-icon">
+                <i data-lucide="phone-call"></i>
+            </div>
+            <span class="logo-text">Sophia SDR</span>
+            <span class="logo-tag">PRODUÇÃO ACTIVE</span>
+        </div>
+        
+        <div class="status-indicators">
+            <div class="status-item">
+                <span class="dot pulse"></span>
+                <span>Vapi.ai API: Online</span>
+            </div>
+            <div class="status-item">
+                <span class="dot pulse blue"></span>
+                <span>WhatsApp API: Conectado</span>
+            </div>
+            <div class="status-item">
+                <span class="dot pulse purple"></span>
+                <span>CRM Handoff: Ativo</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- DASHBOARD WORKSPACE -->
+    <div class="dashboard-container">
+        
+        <!-- SIDEBAR: LEADS FEED -->
+        <aside class="leads-sidebar">
+            <div class="sidebar-header">
+                <h2><i data-lucide="users" style="width:16px; color:var(--color-primary)"></i>Esteira de Webhooks</h2>
+                <span class="leads-count" id="leads-count">4 Leads (Bruno Agendado)</span>
+            </div>
+            
+            <div class="leads-list" id="leads-queue">
+                <!-- Pre-seeded Lead 1 -->
+                <div class="lead-card active" id="lead-bruno">
+                    <div class="lead-header">
+                        <span class="lead-name">Bruno de Souza</span>
+                        <span class="lead-time">Hoje, 19:48</span>
+                    </div>
+                    <div class="lead-company">
+                        <i data-lucide="building" style="width:12px;color:var(--color-text-muted)"></i>
+                        <span>TechX Soluções</span>
+                    </div>
+                    <div class="lead-footer">
+                        <span class="lead-source">
+                            <i data-lucide="globe" style="width:11px;color:var(--color-text-muted)"></i>
+                            Anúncio Google
+                        </span>
+                        <span class="lead-status status-scheduled" id="status-badge-bruno">Agendado</span>
+                    </div>
+                </div>
+
+                <!-- Pre-seeded Lead 2 -->
+                <div class="lead-card">
+                    <div class="lead-header">
+                        <span class="lead-name">Ana Carolina Reis</span>
+                        <span class="lead-time">Hoje, 16:32</span>
+                    </div>
+                    <div class="lead-company">
+                        <i data-lucide="building" style="width:12px;color:var(--color-text-muted)"></i>
+                        <span>Reis Consultoria</span>
+                    </div>
+                    <div class="lead-footer">
+                        <span class="lead-source">
+                            <i data-lucide="globe" style="width:11px;color:var(--color-text-muted)"></i>
+                            Formulário Site
+                        </span>
+                        <span class="lead-status status-scheduled">Agendado</span>
+                    </div>
+                </div>
+
+                <!-- Pre-seeded Lead 3 -->
+                <div class="lead-card">
+                    <div class="lead-header">
+                        <span class="lead-name">Ricardo Santos</span>
+                        <span class="lead-time">Hoje, 15:10</span>
+                    </div>
+                    <div class="lead-company">
+                        <i data-lucide="building" style="width:12px;color:var(--color-text-muted)"></i>
+                        <span>Santos & Co</span>
+                    </div>
+                    <div class="lead-footer">
+                        <span class="lead-source">
+                            <i data-lucide="globe" style="width:11px;color:var(--color-text-muted)"></i>
+                            Indicação
+                        </span>
+                        <span class="lead-status status-unreachable">Sem Caixa</span>
+                    </div>
+                </div>
+
+                <!-- Pre-seeded Lead 4 -->
+                <div class="lead-card">
+                    <div class="lead-header">
+                        <span class="lead-name">Mariana Dias</span>
+                        <span class="lead-time">Ontem, 18:15</span>
+                    </div>
+                    <div class="lead-company">
+                        <i data-lucide="building" style="width:12px;color:var(--color-text-muted)"></i>
+                        <span>Dias Logística</span>
+                    </div>
+                    <div class="lead-footer">
+                        <span class="lead-source">
+                            <i data-lucide="globe" style="width:11px;color:var(--color-text-muted)"></i>
+                            Facebook Ads
+                        </span>
+                        <span class="lead-status status-calling">Qualificado</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CENTER PANEL: CONSOLE & SIMULATOR -->
+        <main class="center-console">
+            
+            <!-- KPI ROW -->
+            <div class="kpi-row">
+                <div class="kpi-card">
+                    <span class="kpi-label">Leads Capturados</span>
+                    <div class="kpi-value-group">
+                        <span class="kpi-value" id="kpi-leads">43</span>
+                        <span class="kpi-change">+14%</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">Contatos (IA)</span>
+                    <div class="kpi-value-group">
+                        <span class="kpi-value">39</span>
+                        <span class="kpi-change">92.8%</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">Qualificados</span>
+                    <div class="kpi-value-group">
+                        <span class="kpi-value">28</span>
+                        <span class="kpi-change">+8%</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">Reuniões Agendadas</span>
+                    <div class="kpi-value-group">
+                        <span class="kpi-value" id="kpi-meetings">20</span>
+                        <span class="kpi-change" style="color:var(--color-purple)">48.7%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CALL WORKSPACE -->
+            <div class="call-workspace">
+                
+                <div class="panel-container call-simulator-panel">
+
+                    <!-- PANEL HEADER -->
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i data-lucide="radio" style="color:var(--color-primary);animation:pulse-op 1s infinite alternate"></i>
+                            <span>Painel de Transmissão da Chamada</span>
+                        </div>
+                        
+                        <button class="btn-header-test" id="btn-start">
+                            <i data-lucide="phone-call" style="width: 12px;"></i>
+                            Testar Canal de Voz
+                        </button>
+                        
+                        <div class="call-status-bar">
+                            <span class="pulsing-indicator" id="call-dot" style="background-color: var(--color-text-muted)"></span>
+                            <span id="call-status-text" style="color:var(--color-text-secondary)">Finalizada</span>
+                            <span class="call-duration" id="call-timer">03:45</span>
+                        </div>
+                    </div>
+
+                    <!-- ACTIVE CALL WAVEFORM -->
+                    <div class="active-call-view">
+                        
+                        <!-- WAVEFORM BARS -->
+                        <div class="waveform-container" id="waveform">
+                            <!-- 28 wave bars created dynamically by JS -->
+                        </div>
+
+                        <!-- AVATARS -->
+                        <div class="avatar-group">
+                            <div class="avatar-wrapper">
+                                <div class="avatar-circle" id="ai-avatar">
+                                    <i data-lucide="bot" style="color:var(--color-primary); width:24px; height:24px"></i>
+                                </div>
+                                <span class="avatar-label">Sophia IA</span>
+                                <span class="avatar-role">Agente SDR</span>
+                            </div>
+
+                            <div class="call-flow-indicator">
+                                <i data-lucide="chevrons-right"></i>
+                            </div>
+
+                            <div class="avatar-wrapper">
+                                <div class="avatar-circle blue" id="lead-avatar">
+                                    <i data-lucide="user" style="color:var(--color-accent); width:24px; height:24px"></i>
+                                </div>
+                                <span class="avatar-label" id="active-lead-name">Bruno</span>
+                                <span class="avatar-role">Lead</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- TRANSCRIPT -->
+                    <div class="transcript-area" id="transcript-box">
+                        <!-- Loaded pre-populated by default -->
+                        <div class="transcript-message ai">
+                            <div class="msg-avatar">IA</div>
+                            <div class="msg-bubble">Alô? Bruno, correto? Aqui é a Sophia, da TechX Soluções. Vi que você acabou de se cadastrar na nossa página buscando automatizar seu atendimento, está com um tempinho para falar?<div class="msg-time">19:48</div></div>
+                        </div>
+                        <div class="transcript-message lead">
+                            <div class="msg-avatar">BR</div>
+                            <div class="msg-bubble">Opa, tudo bem? Sim, sou eu. Posso falar sim, foi bem rápido o retorno de vocês, hein! Menos de um minuto.<div class="msg-time">19:48</div></div>
+                        </div>
+                        <div class="transcript-message ai">
+                            <div class="msg-avatar">IA</div>
+                            <div class="msg-bubble">Fico feliz! Nosso sistema liga em menos de 5 segundos para garantir que você não perca o momento da compra. Me conta um pouco, Bruno: qual o principal desafio hoje na TechX?<div class="msg-time">19:48</div></div>
+                        </div>
+                        <div class="transcript-message lead">
+                            <div class="msg-avatar">BR</div>
+                            <div class="msg-bubble">Cara, nosso problema é que chegam muitos leads qualificados no WhatsApp, mas nossa equipe de 5 vendedores passa o dia respondendo perguntas repetidas e marcando reuniões manualmente. A gente perde muito tempo de venda ativa.<div class="msg-time">19:49</div></div>
+                        </div>
+                        <div class="transcript-message ai">
+                            <div class="msg-avatar">IA</div>
+                            <div class="msg-bubble">Entendi perfeitamente. E esse volume de leads diários, Bruno, gira em torno de quanto, mais ou menos?<div class="msg-time">19:49</div></div>
+                        </div>
+                        <div class="transcript-message lead">
+                            <div class="msg-avatar">BR</div>
+                            <div class="msg-bubble">Hoje a gente bate em torno de 40 a 50 leads por dia vindo dos anúncios. Para 5 vendedores dá uma correria absurda.<div class="msg-time">19:49</div></div>
+                        </div>
+                        <div class="transcript-message ai">
+                            <div class="msg-avatar">IA</div>
+                            <div class="msg-bubble">Com certeza, isso consome quase 4 horas de trabalho manual por vendedor todos os dias! Uma triagem inteligente com IA resolveria isso e agendaria direto na agenda do vendedor certo. Vocês já possuem orçamento reservado para implementar essa automação de triagem este mês?<div class="msg-time">19:50</div></div>
+                        </div>
+                        <div class="transcript-message lead">
+                            <div class="msg-avatar">BR</div>
+                            <div class="msg-bubble">Temos sim, a gente já separou uma verba e a intenção é rodar isso o quanto antes. O gargalo está grande.<div class="msg-time">19:50</div></div>
+                        </div>
+                        <div class="transcript-message ai">
+                            <div class="msg-avatar">IA</div>
+                            <div class="msg-bubble">Ótimo! Bruno, pelo que você me descreveu, a TechX encaixa perfeitamente no nosso plano Pro de Automações. Eu gostaria de agendar uma reunião de 15 minutos com o Rodrigo, nosso especialista técnico, para te mostrar como estruturar isso no seu WhatsApp. Ele tem disponibilidade amanhã, quarta-feira, às 14:00 ou às 16:30. Qual fica melhor para você?<div class="msg-time">19:51</div></div>
+                        </div>
+                        <div class="transcript-message lead">
+                            <div class="msg-avatar">BR</div>
+                            <div class="msg-bubble">Acho que amanhã às 14:00 fica perfeito pra mim.<div class="msg-time">19:51</div></div>
+                        </div>
+                        <div class="transcript-message ai">
+                            <div class="msg-avatar">IA</div>
+                            <div class="msg-bubble">Agendado então! Amanhã, quarta-feira, às 14:00. Bruno, acabei de te mandar o link da sala no Google Calendar pelo seu WhatsApp. Confirma se chegou aí por favor. Foi ótimo conversar com você!<div class="msg-time">19:51</div></div>
+                        </div>
+                        <div class="transcript-message lead">
+                            <div class="msg-avatar">BR</div>
+                            <div class="msg-bubble">Deixa eu ver... Ah, chegou sim! Mensagem com link recebida aqui. Fechado, nos falamos amanhã às 14h. Obrigado!<div class="msg-time">19:52</div></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- RIGHT PANEL: WHATSAPP & CRM REPORT -->
+        <aside class="right-integration">
+            
+            <!-- WHATSAPP WIDGET -->
+            <div class="integration-panel" style="flex: 1; display: flex; flex-direction: column;">
+                <div class="wa-header">
+                    <div class="wa-avatar">S</div>
+                    <div class="wa-info">
+                        <span class="wa-name">Sophia SDR</span>
+                        <span class="wa-status"><span class="pulsing-indicator" style="background-color:#53bdeb;margin:0"></span>online</span>
+                    </div>
+                </div>
+                
+                <div class="wa-body" id="wa-chat-body">
+                    <div class="wa-bubble sent">
+                        Olá Bruno! Aqui é a Sophia, assistente virtual da TechX Soluções.
+                        <div class="wa-bubble-time">19:52</div>
+                    </div>
+                    <div class="wa-bubble sent">
+                        Conforme conversamos na ligação, agendei seu horário com o Rodrigo.
+                        <br><br>
+                        📅 <strong>Amanhã, quarta-feira, às 14:00</strong>
+                        <br>
+                        Link de acesso:
+                        <a href="https://meet.google.com/xyz-abc" class="wa-link" target="_blank" onclick="return false;">meet.google.com/xyz-abc</a>
+                        <div class="wa-bubble-time">19:52</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CRM REPORT WIDGET -->
+            <div class="integration-panel">
+                <div class="panel-header" style="padding: 12px 16px;">
+                    <div class="panel-title" style="font-size: 13.5px;">
+                        <i data-lucide="database" style="color:var(--color-purple);width:14px"></i>
+                        <span>Relatório de Qualificação (CRM)</span>
+                    </div>
+                </div>
+                
+                <div class="crm-widget" id="crm-report-body">
+                    <div class="crm-row">
+                        <span class="crm-key">Status da Triagem</span>
+                        <span class="crm-val"><span class="score-pill">Aprovado (Qualificado)</span></span>
+                    </div>
+                    <div class="crm-row">
+                        <span class="crm-key">Orçamento Reservado</span>
+                        <span class="crm-val" style="color:var(--color-primary)">Sim (R$ 1.500 - R$ 3.000)</span>
+                    </div>
+                    <div class="crm-row">
+                        <span class="crm-key">Equipe de Vendas</span>
+                        <span class="crm-val">5 Vendedores (Gargalo Manual)</span>
+                    </div>
+                    <div class="crm-row">
+                        <span class="crm-key">Volume de Leads</span>
+                        <span class="crm-val">40 a 50 leads/dia (Google Ads)</span>
+                    </div>
+                    <div class="crm-row">
+                        <span class="crm-key">Handoff Rep</span>
+                        <span class="crm-val" style="color:var(--color-purple)">Rodrigo (Round-Robin)</span>
+                    </div>
+                    <div class="crm-summary-box">
+                        <strong>Resumo Executivo RAG:</strong> Lead relata sobrecarga no atendimento do WhatsApp. Vendedores perdem muito tempo com triagem básica. Possui verba separada e quer implementar automação de triagem IA ainda este mês. Reunião agendada com Rodrigo para apresentação do plano Pro.
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <script>
+        // Web Audio API for synthetic audio feedback (no asset dependencies)
+        let audioCtx = null;
+        
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playBeep(freq, duration, type = "sine", gainVal = 0.1) {
+            try {
+                initAudio();
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                
+                gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {
+                console.log("Audio contexts blocked or unsupported", e);
+            }
+        }
+
+        // Tones helper
+        const tones = {
+            ring: () => {
+                playBeep(440, 0.4, "sine", 0.08);
+                setTimeout(() => playBeep(480, 0.4, "sine", 0.08), 80);
+            },
+            connect: () => {
+                playBeep(880, 0.1, "sine", 0.06);
+                setTimeout(() => playBeep(1100, 0.15, "sine", 0.06), 80);
+            },
+            disconnect: () => {
+                playBeep(550, 0.15, "sine", 0.06);
+                setTimeout(() => playBeep(380, 0.25, "sine", 0.06), 120);
+            },
+            whatsapp: () => {
+                playBeep(1040, 0.08, "triangle", 0.08);
+                setTimeout(() => playBeep(1320, 0.15, "triangle", 0.08), 60);
+            }
+        };
+
+        // Dialog sequence
+        const dialogData = [
+            { sender: "ai", text: "Alô? Bruno, correto? Aqui é a Sophia, da TechX Soluções. Vi que você acabou de se cadastrar na nossa página buscando automatizar seu atendimento, está com um tempinho para falar?" },
+            { sender: "lead", text: "Opa, tudo bem? Sim, sou eu. Posso falar sim, foi bem rápido o retorno de vocês, hein! Menos de um minuto." },
+            { sender: "ai", text: "Fico feliz! Nosso sistema liga em menos de 5 segundos para garantir que você não perca o momento da compra. Me conta um pouco, Bruno: qual o principal desafio hoje na TechX?" },
+            { sender: "lead", text: "Cara, nosso problema é que chegam muitos leads qualificados no WhatsApp, mas nossa equipe de 5 vendedores passa o dia respondendo perguntas repetidas e marcando reuniões manualmente. A gente perde muito tempo de venda ativa." },
+            { sender: "ai", text: "Entendi perfeitamente. E esse volume de leads diários, Bruno, gira em torno de quanto, mais ou menos?" },
+            { sender: "lead", text: "Hoje a gente bate em torno de 40 a 50 leads por dia vindo dos anúncios. Para 5 vendedores dá uma correria absurda." },
+            { sender: "ai", text: "Com certeza, isso consome quase 4 horas de trabalho manual por vendedor todos os dias! Uma triagem inteligente com IA resolveria isso e agendaria direto na agenda do vendedor certo. Vocês já possuem orçamento reservado para implementar essa automação de triagem este mês?" },
+            { sender: "lead", text: "Temos sim, a gente já separou uma verba e a intenção é rodar isso o quanto antes. O gargalo está grande." },
+            { sender: "ai", text: "Ótimo! Bruno, pelo que você me descreveu, a TechX encaixa perfeitamente no nosso plano Pro de Automações. Eu gostaria de agendar uma reunião de 15 minutos com o Rodrigo, nosso especialista técnico, para te mostrar como estruturar isso no seu WhatsApp. Ele tem disponibilidade amanhã, quarta-feira, às 14:00 ou às 16:30. Qual fica melhor para você?" },
+            { sender: "lead", text: "Acho que amanhã às 14:00 fica perfeito pra mim." },
+            { sender: "ai", text: "Agendado então! Amanhã, quarta-feira, às 14:00. Bruno, acabei de te mandar o link da sala no Google Calendar pelo seu WhatsApp. Confirma se chegou aí por favor. Foi ótimo conversar com você!" },
+            { sender: "lead", text: "Deixa eu ver... Ah, chegou sim! Mensagem com link recebida aqui. Fechado, nos falamos amanhã às 14h. Obrigado!" }
+        ];
+
+        // Waveform Visualizer setup
+        const waveform = document.getElementById("waveform");
+        const waveBarCount = 28;
+        const bars = [];
+        
+        for (let i = 0; i < waveBarCount; i++) {
+            const bar = document.createElement("div");
+            bar.className = "wave-bar";
+            if (i % 2 === 0) bar.classList.add("blue");
+            waveform.appendChild(bar);
+            bars.push(bar);
+        }
+
+        let isWaveActive = false;
+        let activeSpeaker = "idle"; // 'ai', 'lead', or 'idle'
+
+        function animateWaveform() {
+            if (!isWaveActive) {
+                bars.forEach(bar => {
+                    bar.style.height = "6px";
+                });
+                return;
+            }
+
+            bars.forEach((bar, idx) => {
+                let multiplier = 8;
+                if (activeSpeaker === "ai" && idx % 2 === 0) {
+                    multiplier = 40; 
+                } else if (activeSpeaker === "lead" && idx % 2 !== 0) {
+                    multiplier = 45; 
+                } else if (activeSpeaker === "connecting") {
+                    multiplier = 15;
+                } else {
+                    multiplier = 4;
+                }
+                
+                const height = Math.max(6, Math.floor(Math.random() * multiplier) + 4);
+                bar.style.height = height + "px";
+            });
+
+            setTimeout(() => {
+                requestAnimationFrame(animateWaveform);
+            }, 60);
+        }
+
+        // SIMULATION ENGINE
+        const btnStart = document.getElementById("btn-start");
+        const callStatusText = document.getElementById("call-status-text");
+        const callTimer = document.getElementById("call-timer");
+        const callDot = document.getElementById("call-dot");
+        const transcriptBox = document.getElementById("transcript-box");
+        const aiAvatar = document.getElementById("ai-avatar");
+        const leadAvatar = document.getElementById("lead-avatar");
+        const statusBadgeBruno = document.getElementById("status-badge-bruno");
+        
+        const waChatBody = document.getElementById("wa-chat-body");
+        const crmReportBody = document.getElementById("crm-report-body");
+
+        let timerInterval = null;
+        let secondsElapsed = 0;
+
+        function startCallTimer() {
+            secondsElapsed = 0;
+            callTimer.textContent = "00:00";
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+                const secs = String(secondsElapsed % 60).padStart(2, '0');
+                callTimer.textContent = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function stopCallTimer() {
+            clearInterval(timerInterval);
+        }
+
+        function appendMessageToTranscript(sender, text) {
+            const msgDiv = document.createElement("div");
+            msgDiv.className = `transcript-message ${sender}`;
+            
+            const avatar = document.createElement("div");
+            avatar.className = "msg-avatar";
+            avatar.textContent = sender === "ai" ? "IA" : "BR";
+            
+            const bubble = document.createElement("div");
+            bubble.className = "msg-bubble";
+            
+            const time = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            
+            msgDiv.appendChild(avatar);
+            msgDiv.appendChild(bubble);
+            transcriptBox.appendChild(msgDiv);
+            transcriptBox.scrollTop = transcriptBox.scrollHeight;
+
+            let i = 0;
+            bubble.innerHTML = '<span class="typing-cursor"></span>';
+            
+            return new Promise((resolve) => {
+                activeSpeaker = sender;
+                if (sender === "ai") {
+                    aiAvatar.classList.add("active");
+                    leadAvatar.classList.remove("active");
+                } else {
+                    leadAvatar.classList.add("active");
+                    aiAvatar.classList.remove("active");
+                }
+
+                function type() {
+                    if (i < text.length) {
+                        bubble.innerHTML = text.substring(0, i + 1) + '<span class="typing-cursor"></span>';
+                        i += 2; 
+                        setTimeout(type, 15);
+                    } else {
+                        bubble.innerHTML = text + `<div class="msg-time">${time}</div>`;
+                        activeSpeaker = "idle";
+                        resolve();
+                    }
+                }
+                setTimeout(type, 100);
+            });
+        }
+
+        async function runDialogSequence() {
+            for (const item of dialogData) {
+                await new Promise(r => setTimeout(r, 800));
+                await appendMessageToTranscript(item.sender, item.text);
+            }
+            aiAvatar.classList.remove("active");
+            leadAvatar.classList.remove("active");
+        }
+
+        btnStart.addEventListener("click", () => {
+            initAudio();
+            runSimulationFlow();
+        });
+
+        async function runSimulationFlow() {
+            btnStart.disabled = true;
+            btnStart.style.opacity = "0.5";
+            btnStart.innerHTML = '<i data-lucide="loader" class="spinner" style="width:12px"></i> Conectando';
+            lucide.createIcons();
+            
+            // Reset items
+            transcriptBox.innerHTML = "";
+            waChatBody.innerHTML = "";
+            crmReportBody.innerHTML = `
+                <div style="text-align: center; color: var(--color-text-muted); font-size: 12.5px; padding: 40px 0;">
+                    <i data-lucide="file-text" class="spinner" style="width:20px;margin-bottom:8px"></i><br>
+                    Processando relatório da chamada via RAG...
+                </div>
+            `;
+            lucide.createIcons();
+
+            // Status: Calling Webhook
+            statusBadgeBruno.className = "lead-status status-dialing";
+            statusBadgeBruno.textContent = "Disparando...";
+            callStatusText.textContent = "Iniciando API...";
+            callStatusText.style.color = "var(--color-primary)";
+            callDot.style.backgroundColor = "var(--color-primary)";
+
+            // 2. Play ring simulation
+            await new Promise(r => setTimeout(r, 1000));
+            callStatusText.textContent = "Chamando Bruno...";
+            callDot.className = "dot pulse";
+            isWaveActive = true;
+            activeSpeaker = "connecting";
+            animateWaveform();
+
+            // Ring twice
+            tones.ring();
+            await new Promise(r => setTimeout(r, 1200));
+            tones.ring();
+            await new Promise(r => setTimeout(r, 1500));
+
+            // 3. Connect Call
+            tones.connect();
+            statusBadgeBruno.className = "lead-status status-calling";
+            statusBadgeBruno.textContent = "Em Ligação";
+            callStatusText.textContent = "Chamada Ativa";
+            callStatusText.style.color = "var(--color-primary)";
+            callDot.style.backgroundColor = "var(--color-primary)";
+            startCallTimer();
+
+            // 4. Run Dialog
+            await runDialogSequence();
+
+            // 5. Disconnect Call
+            stopCallTimer();
+            tones.disconnect();
+            isWaveActive = false;
+            
+            statusBadgeBruno.className = "lead-status status-scheduled";
+            statusBadgeBruno.textContent = "Agendado";
+            callStatusText.textContent = "Finalizada";
+            callStatusText.style.color = "var(--color-text-secondary)";
+            callDot.className = "dot";
+            callDot.style.backgroundColor = "var(--color-text-muted)";
+
+            // Update KPIs
+            document.getElementById("kpi-meetings").textContent = "20";
+            document.getElementById("kpi-leads").textContent = "43";
+            document.getElementById("leads-count").textContent = "4 Leads (Bruno Agendado)";
+
+            // Restore button
+            btnStart.disabled = false;
+            btnStart.style.opacity = "1";
+            btnStart.innerHTML = '<i data-lucide="phone-call" style="width: 12px;"></i> Testar Canal de Voz';
+            lucide.createIcons();
+
+            // 6. Trigger Automations (WhatsApp and CRM Handoff)
+            await new Promise(r => setTimeout(r, 1200));
+            triggerWhatsAppMessage();
+            triggerCRMReport();
+        }
+
+        function triggerWhatsAppMessage() {
+            tones.whatsapp();
+            const time = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            
+            const greetingBubble = document.createElement("div");
+            greetingBubble.className = "wa-bubble sent";
+            greetingBubble.innerHTML = `
+                Olá Bruno! Aqui é a Sophia, assistente virtual da TechX Soluções.
+                <div class="wa-bubble-time">${time}</div>
+            `;
+            
+            const linkBubble = document.createElement("div");
+            linkBubble.className = "wa-bubble sent";
+            linkBubble.style.animationDelay = "1.5s";
+            linkBubble.innerHTML = `
+                Conforme conversamos na ligação, agendei seu horário com o Rodrigo.
+                <br><br>
+                📅 <strong>Amanhã, quarta-feira, às 14:00</strong>
+                <br>
+                Link de acesso:
+                <a href="https://meet.google.com/xyz-abc" class="wa-link" target="_blank" onclick="return false;">meet.google.com/xyz-abc</a>
+                <div class="wa-bubble-time">${time}</div>
+            `;
+
+            waChatBody.appendChild(greetingBubble);
+            waChatBody.appendChild(linkBubble);
+            waChatBody.scrollTop = waChatBody.scrollHeight;
+        }
+
+        function triggerCRMReport() {
+            crmReportBody.innerHTML = `
+                <div class="crm-row">
+                    <span class="crm-key">Status da Triagem</span>
+                    <span class="crm-val"><span class="score-pill">Aprovado (Qualificado)</span></span>
+                </div>
+                <div class="crm-row">
+                    <span class="crm-key">Orçamento Reservado</span>
+                    <span class="crm-val" style="color:var(--color-primary)">Sim (R$ 1.500 - R$ 3.000)</span>
+                </div>
+                <div class="crm-row">
+                    <span class="crm-key">Equipe de Vendas</span>
+                    <span class="crm-val">5 Vendedores (Gargalo Manual)</span>
+                </div>
+                <div class="crm-row">
+                    <span class="crm-key">Volume de Leads</span>
+                    <span class="crm-val">40 a 50 leads/dia (Google Ads)</span>
+                </div>
+                <div class="crm-row">
+                    <span class="crm-key">Handoff Rep</span>
+                    <span class="crm-val" style="color:var(--color-purple)">Rodrigo (Round-Robin)</span>
+                </div>
+                <div class="crm-summary-box">
+                    <strong>Resumo Executivo RAG:</strong> Lead relata sobrecarga no atendimento do WhatsApp. Vendedores perdem muito tempo com triagem básica. Possui verba separada e quer implementar automação de triagem IA ainda este mês. Reunião agendada com Rodrigo para apresentação do plano Pro.
+                </div>
+            `;
+            
+            crmReportBody.style.opacity = 0;
+            crmReportBody.style.transform = "translateY(10px)";
+            crmReportBody.style.transition = "all 0.4s ease";
+            
+            setTimeout(() => {
+                crmReportBody.style.opacity = 1;
+                crmReportBody.style.transform = "translateY(0)";
+            }, 100);
+        }
+
+        // Initialize icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

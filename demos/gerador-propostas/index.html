@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figma API Proposal Generator - Console de Vendas</title>
+    
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            /* FIGMA/NOTION INSPIRED LIGHT SYSTEM DESIGN */
+            --bg-canvas: #f3f4f6;
+            --bg-panel: #ffffff;
+            --bg-input: #f9fafb;
+            --border-color: #e5e7eb;
+            --border-focus: #1abcfe;
+            
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --text-muted: #9ca3af;
+            
+            /* FIGMA BRAND COLORS */
+            --figma-orange: #f24e1e;
+            --figma-purple: #a259ff;
+            --figma-blue: #1abcfe;
+            --figma-green: #0acf83;
+            --figma-charcoal: #2c2c2c;
+            
+            --font-sans: 'Inter', sans-serif;
+            --font-display: 'Outfit', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--figma-purple);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-canvas);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* FLOATING BACK LINK */
+        .btn-back-portfolio {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 12.5px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            z-index: 100;
+            transition: all 0.3s;
+        }
+
+        .btn-back-portfolio:hover {
+            color: var(--text-primary);
+            border-color: #d1d5db;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        }
+
+        /* FIGMA-LIKE TOP BAR */
+        header {
+            height: 48px;
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .figma-logo-sim {
+            display: flex;
+            width: 16px;
+            height: 24px;
+            position: relative;
+        }
+
+        .logo-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50% 0 0 50%;
+            position: absolute;
+        }
+        .logo-dot.or { background: var(--figma-orange); top: 0; left: 0; }
+        .logo-dot.pu { background: var(--figma-purple); top: 8px; left: 0; }
+        .logo-dot.gr { background: var(--figma-green); top: 16px; left: 0; border-radius: 50% 0 50% 50%; }
+        .logo-dot.bl { background: var(--figma-blue); top: 8px; left: 8px; border-radius: 50%; }
+        .logo-dot.re { background: var(--figma-orange); top: 0; left: 8px; border-radius: 0 50% 50% 0; }
+
+        .project-breadcrumbs {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .crumb-active {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Slide navigation in header */
+        .slide-paginator-tabs {
+            display: flex;
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 2px;
+            gap: 2px;
+        }
+
+        .paginator-tab {
+            border: none;
+            background: transparent;
+            padding: 6px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .paginator-tab.active {
+            background: #ffffff;
+            color: var(--text-primary);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            font-weight: 600;
+        }
+
+        .paginator-tab:hover:not(.active) {
+            color: var(--text-primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .api-badge {
+            font-size: 11px;
+            font-weight: 600;
+            background: rgba(10, 207, 131, 0.1);
+            color: var(--figma-green);
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(10, 207, 131, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* EDITOR LAYOUT CONTAINER */
+        .editor-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        /* LEFT SIDEBAR: PROPOSAL SETTINGS */
+        .sidebar-settings {
+            width: 320px;
+            background: var(--bg-panel);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            flex-shrink: 0;
+            padding: 20px;
+            gap: 24px;
+        }
+
+        .settings-section {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .section-header {
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-label {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-label span.val-label {
+            color: var(--figma-purple);
+            font-family: var(--font-mono);
+        }
+
+        .figma-input, .figma-select {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            padding: 8px 10px;
+            font-size: 12.5px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .figma-input:focus, .figma-select:focus {
+            border-color: var(--figma-purple);
+            background: #ffffff;
+        }
+
+        /* Scope Checks Grid */
+        .scope-options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .scope-checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .scope-checkbox-label:hover {
+            background: var(--bg-input);
+            border-color: var(--border-color);
+        }
+
+        .scope-checkbox-label input[type="checkbox"] {
+            margin-top: 2px;
+            accent-color: var(--figma-purple);
+        }
+
+        .figma-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: #e5e7eb;
+            outline: none;
+            margin: 6px 0;
+        }
+
+        .figma-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--figma-purple);
+            cursor: pointer;
+            box-shadow: 0 0 4px rgba(162, 89, 255, 0.4);
+            transition: transform 0.1s;
+        }
+
+        .figma-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* CENTER CANVAS: SLIDE BOARD */
+        .design-canvas {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-color: var(--bg-canvas);
+            background-image: 
+                radial-gradient(#d1d5db 1px, transparent 1px);
+            background-size: 16px 16px;
+            overflow: hidden;
+            padding: 40px;
+        }
+
+        /* The active artboard wrapper */
+        .artboard-container {
+            width: 720px;
+            height: 405px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02);
+            border: 1px solid #d1d5db;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .artboard-label {
+            position: absolute;
+            top: -24px;
+            left: 0;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        /* SLIDE CONTENT (THEME CONFIGURATIONS) */
+        .slide-wrapper {
+            flex: 1;
+            padding: 40px;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .slide-wrapper.active {
+            display: flex;
+        }
+
+        /* Theme: Figma Corporate Styles */
+        .artboard-container.theme-corporate {
+            background: #FFFFFF;
+            color: #111827;
+        }
+
+        /* Capa Slide Content */
+        .cover-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .pro-tag-badge {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background: #f24e1e;
+            color: #fff;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .cover-middle {
+            margin-top: 40px;
+        }
+
+        .cover-h1 {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--figma-charcoal);
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .cover-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .cover-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-top: 1px solid #f3f4f6;
+            padding-top: 16px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Slide 2: Scope detail */
+        .slide-h2 {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--figma-charcoal);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slide-scope-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            flex: 1;
+        }
+
+        .slide-scope-item {
+            background: #f9fafb;
+            border: 1px solid #f3f4f6;
+            border-radius: 6px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            animation: slide-up-fade 0.2s forwards;
+        }
+
+        .slide-scope-title {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .slide-scope-desc {
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .slide-scope-empty {
+            grid-column: span 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 12px;
+            text-align: center;
+            gap: 8px;
+        }
+
+        /* Slide 3: Pricing & Closing */
+        .slide-price-layout {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            align-items: center;
+            flex: 1;
+        }
+
+        .price-left {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .price-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .price-number-box {
+            font-family: var(--font-display);
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--figma-purple);
+            line-height: 1;
+        }
+
+        .price-timeline {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .price-right {
+            flex-shrink: 0;
+            background: #f9fafb;
+            border: 1px solid #f3f4f6;
+            border-radius: 8px;
+            padding: 16px;
+            width: 240px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .price-right-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .price-right-row strong {
+            color: var(--text-primary);
+        }
+
+        /* RIGHT PANEL: FIGMA EXPORT CONTROLS */
+        .sidebar-export {
+            width: 300px;
+            background: var(--bg-panel);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .export-controls-box {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .btn-figma-export {
+            background: var(--figma-charcoal);
+            color: #ffffff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 13.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-figma-export:hover {
+            background: #000000;
+            transform: translateY(-1px);
+        }
+
+        .btn-figma-export:active {
+            transform: translateY(1px);
+        }
+
+        /* EXPORT LIVE CONSOLE LOGS */
+        .api-console {
+            flex: 1;
+            background: #1e1e1e;
+            color: #0acf83;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .console-line {
+            line-height: 1.4;
+            display: flex;
+            gap: 6px;
+        }
+
+        .console-ts {
+            color: #8b5cf6;
+        }
+
+        /* SUCCESS DIALOG WINDOW OVERLAY */
+        .modal-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            animation: fade-in 0.25s forwards;
+        }
+
+        .success-modal {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            width: 420px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.3);
+            animation: scale-up 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .success-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(10, 207, 131, 0.1);
+            color: var(--figma-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 24px;
+            box-shadow: 0 0 15px rgba(10, 207, 131, 0.2);
+        }
+
+        .success-modal h3 {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .success-modal p {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* Simulated download card */
+        .download-card {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 14px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .pdf-icon-sim {
+            width: 32px;
+            height: 38px;
+            background: #f24e1e;
+            border-radius: 4px;
+            color: white;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(242, 78, 30, 0.3);
+            flex-shrink: 0;
+        }
+
+        .pdf-file-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            overflow: hidden;
+        }
+
+        .pdf-filename {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .pdf-filesize {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .btn-modal-close {
+            background: var(--figma-purple);
+            color: #ffffff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(162, 89, 255, 0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-modal-close:hover {
+            background: #8b5cf6;
+            transform: translateY(-1px);
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scale-up {
+            from { transform: scale(0.9) translateY(10px); }
+            to { transform: scale(1) translateY(0); }
+        }
+
+        @keyframes slide-up-fade {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .spinner {
+            animation: spin 1s infinite linear;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 1024px) {
+            body {
+                height: auto;
+                overflow-y: auto;
+            }
+            .editor-container {
+                flex-direction: column;
+                height: auto;
+            }
+            .sidebar-settings, .sidebar-export {
+                width: 100%;
+                border-right: none;
+                border-left: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .design-canvas {
+                padding: 40px 10px;
+                height: 480px;
+            }
+            .artboard-container {
+                width: 100%;
+                max-width: 480px;
+                height: 270px;
+            }
+            .cover-h1 {
+                font-size: 18px;
+            }
+            .cover-desc {
+                font-size: 11px;
+            }
+            .cover-middle {
+                margin-top: 10px;
+            }
+            .slide-scope-grid {
+                gap: 6px;
+            }
+            .slide-scope-title {
+                font-size: 10px;
+            }
+            .slide-scope-desc {
+                display: none;
+            }
+            .price-number-box {
+                font-size: 24px;
+            }
+            .price-right {
+                width: 150px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SUCCESS OVERLAY DIALOG -->
+    <div class="modal-overlay" id="success-overlay">
+        <div class="success-modal">
+            <div class="success-icon">
+                <i data-lucide="check-circle2"></i>
+            </div>
+            <h3>Proposta Consolidada!</h3>
+            <p>Os vetores foram exportados no Figma Headless via API e o PDF foi consolidado para envio imediato.</p>
+            
+            <div class="download-card">
+                <div class="pdf-icon-sim">PDF</div>
+                <div class="pdf-file-info">
+                    <span class="pdf-filename" id="pdf-output-name">Proposta_TechX_Solucoes.pdf</span>
+                    <span class="pdf-filesize" id="pdf-output-size">1.8 MB • Pronto para Download</span>
+                </div>
+            </div>
+
+            <button class="btn-modal-close" id="btn-close-modal">Concluir Processo</button>
+        </div>
+    </div>
+
+    <!-- FLOATING BACK LINK -->
+    <a href="../../index.html" class="btn-back-portfolio">
+        <i data-lucide="arrow-left"></i> Voltar ao Portfólio
+    </a>
+
+    <!-- FIGMA EDITOR HEADER -->
+    <header>
+        <div class="logo-area">
+            <div class="figma-logo-sim">
+                <div class="logo-dot or"></div>
+                <div class="logo-dot re"></div>
+                <div class="logo-dot pu"></div>
+                <div class="logo-dot bl"></div>
+                <div class="logo-dot gr"></div>
+            </div>
+            <div class="project-breadcrumbs">
+                <span>Rascunhos</span>
+                <i data-lucide="chevron-right" style="width: 12px; color: var(--text-muted)"></i>
+                <span>Figma Propostas API</span>
+                <i data-lucide="chevron-right" style="width: 12px; color: var(--text-muted)"></i>
+                <span class="crumb-active" id="project-breadcrumb-company">TechX Soluções</span>
+            </div>
+        </div>
+
+        <!-- PAGINATOR TABS -->
+        <div class="slide-paginator-tabs">
+            <button class="paginator-tab active" data-slide="0">
+                <i data-lucide="file-text" style="width:13px"></i>
+                Capa
+            </button>
+            <button class="paginator-tab" data-slide="1">
+                <i data-lucide="layers" style="width:13px"></i>
+                Escopo de Módulos
+            </button>
+            <button class="paginator-tab" data-slide="2">
+                <i data-lucide="credit-card" style="width:13px"></i>
+                Investimento Comercial
+            </button>
+        </div>
+
+        <div class="header-actions">
+            <div class="api-badge">
+                <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--figma-green)"></span>
+                Figma Headless: Conectado
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN WORKSPACE -->
+    <div class="editor-container">
+        
+        <!-- SIDEBAR SETTINGS (LEFT) -->
+        <aside class="sidebar-settings">
+            
+            <!-- SECTION 1: DADOS CLIENTE -->
+            <div class="settings-section">
+                <div class="section-header">
+                    <i data-lucide="building" style="width:13px; color:var(--figma-orange)"></i>
+                    <span>Dados da Proposta</span>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Nome da Empresa</label>
+                    <input type="text" class="figma-input" id="input-company" value="TechX Soluções">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nome do Decisor</label>
+                    <input type="text" class="figma-input" id="input-contact" value="Bruno de Souza">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tema de Design</label>
+                    <select class="figma-select" id="select-theme">
+                        <option value="corporate">Minimalist Light (Figma standard)</option>
+                        <option value="dark">Tech Dark (Corporate Obsidian)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- SECTION 2: ESCOPO DOS PROJETOS -->
+            <div class="settings-section">
+                <div class="section-header">
+                    <i data-lucide="check-square" style="width:13px; color:var(--figma-purple)"></i>
+                    <span>Módulos do Escopo</span>
+                </div>
+                
+                <div class="scope-options-grid">
+                    <label class="scope-checkbox-label">
+                        <input type="checkbox" id="chk-design" checked>
+                        <div>
+                            <strong>Design UI/UX &amp; Figma Mockups</strong>
+                            <div style="font-size:10px;color:var(--text-secondary)">Mockups interativos de fidelidade profissional no Figma</div>
+                        </div>
+                    </label>
+                    
+                    <label class="scope-checkbox-label">
+                        <input type="checkbox" id="chk-integration" checked>
+                        <div>
+                            <strong>Integração de Pagamentos</strong>
+                            <div style="font-size:10px;color:var(--text-secondary)">Webhooks, checkout e conciliação em Supabase</div>
+                        </div>
+                    </label>
+
+                    <label class="scope-checkbox-label">
+                        <input type="checkbox" id="chk-ia">
+                        <div>
+                            <strong>Agente de Voz IA (Triagem)</strong>
+                            <div style="font-size:10px;color:var(--text-secondary)">Ligação autônoma de qualificação via Vapi em sub-5min</div>
+                        </div>
+                    </label>
+
+                    <label class="scope-checkbox-label">
+                        <input type="checkbox" id="chk-tts">
+                        <div>
+                            <strong>Automação de Conteúdo &amp; TTS</strong>
+                            <div style="font-size:10px;color:var(--text-secondary)">Geração em lote com Gemini TTS anti-sussurro</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- SECTION 3: INVESTIMENTO -->
+            <div class="settings-section">
+                <div class="section-header">
+                    <i data-lucide="dollar-sign" style="width:13px; color:var(--figma-blue)"></i>
+                    <span>Orçamento &amp; Prazo</span>
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-label">
+                        <span>Investimento Comercial</span>
+                        <span class="val-label" id="lbl-price">R$ 8.500</span>
+                    </div>
+                    <input type="range" class="figma-slider" id="input-price" min="2000" max="30000" step="500" value="8500">
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label">
+                        <span>Prazo de Execução</span>
+                        <span class="val-label" id="lbl-days">30 dias</span>
+                    </div>
+                    <input type="range" class="figma-slider" id="input-days" min="7" max="60" step="1" value="30">
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- CENTER SLIDE CANVAS (FIGMA VIEWPORT) -->
+        <main class="design-canvas">
+            
+            <div class="artboard-container theme-corporate" id="artboard">
+                <span class="artboard-label" id="lbl-artboard-name">Slide 1: Capa (16:9 - Corporate)</span>
+                
+                <!-- SLIDE 1: COVER -->
+                <div class="slide-wrapper active" id="slide-0">
+                    <div class="cover-top">
+                        <span style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:var(--figma-orange)">PROPOSTA DE PROJETO</span>
+                        <span class="pro-tag-badge">FIGMA HEADLESS API</span>
+                    </div>
+                    
+                    <div class="cover-middle">
+                        <h1 class="cover-h1" id="slide1-title">Soluções Digitais Customizadas para TechX Soluções</h1>
+                        <p class="cover-desc">Estruturação de fluxos operacionais, automação de dados e inteligência artificial sob medida.</p>
+                    </div>
+
+                    <div class="cover-footer">
+                        <div>
+                            <span>Preparado para: </span><strong style="color:var(--text-primary)" id="slide1-decisor">Bruno de Souza</strong>
+                        </div>
+                        <div>
+                            <span>Emitido por: </span><strong style="color:var(--text-primary)">Rodrigo Italiani</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDE 2: SCOPE -->
+                <div class="slide-wrapper" id="slide-1">
+                    <h2 class="slide-h2"><i data-lucide="layers" style="width:16px;color:var(--figma-purple)"></i>Escopo de Entregáveis</h2>
+                    
+                    <div class="slide-scope-grid" id="slide2-scope-container">
+                        <!-- Filled dynamically by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- SLIDE 3: COMMERCIAL -->
+                <div class="slide-wrapper" id="slide-2">
+                    <h2 class="slide-h2"><i data-lucide="credit-card" style="width:16px;color:var(--figma-blue)"></i>Investimento Comercial</h2>
+                    
+                    <div class="slide-price-layout">
+                        <div class="price-left">
+                            <span class="price-label">Valor do Projeto</span>
+                            <div class="price-number-box" id="slide3-price">R$ 8.500</div>
+                            <div class="price-timeline" id="slide3-days">Prazo estimado: 30 dias corridos</div>
+                        </div>
+
+                        <div class="price-right">
+                            <div class="price-right-row">
+                                <span>Entrada (PIX)</span>
+                                <strong id="slide3-split-1">R$ 4.250</strong>
+                            </div>
+                            <div class="price-right-row">
+                                <span>Entrega (PIX)</span>
+                                <strong id="slide3-split-2">R$ 4.250</strong>
+                            </div>
+                            <div style="border-bottom:1px solid var(--border-color); margin: 6px 0;"></div>
+                            <div class="price-right-row" style="font-size:10px; color:var(--text-muted)">
+                                <span>* Valores integrados e vinculados à API do Figma</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cover-footer">
+                        <div>
+                            <span>Cliente: </span><strong style="color:var(--text-primary)" id="slide3-company">TechX Soluções</strong>
+                        </div>
+                        <div>
+                            <span>Validade da proposta: </span><strong style="color:var(--text-primary)">10 dias</strong>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- RIGHT PANEL: EXPORT CONSOLE -->
+        <aside class="sidebar-export">
+            
+            <div class="export-controls-box">
+                <div class="section-header" style="border:none; padding:0">
+                    <i data-lucide="share" style="width:13px; color:var(--figma-charcoal)"></i>
+                    <span>Exportação Headless</span>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Figma Link ID</label>
+                    <input type="text" class="figma-input" style="font-family:var(--font-mono);font-size:11px" value="figma.com/file/aJ92kLa2" readonly>
+                </div>
+
+                <button class="btn-figma-export" id="btn-export">
+                    <i data-lucide="sparkles" style="width:14px"></i>
+                    Exportar para o Figma
+                </button>
+            </div>
+
+            <!-- LIVE WEBHOOK/API CONSOLE -->
+            <div class="api-console" id="console-logs">
+                <div class="console-line"><span class="console-ts">[20:10:01]</span><span>[Figma Node] Figma Client conectado.</span></div>
+                <div class="console-line"><span class="console-ts">[20:10:02]</span><span>[API Setup] Template 'Swiss Minimalist' mapeado.</span></div>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <script>
+        // Inputs
+        const inputCompany = document.getElementById("input-company");
+        const inputContact = document.getElementById("input-contact");
+        const selectTheme = document.getElementById("select-theme");
+        
+        const chkDesign = document.getElementById("chk-design");
+        const chkIntegration = document.getElementById("chk-integration");
+        const chkIa = document.getElementById("chk-ia");
+        const chkTts = document.getElementById("chk-tts");
+        
+        const inputPrice = document.getElementById("input-price");
+        const lblPrice = document.getElementById("lbl-price");
+        const inputDays = document.getElementById("input-days");
+        const lblDays = document.getElementById("lbl-days");
+
+        // Slide Outputs
+        const projectBreadcrumbCompany = document.getElementById("project-breadcrumb-company");
+        const artboard = document.getElementById("artboard");
+        
+        // Slide 1 Capa
+        const slide1Title = document.getElementById("slide1-title");
+        const slide1Decisor = document.getElementById("slide1-decisor");
+        
+        // Slide 2 Scope
+        const slide2ScopeContainer = document.getElementById("slide2-scope-container");
+        
+        // Slide 3 Price
+        const slide3Price = document.getElementById("slide3-price");
+        const slide3Days = document.getElementById("slide3-days");
+        const slide3Split1 = document.getElementById("slide3-split-1");
+        const slide3Split2 = document.getElementById("slide3-split-2");
+        const slide3Company = document.getElementById("slide3-company");
+
+        // Tab Navigation
+        const tabs = document.querySelectorAll(".paginator-tab");
+        const slides = document.querySelectorAll(".slide-wrapper");
+        const lblArtboardName = document.getElementById("lbl-artboard-name");
+
+        tabs.forEach(tab => {
+            tab.addEventListener("click", () => {
+                playClickTone();
+                const idx = parseInt(tab.getAttribute("data-slide"));
+                
+                tabs.forEach(t => t.classList.remove("active"));
+                tab.classList.add("active");
+                
+                slides.forEach(s => s.classList.remove("active"));
+                document.getElementById(`slide-${idx}`).classList.add("active");
+
+                const names = ["Capa", "Escopo de Módulos", "Investimento Comercial"];
+                const themeName = selectTheme.value === "dark" ? "Obsidian Dark" : "Corporate Light";
+                lblArtboardName.textContent = `Slide ${idx + 1}: ${names[idx]} (16:9 - ${themeName})`;
+            });
+        });
+
+        // Theme selector logic
+        selectTheme.addEventListener("change", () => {
+            playClickTone();
+            const val = selectTheme.value;
+            if (val === "dark") {
+                artboard.style.background = "#18181b";
+                artboard.style.color = "#ffffff";
+                artboard.style.borderColor = "#27272a";
+                // style title override
+                slide1Title.style.color = "#ffffff";
+            } else {
+                artboard.style.background = "#ffffff";
+                artboard.style.color = "#111827";
+                artboard.style.borderColor = "#d1d5db";
+                slide1Title.style.color = "var(--figma-charcoal)";
+            }
+            // Trigger tab label update
+            const activeTab = document.querySelector(".paginator-tab.active");
+            activeTab.click();
+        });
+
+        // Data binding functions
+        function updateDataBinding() {
+            const company = inputCompany.value.trim() || "Empresa Cliente";
+            const contact = inputContact.value.trim() || "Responsável";
+            
+            projectBreadcrumbCompany.textContent = company;
+            
+            // Slide 1
+            slide1Title.textContent = `Soluções Digitais Customizadas para ${company}`;
+            slide1Decisor.textContent = contact;
+
+            // Slide 2 (Scope compilation)
+            renderScopeOnSlide();
+
+            // Slide 3
+            const price = parseInt(inputPrice.value);
+            const days = parseInt(inputDays.value);
+            
+            lblPrice.textContent = `R$ ${price.toLocaleString('pt-BR')}`;
+            lblDays.textContent = `${days} dias`;
+
+            slide3Price.textContent = `R$ ${price.toLocaleString('pt-BR')}`;
+            slide3Days.textContent = `Prazo estimado: ${days} dias corridos`;
+            
+            // Split entry / delivery payments
+            const split = Math.round(price / 2);
+            slide3Split1.textContent = `R$ ${split.toLocaleString('pt-BR')}`;
+            slide3Split2.textContent = `R$ ${split.toLocaleString('pt-BR')}`;
+            slide3Company.textContent = company;
+        }
+
+        const scopeDetails = {
+            design: { title: "Design UI/UX & Figma", desc: "Arquitetura visual, paletas customizadas e protótipos de alta fidelidade" },
+            integration: { title: "Integração de Pagamento", desc: "Painéis Stripe/PIX conectados a webhooks e automação de banco de dados" },
+            ia: { title: "Agente de Voz IA (SDR)", desc: "Ligações em lote de qualificação de leads integradas ao Vapi.ai" },
+            tts: { title: "TTS Factory & Conteúdo", desc: "Pipeline automatizado de síntese de voz Gemini anti-sussurro" }
+        };
+
+        function renderScopeOnSlide() {
+            slide2ScopeContainer.innerHTML = "";
+            let count = 0;
+
+            if (chkDesign.checked) appendScopeItem("design");
+            if (chkIntegration.checked) appendScopeItem("integration");
+            if (chkIa.checked) appendScopeItem("ia");
+            if (chkTts.checked) appendScopeItem("tts");
+
+            function appendScopeItem(key) {
+                count++;
+                const details = scopeDetails[key];
+                const item = document.createElement("div");
+                item.className = "slide-scope-item";
+                item.innerHTML = `
+                    <div class="slide-scope-title">
+                        <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--figma-purple)"></span>
+                        <strong>${details.title}</strong>
+                    </div>
+                    <div class="slide-scope-desc">${details.desc}</div>
+                `;
+                slide2ScopeContainer.appendChild(item);
+            }
+
+            if (count === 0) {
+                slide2ScopeContainer.innerHTML = `
+                    <div class="slide-scope-empty">
+                        <i data-lucide="alert-circle" style="width:24px;color:var(--text-muted)"></i>
+                        <span>Nenhum módulo selecionado.<br>Ative caixas na barra lateral esquerda para povoar o escopo.</span>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+        }
+
+        // Bind events
+        [inputCompany, inputContact].forEach(inp => inp.addEventListener("input", updateDataBinding));
+        [chkDesign, chkIntegration, chkIa, chkTts].forEach(chk => chk.addEventListener("change", updateDataBinding));
+        
+        inputPrice.addEventListener("input", updateDataBinding);
+        inputDays.addEventListener("input", updateDataBinding);
+
+        updateDataBinding();
+
+        // Web Audio API Sound generator
+        let audioCtx = null;
+        function playTone(freq, duration, gainVal = 0.05, type = "sine") {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                
+                gainNode.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        function playClickTone() {
+            // crisp physical click sound
+            playTone(1600, 0.03, 0.04, "triangle");
+        }
+
+        function playChimeSuccess() {
+            // Ascending C major corporate success chime
+            playTone(523.25, 0.12, 0.05, "sine"); // C5
+            setTimeout(() => playTone(659.25, 0.12, 0.05, "sine"), 100); // E5
+            setTimeout(() => playTone(783.99, 0.12, 0.05, "sine"), 200); // G5
+            setTimeout(() => playTone(1046.50, 0.3, 0.05, "sine"), 300); // C6
+        }
+
+        // FIGMA EXPORT PROCESS SIMULATION
+        const btnExport = document.getElementById("btn-export");
+        const consoleLogs = document.getElementById("console-logs");
+        const successOverlay = document.getElementById("success-overlay");
+        const btnCloseModal = document.getElementById("btn-close-modal");
+        
+        const pdfOutputName = document.getElementById("pdf-output-name");
+        const pdfOutputSize = document.getElementById("pdf-output-size");
+
+        function logConsole(message) {
+            const time = new Date().toLocaleTimeString('pt-BR');
+            const line = document.createElement("div");
+            line.className = "console-line";
+            line.innerHTML = `<span class="console-ts">[${time}]</span> <span>${message}</span>`;
+            consoleLogs.appendChild(line);
+            consoleLogs.scrollTop = consoleLogs.scrollHeight;
+        }
+
+        btnExport.addEventListener("click", async () => {
+            playClickTone();
+            btnExport.disabled = true;
+            btnExport.style.opacity = "0.6";
+            btnExport.innerHTML = '<i data-lucide="loader" class="spinner" style="width:14px"></i> Exportando...';
+            lucide.createIcons();
+
+            const company = inputCompany.value.trim() || "Cliente";
+            const price = parseInt(inputPrice.value);
+
+            logConsole(`[Figma API] Iniciando compilação headless do arquivo figma.com/file/aJ92kLa2.`);
+            await new Promise(r => setTimeout(r, 1200));
+
+            logConsole(`[Variables] Injetando escopo comercial. Empresa: "${company}".`);
+            await new Promise(r => setTimeout(r, 1000));
+
+            logConsole(`[Variables] Alterando tabelas comerciais. Investimento Total: R$ ${price.toLocaleString('pt-BR')}.`);
+            await new Promise(r => setTimeout(r, 1000));
+
+            logConsole(`[Vector Render] Executando flattening de vetores no frame da capa...`);
+            await new Promise(r => setTimeout(r, 800));
+
+            logConsole(`[Headless API] Renderizando arquivo em formato PDF de alta resolução.`);
+            await new Promise(r => setTimeout(r, 1200));
+
+            logConsole(`[SQLite DB] Proposta comercial de R$ ${price.toLocaleString('pt-BR')} registrada no CRM.`, "success");
+            
+            // Finish
+            playChimeSuccess();
+            
+            // Update modal download names
+            const cleanName = company.replace(/[^a-zA-Z0-9]/g, "_");
+            pdfOutputName.textContent = `Proposta_${cleanName}.pdf`;
+            
+            const randomSize = (Math.random() * 0.8 + 1.2).toFixed(1);
+            pdfOutputSize.textContent = `${randomSize} MB • Pronto para Download`;
+
+            // Open overlay
+            successOverlay.style.display = "flex";
+
+            // Restore button
+            btnExport.disabled = false;
+            btnExport.style.opacity = "1";
+            btnExport.innerHTML = '<i data-lucide="sparkles" style="width:14px"></i> Exportar para o Figma';
+            lucide.createIcons();
+        });
+
+        btnCloseModal.addEventListener("click", () => {
+            playClickTone();
+            successOverlay.style.display = "none";
+        });
+
+        // Click effect on scope checkbox
+        document.querySelectorAll(".scope-checkbox-label").forEach(lbl => {
+            lbl.addEventListener("click", () => {
+                playClickTone();
+            });
+        });
+
+        // Initialize lucide
+        lucide.createIcons();
+    </script>
+</body>
+</html>

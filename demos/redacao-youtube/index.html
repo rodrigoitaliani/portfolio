@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline de Conteúdo - Console de Vídeo</title>
+    
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            /* DEEP DARK VIDEO EDITOR STYLING */
+            --bg-main: #09090b;
+            --bg-panel: #18181b;
+            --bg-timeline: #121214;
+            --border-color: #27272a;
+            
+            --text-primary: #f4f4f5;
+            --text-secondary: #a1a1aa;
+            --text-muted: #52525b;
+            
+            /* TIMELINE ACCENT COLORS */
+            --color-violet: #8b5cf6;     /* AI script/Voice */
+            --color-blue: #3b82f6;       /* Visual elements */
+            --color-cyan: #06b6d4;       /* Subtitles */
+            --color-green: #10b981;      /* Audio music track */
+            --color-red: #ef4444;        /* Playhead & YT Accent */
+            
+            --font-sans: 'Inter', sans-serif;
+            --font-display: 'Outfit', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-violet);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 5% 5%, rgba(139, 92, 246, 0.04) 0%, transparent 35%),
+                radial-gradient(circle at 95% 5%, rgba(239, 68, 68, 0.03) 0%, transparent 30%);
+        }
+
+        /* FLOATING BACK LINK */
+        .btn-back-portfolio {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(24, 24, 27, 0.85);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 12.5px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            transition: all 0.3s;
+        }
+
+        .btn-back-portfolio:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* HEADER & KPIS */
+        header {
+            background: rgba(24, 24, 27, 0.5);
+            border-bottom: 1px solid var(--border-color);
+            padding: 14px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--color-violet), var(--color-red));
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+        }
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: -0.3px;
+        }
+
+        .logo-tag {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--color-red);
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 1px 6px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .system-status {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--color-red);
+            display: inline-block;
+            box-shadow: 0 0 8px var(--color-red);
+        }
+
+        /* KPIS GRID */
+        .kpis-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .kpi-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .kpi-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .kpi-value {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        /* WORKSPACE PANELS */
+        .workspace-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* TOP SECTION: EDITOR & PREVIEW & LOGS */
+        .workspace-top {
+            flex: 1.1;
+            display: flex;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* LEFT PANEL: SCRIPT DETAILS */
+        .script-panel {
+            width: 320px;
+            border-right: 1px solid var(--border-color);
+            background: rgba(24, 24, 27, 0.2);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .panel-section-title {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--color-violet);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .meta-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-label {
+            font-size: 10.5px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .meta-input {
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 10px;
+            color: #fff;
+            font-size: 12.5px;
+            outline: none;
+            width: 100%;
+        }
+
+        .script-preview-box {
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 12px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            height: 180px;
+            overflow-y: auto;
+            font-style: italic;
+        }
+
+        /* CENTER PANEL: VIDEO PLAYER PREVIEW */
+        .preview-panel {
+            flex: 1.2;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.25);
+            position: relative;
+        }
+
+        .player-header {
+            width: 480px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .player-viewport {
+            width: 480px;
+            height: 270px;
+            background: #000;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        /* Mock Video Slide Frames (drawn using CSS backgrounds) */
+        .player-screen-frame {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Ambient glow inside player */
+        .player-screen-frame::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 60%);
+        }
+
+        /* Static Graphic Overlays simulating generated images */
+        .graphic-portrait {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #181c2b, #0d0f17);
+            color: rgba(255,255,255,0.03);
+            position: relative;
+        }
+
+        .portrait-svg-wrap {
+            position: absolute;
+            color: var(--color-violet);
+            opacity: 0.15;
+            filter: drop-shadow(0 0 15px rgba(139,92,246,0.3));
+            animation: breathe 3s infinite alternate ease-in-out;
+        }
+
+        .frame-watermark {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.2);
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes breathe {
+            from { transform: scale(1) rotate(0deg); opacity: 0.12; }
+            to { transform: scale(1.08) rotate(3deg); opacity: 0.2; }
+        }
+
+        /* Subtitle Captions Overlay */
+        .subtitle-caption {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.7);
+            color: #ffeb3b; /* bright caption yellow */
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 13.5px;
+            font-weight: 700;
+            text-align: center;
+            max-width: 85%;
+            line-height: 1.4;
+            letter-spacing: 0.2px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            text-shadow: 1px 1px 1px #000;
+            display: none;
+            animation: caption-pulse 0.15s ease-out;
+        }
+
+        @keyframes caption-pulse {
+            from { transform: translateX(-50%) scale(0.95); opacity: 0.8; }
+            to { transform: translateX(-50%) scale(1); opacity: 1; }
+        }
+
+        /* Centralized Play Button Overlay */
+        .player-play-btn {
+            position: absolute;
+            z-index: 20;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.9);
+            color: #fff;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+            transition: all 0.2s;
+        }
+
+        .player-play-btn:hover {
+            transform: scale(1.1);
+            background: var(--color-violet);
+        }
+
+        .player-play-btn.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.9);
+        }
+
+        /* RIGHT PANEL: BUILD & POST LOGS */
+        .logs-panel {
+            width: 280px;
+            background: rgba(24, 24, 27, 0.2);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            flex-shrink: 0;
+            padding: 16px;
+            gap: 14px;
+        }
+
+        .console-logs-box {
+            flex: 1;
+            background: #060608;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: #a855f7; /* violet console */
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .console-line {
+            line-height: 1.4;
+            display: flex;
+            gap: 6px;
+        }
+
+        .console-line.success { color: var(--color-green); }
+        .console-line.error { color: var(--color-red); }
+
+        .console-ts {
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        /* BOTTOM SECTION: TIMELINE TRACKS (capcut-style) */
+        .workspace-bottom {
+            flex: 0.9;
+            background: var(--bg-timeline);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Timeline Controls Header */
+        .timeline-controls {
+            height: 38px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(24, 24, 27, 0.4);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .tl-left-buttons {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .tl-btn-icon {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .tl-btn-icon:hover {
+            color: #fff;
+        }
+
+        .tl-btn-icon.active {
+            color: var(--color-violet);
+        }
+
+        .tl-timer-display {
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            color: var(--text-secondary);
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Tracks Container */
+        .tracks-container {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .track-row {
+            height: 32px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            display: flex;
+            position: relative;
+        }
+
+        .track-header {
+            width: 100px;
+            background: rgba(24, 24, 27, 0.6);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            gap: 6px;
+            flex-shrink: 0;
+            z-index: 5;
+        }
+
+        .track-header i {
+            width: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Main track content line */
+        .track-timeline {
+            flex: 1;
+            position: relative;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Timeline Media Blocks */
+        .media-block {
+            position: absolute;
+            height: 22px;
+            top: 5px;
+            border-radius: 4px;
+            font-size: 9.5px;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            padding: 0 8px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Block type colors */
+        .media-block.text { background: rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.25); color: #c084fc; }
+        .media-block.voice { background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.25); color: #22d3ee; }
+        .media-block.visual { background: rgba(59, 130, 246, 0.15); border-color: rgba(59, 130, 246, 0.25); color: #60a5fa; }
+        .media-block.caption { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.25); color: #f87171; }
+        .media-block.music { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); color: #34d399; }
+
+        /* Timeline Rulers / Grid */
+        .timeline-grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+            background-size: 5% 100%; /* divisions */
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Playhead cursor vertical line */
+        .playhead-cursor {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--color-red);
+            left: 0%; /* moves from 0 to 100% */
+            z-index: 10;
+            pointer-events: none;
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+        }
+
+        .playhead-knob {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 6px;
+            background-color: var(--color-red);
+            border-radius: 0 0 3px 3px;
+        }
+
+        /* ANIMS */
+        .spinner {
+            animation: spin 1s infinite linear;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes slide-up-fade {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FLOATING BACK LINK -->
+    <a href="../../index.html" class="btn-back-portfolio">
+        <i data-lucide="arrow-left"></i> Voltar ao Portfólio
+    </a>
+
+    <!-- HEADER & METRICS -->
+    <header>
+        <div class="header-top">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i data-lucide="clapperboard" style="width: 16px; height: 16px; color: white"></i>
+                </div>
+                <span class="logo-text">Historiator Pipeline</span>
+                <span class="logo-tag">PRODUÇÃO ACTIVE</span>
+            </div>
+            
+            <div class="system-status">
+                <div>
+                    <span class="status-dot"></span>
+                    <span>Agendador Cron: Próxima Segunda às 09:00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- METRICS -->
+        <div class="kpis-grid">
+            <div class="kpi-card">
+                <span class="kpi-label">Vídeos Postados</span>
+                <span class="kpi-value">31 vídeos</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Total Inscritos</span>
+                <span class="kpi-value">1.720 seguidores</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Visualizações Canal</span>
+                <span class="kpi-value">108.545 views</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Comentários Analisados</span>
+                <span class="kpi-value">2.418 raspados</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN WORKSPACE -->
+    <div class="workspace-main">
+        
+        <!-- TOP WORKSPACE -->
+        <div class="workspace-top">
+            
+            <!-- SCRIPT SIDEBAR (LEFT) -->
+            <aside class="script-panel">
+                <div class="panel-section-title">
+                    <i data-lucide="file-text"></i>
+                    <span>Roteiro do Vídeo #31</span>
+                </div>
+
+                <div class="meta-form-group">
+                    <label class="meta-label">Título do Conteúdo</label>
+                    <input type="text" class="meta-input" value="Calígula vs Netuno: A guerra contra o mar" readonly>
+                </div>
+
+                <div class="meta-form-group">
+                    <label class="meta-label">Roteiro Consolidado (Gemini)</label>
+                    <div class="script-preview-box">
+                        O dia em que Roma declarou guerra contra Netuno, o deus do mar. Sim, você não ouviu errado. O imperador Calígula, famoso por ser completamente biruta, ordenou que seus soldados marchassem até a praia e atacassem as ondas com espadas. A parte mais absurda de toda essa história? Eles coletaram conchas da praia como espólio de guerra. É o tipo de bizarrice histórica que faz você pensar se a humanidade realmente mudou tanto assim.
+                    </div>
+                </div>
+
+                <div class="meta-form-group">
+                    <label class="meta-label">Parâmetros de Voz</label>
+                    <input type="text" class="meta-input" style="font-family:var(--font-mono);font-size:11px" value="Voice: Sadaltager | Temp: 1.4" readonly>
+                </div>
+            </aside>
+
+            <!-- VIDEO VIEWPORT PREVIEW (CENTER) -->
+            <main class="preview-panel">
+                <div class="player-header">
+                    <span>Preview da Timeline (1080p)</span>
+                    <span>Status: Concluído</span>
+                </div>
+
+                <div class="player-viewport">
+                    <!-- Screen visual frames -->
+                    <div class="player-screen-frame" id="video-frame">
+                        <div class="graphic-portrait">
+                            <span class="frame-watermark">HISTORIATOR PIPELINE Mockup_35mm</span>
+                            <!-- Central Marble statue SVG overlay representation -->
+                            <div class="portrait-svg-wrap">
+                                <i data-lucide="crown" style="width:120px;height:120px;stroke-width:1"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Yellow Captions Overlay -->
+                    <div class="subtitle-caption" id="caption-overlay">
+                        O dia em que Roma declarou guerra contra Netuno
+                    </div>
+
+                    <!-- Play/Pause Overlay Button -->
+                    <button class="player-play-btn" id="btn-player-play">
+                        <i data-lucide="play" style="width:24px;height:24px;fill:currentColor;margin-left:3px"></i>
+                    </button>
+                </div>
+            </main>
+
+            <!-- CONSOLE LOGS (RIGHT) -->
+            <aside class="logs-panel">
+                <div class="panel-section-title">
+                    <i data-lucide="terminal"></i>
+                    <span>Esteira n8n &amp; FFmpeg Logs</span>
+                </div>
+
+                <div class="console-logs-box">
+                    <div class="console-line"><span class="console-ts">[09:00:01]</span><span>[Cron] Agendador disparado.</span></div>
+                    <div class="console-line"><span class="console-ts">[09:00:03]</span><span>[Writer] Roteiro gerado (Gemini 2.5 Pro).</span></div>
+                    <div class="console-line success"><span class="console-ts">[09:00:08]</span><span>[TTS Factory] Narração convertida em MP3.</span></div>
+                    <div class="console-line success"><span class="console-ts">[09:00:10]</span><span>[FFmpeg] Costurando faixas de áudio e B-roll.</span></div>
+                    <div class="console-line success"><span class="console-ts">[09:00:15]</span><span>[FFmpeg] Renderizando vídeo final: output_31.mp4</span></div>
+                    <div class="console-line success"><span class="console-ts">[09:00:20]</span><span>[YouTube API] Upload e postagem bem sucedidos!</span></div>
+                    <div class="console-line success"><span class="console-ts">[09:00:21]</span><span>[System] Tarefa autônoma concluída.</span></div>
+                </div>
+            </aside>
+
+        </div>
+
+        <!-- BOTTOM TIMELINE TRACKS -->
+        <div class="workspace-bottom">
+            
+            <div class="timeline-controls">
+                <div class="tl-left-buttons">
+                    <button class="tl-btn-icon active" id="btn-tl-play">
+                        <i data-lucide="play" style="width:14px;fill:currentColor"></i>
+                    </button>
+                    <button class="tl-btn-icon" id="btn-tl-stop">
+                        <i data-lucide="square" style="width:12px;fill:currentColor"></i>
+                    </button>
+                    <div class="tl-timer-display" id="tl-timer">00:00.00 / 00:20.00</div>
+                </div>
+                
+                <div style="font-size:10px; color:var(--text-muted); font-family:var(--font-mono)">
+                    Multitrack Compiler v1.4
+                </div>
+            </div>
+
+            <!-- TIMELINE BOARD -->
+            <div class="tracks-container">
+                <!-- Playhead -->
+                <div class="playhead-cursor" id="playhead">
+                    <div class="playhead-knob"></div>
+                </div>
+                
+                <div class="timeline-grid-overlay"></div>
+
+                <!-- Track 1: Text Script -->
+                <div class="track-row">
+                    <div class="track-header">
+                        <i data-lucide="type"></i> Roteiro
+                    </div>
+                    <div class="track-timeline">
+                        <div class="media-block text" style="left:2%; width:94%">Caligula_War_Neptune_Script.txt</div>
+                    </div>
+                </div>
+
+                <!-- Track 2: Voice Narration -->
+                <div class="track-row">
+                    <div class="track-header">
+                        <i data-lucide="mic"></i> Voz (IA)
+                    </div>
+                    <div class="track-timeline">
+                        <div class="media-block voice" style="left:2%; width:30%">chunk_1_voice.mp3</div>
+                        <div class="media-block voice" style="left:34%; width:30%">chunk_2_voice.mp3</div>
+                        <div class="media-block voice" style="left:66%; width:30%">chunk_3_voice.mp3</div>
+                    </div>
+                </div>
+
+                <!-- Track 3: B-Roll Visuals -->
+                <div class="track-row">
+                    <div class="track-header">
+                        <i data-lucide="image"></i> B-Roll (IA)
+                    </div>
+                    <div class="track-timeline">
+                        <div class="media-block visual" style="left:2%; width:16%">neptune_angry.jpg</div>
+                        <div class="media-block visual" style="left:20%; width:18%">caligula_mad.jpg</div>
+                        <div class="media-block visual" style="left:40%; width:20%">roman_soldiers.jpg</div>
+                        <div class="media-block visual" style="left:62%; width:16%">beach_attack.jpg</div>
+                        <div class="media-block visual" style="left:80%; width:16%">seashells_war.jpg</div>
+                    </div>
+                </div>
+
+                <!-- Track 4: Subtitles Captions -->
+                <div class="track-row">
+                    <div class="track-header">
+                        <i data-lucide="align-left"></i> Legendas
+                    </div>
+                    <div class="track-timeline">
+                        <div class="media-block caption" style="left:2%; width:94%">auto_generated_captions.srt</div>
+                    </div>
+                </div>
+
+                <!-- Track 5: Music Background -->
+                <div class="track-row">
+                    <div class="track-header">
+                        <i data-lucide="music"></i> Trilha
+                    </div>
+                    <div class="track-timeline">
+                        <div class="media-block music" style="left:2%; width:94%">celtic_war_drums_bg.wav</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Web Audio API for play beeps
+        let audioCtx = null;
+        function playChime(freq, duration, gainVal = 0.04) {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = "sine";
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                
+                gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        // Subtitles segments list with their timing boundaries (out of 20 seconds total)
+        const subData = [
+            { text: "O dia em que Roma declarou guerra contra Netuno, o deus do mar.", start: 0, end: 3.5 },
+            { text: "Sim, você não ouviu errado.", start: 3.5, end: 5.5 },
+            { text: "O imperador Calígula, famoso por ser completamente biruta,", start: 5.5, end: 9.0 },
+            { text: "ordenou que seus soldados marchassem até a praia...", start: 9.0, end: 12.0 },
+            { text: "...e atacassem as ondas com espadas.", start: 12.0, end: 14.5 },
+            { text: "A parte mais absurda de toda essa história?", start: 14.5, end: 17.0 },
+            { text: "Eles coletaram conchas da praia como espólio de guerra.", start: 17.0, end: 20.0 }
+        ];
+
+        // Roteiro reading text segments
+        const talkData = [
+            "O dia em que Roma declarou guerra contra Netuno, o deus do mar. Sim, você não ouviu errado.",
+            "O imperador Calígula, famoso por ser completamente biruta, ordenou que seus soldados marchassem até a praia e atacassem as ondas com espadas.",
+            "A parte mais absurda de toda essa história? Eles coletaram conchas da praia como espólio de guerra. É o tipo de bizarrice histórica que faz você pensar se a humanidade realmente mudou tanto assim."
+        ];
+
+        // Simulation components
+        const btnPlayerPlay = document.getElementById("btn-player-play");
+        const btnTlPlay = document.getElementById("btn-tl-play");
+        const btnTlStop = document.getElementById("btn-tl-stop");
+        
+        const playhead = document.getElementById("playhead");
+        const captionOverlay = document.getElementById("caption-overlay");
+        const tlTimer = document.getElementById("tl-timer");
+        const videoFrame = document.getElementById("video-frame");
+
+        let synth = window.speechSynthesis;
+        let activeUtterance = null;
+        let isPlaying = false;
+        
+        let startTimestamp = 0;
+        let animFrameId = null;
+        const totalDurationMs = 20000; // 20s
+        let pauseOffsetMs = 0;
+
+        function updateTimelineProgress(timestamp) {
+            if (!startTimestamp) startTimestamp = timestamp;
+            
+            const elapsedMs = (timestamp - startTimestamp) + pauseOffsetMs;
+            
+            if (elapsedMs >= totalDurationMs) {
+                // finished
+                stopPlayback();
+                return;
+            }
+
+            // Move playhead (convert 0-20000ms to 0-100% left offset)
+            const percentage = (elapsedMs / totalDurationMs) * 100;
+            playhead.style.left = `${percentage}%`;
+
+            // Update timer text
+            const totalSecs = elapsedMs / 1000;
+            const secsInt = Math.floor(totalSecs);
+            const centis = Math.floor((elapsedMs % 1000) / 10);
+            
+            const secStr = String(secsInt).padStart(2, '0');
+            const centiStr = String(centis).padStart(2, '0');
+            tlTimer.textContent = `00:${secStr}.${centiStr} / 00:20.00`;
+
+            // Update subtitles based on current timestamp
+            const currentSec = elapsedMs / 1000;
+            const currentSub = subData.find(sub => currentSec >= sub.start && currentSec < sub.end);
+            
+            if (currentSub) {
+                captionOverlay.textContent = currentSub.text;
+                captionOverlay.style.display = "block";
+            } else {
+                captionOverlay.style.display = "none";
+            }
+
+            // Simulate changing background colors inside video player to represent B-roll slides
+            if (currentSec < 3.5) {
+                videoFrame.style.backgroundImage = "radial-gradient(circle at center, #1e2530 0%, #0d0f17 100%)";
+            } else if (currentSec < 9.0) {
+                videoFrame.style.backgroundImage = "radial-gradient(circle at center, #352520 0%, #150d0a 100%)";
+            } else if (currentSec < 14.5) {
+                videoFrame.style.backgroundImage = "radial-gradient(circle at center, #203525 0%, #0a150d 100%)";
+            } else {
+                videoFrame.style.backgroundImage = "radial-gradient(circle at center, #302035 0%, #100a15 100%)";
+            }
+
+            if (isPlaying) {
+                animFrameId = requestAnimationFrame(updateTimelineProgress);
+            }
+        }
+
+        // Web Speech API narrator
+        function speakFullScript() {
+            if (synth.speaking) synth.cancel();
+
+            const fullText = talkData.join(" ");
+            const utterance = new SpeechSynthesisUtterance(fullText);
+            utterance.lang = 'pt-BR';
+            utterance.rate = 1.05;
+
+            // Voice selection Sadaltager fallback
+            const voices = synth.getVoices();
+            const ptVoices = voices.filter(v => v.lang.startsWith('pt'));
+            if (ptVoices.length > 0) {
+                const maleVoice = ptVoices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('daniel') || v.name.toLowerCase().includes('google'));
+                utterance.voice = maleVoice || ptVoices[0];
+            }
+
+            activeUtterance = utterance;
+            synth.speak(utterance);
+        }
+
+        function playClickSound() {
+            playChime(1000, 0.08);
+            setTimeout(() => playChime(1300, 0.15), 60);
+        }
+
+        function startPlayback() {
+            playClickSound();
+            isPlaying = true;
+            btnPlayerPlay.classList.add("hidden");
+            btnTlPlay.innerHTML = '<i data-lucide="pause" style="width:14px;fill:currentColor"></i>';
+            lucide.createIcons();
+
+            startTimestamp = 0;
+            animFrameId = requestAnimationFrame(updateTimelineProgress);
+
+            // Speech synthesis read
+            speakFullScript();
+        }
+
+        function pausePlayback() {
+            playClickSound();
+            isPlaying = false;
+            btnPlayerPlay.classList.remove("hidden");
+            btnTlPlay.innerHTML = '<i data-lucide="play" style="width:14px;fill:currentColor"></i>';
+            lucide.createIcons();
+
+            if (animFrameId) {
+                cancelAnimationFrame(animFrameId);
+                animFrameId = null;
+            }
+
+            // Capture pause offset
+            if (startTimestamp) {
+                pauseOffsetMs += (performance.now() - startTimestamp);
+            }
+            startTimestamp = 0;
+
+            // Pause speech synthesis
+            if (synth.speaking) synth.cancel();
+        }
+
+        function stopPlayback() {
+            playClickSound();
+            isPlaying = false;
+            btnPlayerPlay.classList.remove("hidden");
+            btnTlPlay.innerHTML = '<i data-lucide="play" style="width:14px;fill:currentColor"></i>';
+            lucide.createIcons();
+
+            if (animFrameId) {
+                cancelAnimationFrame(animFrameId);
+                animFrameId = null;
+            }
+
+            // Reset timers & playhead
+            pauseOffsetMs = 0;
+            startTimestamp = 0;
+            playhead.style.left = "0%";
+            tlTimer.textContent = "00:00.00 / 00:20.00";
+            captionOverlay.style.display = "none";
+            videoFrame.style.backgroundImage = "none";
+
+            // Cancel speech
+            if (synth.speaking) synth.cancel();
+        }
+
+        btnPlayerPlay.addEventListener("click", startPlayback);
+        
+        btnTlPlay.addEventListener("click", () => {
+            if (isPlaying) pausePlayback();
+            else startPlayback();
+        });
+
+        btnTlStop.addEventListener("click", stopPlayback);
+
+        // Load voices Chrome fix
+        if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = () => synth.getVoices();
+        }
+
+        // Initialize icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triagem & Upsell por IA - Console de Operações</title>
+    
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            /* DEEP DARK HELPDESK STYLING */
+            --bg-main: #09090b;
+            --bg-panel: #18181b;
+            --bg-chat-bubble-user: #27272a;
+            --bg-chat-bubble-bot: rgba(245, 158, 11, 0.1);
+            --border-color: #27272a;
+            
+            --text-primary: #f4f4f5;
+            --text-secondary: #a1a1aa;
+            --text-muted: #52525b;
+            
+            /* AMBER & ORANGE NEON ACCENTS */
+            --color-amber: #f59e0b;       /* Primary Actions & Upsell Intent */
+            --color-orange: #ea580c;      /* Slack Handoff Alert */
+            --color-green: #10b981;       /* RAG resolved */
+            --color-blue: #3b82f6;        /* Regular Support */
+            
+            --font-sans: 'Inter', sans-serif;
+            --font-display: 'Outfit', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-amber);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 5% 5%, rgba(245, 158, 11, 0.04) 0%, transparent 35%),
+                radial-gradient(circle at 95% 5%, rgba(234, 88, 12, 0.03) 0%, transparent 30%);
+        }
+
+        /* FLOATING BACK LINK */
+        .btn-back-portfolio {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(24, 24, 27, 0.9);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 12.5px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            transition: all 0.3s;
+        }
+
+        .btn-back-portfolio:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* HEADER & METRICS */
+        header {
+            background: rgba(24, 24, 27, 0.5);
+            border-bottom: 1px solid var(--border-color);
+            padding: 14px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--color-amber), var(--color-orange));
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+        }
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: -0.3px;
+        }
+
+        .logo-tag {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--color-amber);
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            padding: 1px 6px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .system-status {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--color-green);
+            display: inline-block;
+            box-shadow: 0 0 8px var(--color-green);
+        }
+
+        /* KPIS GRID */
+        .kpis-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .kpi-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .kpi-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .kpi-value {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        /* WORKSPACE LAYOUT (3-COLUMNS) */
+        .workspace-main {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* COLUMN 1: SIDEBAR (TICKETS LIST) */
+        .tickets-sidebar {
+            width: 320px;
+            border-right: 1px solid var(--border-color);
+            background: rgba(24, 24, 27, 0.25);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            padding: 16px;
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tickets-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .ticket-item {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .ticket-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .ticket-item.active {
+            background: rgba(245, 158, 11, 0.04);
+            border-left: 3px solid var(--color-amber);
+            padding-left: 13px;
+        }
+
+        .ticket-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ticket-contact {
+            font-weight: 600;
+            font-size: 13.5px;
+            color: #fff;
+        }
+
+        .ticket-time {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .ticket-preview {
+            font-size: 12px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ticket-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 2px;
+        }
+
+        .tag-bubble {
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .tag-bubble.upsell { background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); color: var(--color-amber); }
+        .tag-bubble.rag { background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--color-green); }
+        .tag-bubble.comercial { background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); color: var(--color-blue); }
+
+        /* COLUMN 2: CENTER (CHAT AREA) */
+        .chat-panel {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .chat-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(24, 24, 27, 0.4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .chat-contact-name {
+            font-weight: 600;
+            font-size: 14.5px;
+            color: #fff;
+        }
+
+        .chat-contact-status {
+            font-size: 11px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .chat-intent-badge {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 10px;
+            font-family: var(--font-mono);
+            padding: 1px 6px;
+            border-radius: 4px;
+        }
+
+        .chat-history {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .chat-msg-row {
+            display: flex;
+            flex-direction: column;
+            max-width: 75%;
+        }
+
+        .chat-msg-row.user {
+            align-self: flex-end;
+            align-items: flex-end;
+        }
+
+        .chat-msg-row.bot {
+            align-self: flex-start;
+            align-items: flex-start;
+        }
+
+        .chat-msg-bubble {
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .chat-msg-row.user .chat-msg-bubble {
+            background-color: var(--bg-chat-bubble-user);
+            color: var(--text-primary);
+            border-bottom-right-radius: 2px;
+            border: 1px solid var(--border-color);
+        }
+
+        .chat-msg-row.bot .chat-msg-bubble {
+            background-color: var(--bg-chat-bubble-bot);
+            color: #fff;
+            border-bottom-left-radius: 2px;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .chat-msg-meta {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Whisper/Audio visual representation block */
+        .audio-attachment-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            border: 1px solid rgba(255,255,255,0.05);
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .audio-icon-btn {
+            background: var(--color-amber);
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #000;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        .audio-waveform-bar {
+            width: 110px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .wave-line {
+            flex: 1;
+            height: 3px;
+            background-color: var(--text-muted);
+            border-radius: 2px;
+            transition: height 0.15s ease;
+        }
+
+        .wave-line.active {
+            background-color: var(--color-amber);
+        }
+
+        /* System trigger log block inside chat */
+        .whisper-transcription-note {
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            color: var(--color-amber);
+            background: rgba(245, 158, 11, 0.05);
+            border: 1px dashed rgba(245, 158, 11, 0.3);
+            border-radius: 6px;
+            padding: 8px 10px;
+            margin-bottom: 8px;
+            width: 100%;
+        }
+
+        /* Bottom Action Bar inside Chat */
+        .chat-action-bar {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border-color);
+            background: rgba(24, 24, 27, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .chat-input-sim {
+            flex: 1;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 10px 16px;
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .btn-test-action {
+            background: linear-gradient(135deg, var(--color-amber), var(--color-orange));
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 24px;
+            font-weight: 700;
+            font-size: 12.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-test-action:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+        }
+
+        .btn-test-action:disabled {
+            background: var(--border-color);
+            color: var(--text-muted);
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* COLUMN 3: RIGHT (SYSTEM LOGS) */
+        .logs-panel {
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: rgba(24, 24, 27, 0.15);
+        }
+
+        .panel-section-title {
+            padding: 16px;
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--color-amber);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .json-payload-section {
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .section-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 700;
+            padding: 8px 16px;
+            background: rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .json-box {
+            flex: 1;
+            background: #050507;
+            padding: 12px 16px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: #d1d5db;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .json-key { color: var(--color-amber); }
+        .json-val-str { color: #34d399; }
+        .json-val-num { color: #60a5fa; }
+        .json-val-bool { color: #f43f5e; }
+
+        .terminal-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .terminal-box {
+            flex: 1;
+            background: #020203;
+            padding: 12px 16px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: #d97706; /* amber console */
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .console-line {
+            line-height: 1.4;
+            display: flex;
+            gap: 6px;
+        }
+
+        .console-line.success { color: var(--color-green); }
+        .console-line.info { color: #3b82f6; }
+        .console-line.alert { color: var(--color-orange); }
+
+        .console-ts {
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        /* SLACK HANDOFF NOTIFICATION POP-UP */
+        .slack-notification {
+            position: absolute;
+            top: 24px;
+            right: -360px; /* starts off-screen */
+            width: 330px;
+            background: #1a1d21; /* Slack dark background */
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .slack-notification.show {
+            right: 24px;
+        }
+
+        .slack-header {
+            background: #121519;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .slack-header-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .slack-logo-icon {
+            width: 14px;
+            height: 14px;
+            background: linear-gradient(135deg, #e01e5a, #36c5f0, #2eb67d, #ecb22e);
+            border-radius: 3px;
+        }
+
+        .slack-body {
+            padding: 12px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .slack-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--color-orange);
+            color: white;
+            font-weight: 700;
+            font-size: 12px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .slack-msg-content {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            font-size: 12px;
+        }
+
+        .slack-user {
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .slack-tag {
+            font-size: 9px;
+            font-weight: 700;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+            padding: 0 4px;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        .slack-msg-text {
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .slack-attachment-block {
+            border-left: 3px solid var(--color-amber);
+            padding-left: 8px;
+            margin-top: 4px;
+            color: var(--text-secondary);
+            font-size: 11.5px;
+            line-height: 1.4;
+        }
+
+        .slack-close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .slack-close-btn:hover {
+            color: #fff;
+        }
+
+        /* ANIMS */
+        .spinner {
+            animation: spin 1s infinite linear;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FLOATING BACK LINK -->
+    <a href="../../index.html" class="btn-back-portfolio">
+        <i data-lucide="arrow-left"></i> Voltar ao Portfólio
+    </a>
+
+    <!-- HEADER & METRICS -->
+    <header>
+        <div class="header-top">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i data-lucide="filter" style="width: 16px; height: 16px; color: black"></i>
+                </div>
+                <span class="logo-text">Porteiro IA Dashboard</span>
+                <span class="logo-tag">MONITORIA ATIVA</span>
+            </div>
+            
+            <div class="system-status">
+                <div>
+                    <span class="status-dot"></span>
+                    <span>Classificador de Intenção e RAG online</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- METRICS -->
+        <div class="kpis-grid">
+            <div class="kpi-card">
+                <span class="kpi-label">Tickets Triados (WhatsApp)</span>
+                <span class="kpi-value" id="kpi-triados">1.458</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Resolvidos por RAG (Auto)</span>
+                <span class="kpi-value" id="kpi-resolvidos">1.182 (81%)</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Escalados para SDR</span>
+                <span class="kpi-value" id="kpi-escalados">276 leads</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Conversão Comercial</span>
+                <span class="kpi-value">18.5% taxa</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN WORKSPACE -->
+    <div class="workspace-main">
+        
+        <!-- SIDEBAR: INBOX LIST (LEFT) -->
+        <aside class="tickets-sidebar">
+            <div class="sidebar-header">
+                <span>INBOX GERAL</span>
+                <span style="font-size: 10px; color: var(--color-amber);">4 TÍQUETES ATIVOS</span>
+            </div>
+            <div class="tickets-list" id="tickets-list">
+                <!-- Loaded dynamically by JS -->
+            </div>
+        </aside>
+
+        <!-- CHAT PANEL: WORKSPACE CHAT (CENTER) -->
+        <main class="chat-panel">
+            <div class="chat-header">
+                <div class="chat-contact-info">
+                    <span class="chat-contact-name" id="chat-title">Carregando...</span>
+                    <span class="chat-contact-status" id="chat-subtitle">WhatsApp Web API</span>
+                </div>
+                <div class="chat-intent-badge" id="chat-intent-badge">INTENÇÃO: RAG_SUPPORT</div>
+            </div>
+
+            <!-- CHAT FEED -->
+            <div class="chat-history" id="chat-history">
+                <!-- Messages rendered by JS -->
+            </div>
+
+            <!-- CHAT ACTION / SIMULATION BAR -->
+            <div class="chat-action-bar">
+                <div class="chat-input-sim" id="chat-input-placeholder">
+                    Aguardando interação do cliente...
+                </div>
+                <button class="btn-test-action" id="btn-trigger-action">
+                    <i data-lucide="zap" style="width: 14px; height: 14px; fill: currentColor"></i>
+                    <span id="btn-text">Testar Handoff Comercial</span>
+                </button>
+            </div>
+        </main>
+
+        <!-- LOGS PANEL: RAG / PINECORE & SYSTEM TERMINAL (RIGHT) -->
+        <aside class="logs-panel">
+            
+            <div class="json-payload-section">
+                <div class="panel-section-title">
+                    <i data-lucide="database"></i>
+                    <span>Payload do Webhook</span>
+                </div>
+                <div class="section-label">Dados do Evento (JSON)</div>
+                <div class="json-box" id="json-visualizer">
+                    <!-- JSON payload will be printed here -->
+                </div>
+            </div>
+
+            <div class="terminal-section">
+                <div class="panel-section-title">
+                    <i data-lucide="terminal"></i>
+                    <span>Logs de Execução (n8n)</span>
+                </div>
+                <div class="section-label">Console do Sistema</div>
+                <div class="terminal-box" id="terminal-box">
+                    <!-- Logs will print here -->
+                </div>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <!-- SLACK POP-UP NOTIFICATION -->
+    <div class="slack-notification" id="slack-popup">
+        <div class="slack-header">
+            <div class="slack-header-left">
+                <div class="slack-logo-icon"></div>
+                <span>Slack • #notificacoes-vendas</span>
+            </div>
+            <button class="slack-close-btn" id="btn-close-slack">
+                <i data-lucide="x" style="width: 12px; height: 12px;"></i>
+            </button>
+        </div>
+        <div class="slack-body">
+            <div class="slack-avatar">IA</div>
+            <div class="slack-msg-content">
+                <div class="slack-user">
+                    <span>Porteiro IA</span>
+                    <span class="slack-tag">Handoff</span>
+                </div>
+                <div class="slack-msg-text">
+                    🔥 <strong>NOVO LEAD DE UPSELL!</strong>
+                </div>
+                <div class="slack-attachment-block" id="slack-attachment-text">
+                    Renata Abreu quer fechar a Mentoria Black.<br>
+                    <strong>Resumo:</strong> Cliente quer saber se o plano Pro inclui suporte VIP e mentoria individual.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Web Audio API for synthetic sounds
+        let audioCtx = null;
+        function playChime(freq, duration, gainVal = 0.05, type = "sine") {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                
+                gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        function playClickSound() {
+            playChime(1200, 0.05, 0.03);
+        }
+
+        function playSlackChime() {
+            // Slack typical double-tone
+            playChime(800, 0.15, 0.04, "triangle");
+            setTimeout(() => playChime(600, 0.2, 0.04, "triangle"), 80);
+        }
+
+        function playSuccessChime() {
+            playChime(523.25, 0.1, 0.04); // C5
+            setTimeout(() => playChime(659.25, 0.1, 0.04), 80); // E5
+            setTimeout(() => playChime(783.99, 0.2, 0.04), 160); // G5
+        }
+
+        // TICKET DATA
+        const tickets = [
+            {
+                id: "renata",
+                contact: "Renata Abreu",
+                phone: "+55 (11) 99388-1244",
+                preview: "O plano Pro tem mentoria individual?",
+                time: "2 min atrás",
+                intent: "Upsell",
+                intentScore: 0.98,
+                status: "Aguardando SDR",
+                active: true,
+                hasAction: true,
+                actionText: "Simular Handoff Comercial",
+                json: {
+                    event: "message_received",
+                    channel: "whatsapp",
+                    contact: {
+                        name: "Renata Abreu",
+                        phone: "5511993881244"
+                    },
+                    message: {
+                        type: "audio",
+                        file: "voice_note_12.ogg",
+                        duration_seconds: 14
+                    },
+                    pipeline: {
+                        whisper_transcription: "Oi! O plano Pro tem mentoria individual inclusa ou só o curso gravado? Quero fechar hoje.",
+                        intent_classification: "comercial_upsell",
+                        confidence_score: 0.98,
+                        pinecone_retrieval: {
+                            query: "mentoria individual plano pro",
+                            top_matches: [
+                                { document: "politicas_planos.pdf", score: 0.89 },
+                                { document: "mentoria_black_info.pdf", score: 0.82 }
+                            ]
+                        },
+                        system_instructions: "Se o lead perguntar sobre mentoria ou acompanhamento personalizado, classificar como upsell comercial e direcionar para o Rodrigo (SDR)."
+                    }
+                },
+                messages: [
+                    { sender: "user", text: "Oi! O plano Pro tem mentoria individual inclusa ou só o curso gravado? Quero fechar hoje.", type: "audio", duration: "0:14" },
+                    { sender: "system_note", text: "🔊 [Whisper Transcrição]: \"Oi! O plano Pro tem mentoria individual inclusa ou só o curso gravado? Quero fechar hoje.\"" },
+                    { sender: "bot", text: "Olá Renata! O plano Pro inclui acesso vitalício a todas as aulas gravadas e aos materiais complementares. Para mentoria individual direta, nós temos a nossa Mentoria Black. Vou chamar nosso especialista Rodrigo Italiani no chat para ele te explicar as condições e liberar sua vaga!" },
+                    { sender: "user", text: "Maravilha! Me passa o contato dele ou pede para ele me chamar aqui." }
+                ],
+                logs: [
+                    { text: "Mensagem recebida via Evolution API", type: "info" },
+                    { text: "Detectado arquivo de mídia (áudio/ogg). Iniciando Whisper...", type: "info" },
+                    { text: "Whisper transcrição: 'Oi! O plano Pro tem mentoria...' (Sucesso)", type: "success" },
+                    { text: "Classificador de Intenção acionado", type: "info" },
+                    { text: "Intenção: Comercial / Oportunidade de Upsell (Score: 0.98)", type: "alert" },
+                    { text: "Pinecone: busca realizada para 'mentoria individual'", type: "info" },
+                    { text: "RAG: Documento 'mentoria_black_info.pdf' recuperado.", type: "success" },
+                    { text: "Aguardando confirmação de Handoff para SDR...", type: "alert" }
+                ]
+            },
+            {
+                id: "marcos",
+                contact: "Marcos Silva",
+                phone: "+55 (21) 98455-3211",
+                preview: "Qual a política de reembolso?",
+                time: "15 min atrás",
+                intent: "Suporte",
+                intentScore: 0.95,
+                status: "Resolvido por IA",
+                active: false,
+                hasAction: false,
+                json: {
+                    event: "message_received",
+                    channel: "whatsapp",
+                    contact: {
+                        name: "Marcos Silva",
+                        phone: "5521984553211"
+                    },
+                    message: {
+                        type: "text",
+                        content: "Qual a política de reembolso do curso? Comprei ontem mas não sei se vou ter tempo de assistir agora."
+                    },
+                    pipeline: {
+                        intent_classification: "suporte_operacional",
+                        confidence_score: 0.95,
+                        pinecone_retrieval: {
+                            query: "politica reembolso curso tempo",
+                            top_matches: [
+                                { document: "politica_reembolso.pdf", score: 0.96 }
+                            ]
+                        }
+                    }
+                },
+                messages: [
+                    { sender: "user", text: "Qual a política de reembolso do curso? Comprei ontem mas não sei se vou ter tempo de assistir agora." },
+                    { sender: "bot", text: "Olá Marcos! Você tem direito ao reembolso integral em até 7 dias corridos após a compra, sem qualquer burocracia ou questionamento. Como você comprou ontem, está totalmente dentro do prazo. Se quiser prosseguir, basta solicitar direto pela plataforma da Hotmart ou me avisar por aqui!" },
+                    { sender: "user", text: "Ah beleza! Vou tentar assistir um pouco hoje à noite, caso não dê eu peço o cancelamento. Obrigado!" },
+                    { sender: "bot", text: "Sem problemas, Marcos! Qualquer dúvida sobre o prazo ou o conteúdo, estou à disposição por aqui." }
+                ],
+                logs: [
+                    { text: "Mensagem recebida via Evolution API", type: "info" },
+                    { text: "Intenção identificada: Suporte Operacional (Score: 0.95)", type: "success" },
+                    { text: "Pinecone query: 'politica reembolso curso'", type: "info" },
+                    { text: "RAG: Recuperado 'politica_reembolso.pdf' (Confiança: 0.96)", type: "success" },
+                    { text: "Resposta gerada e enviada via Evolution API", type: "success" },
+                    { text: "Ticket arquivado como: Resolvido por IA", type: "info" }
+                ]
+            },
+            {
+                id: "carlos",
+                contact: "Carlos Souza",
+                phone: "+55 (31) 97100-2489",
+                preview: "Pode me passar o link da fatura?",
+                time: "1h atrás",
+                intent: "Handoff SDR",
+                intentScore: 0.92,
+                status: "Comercial",
+                active: false,
+                hasAction: false,
+                json: {
+                    event: "handoff_completed",
+                    channel: "whatsapp",
+                    contact: {
+                        name: "Carlos Souza",
+                        phone: "5531971002489"
+                    },
+                    message: {
+                        type: "text",
+                        content: "Preciso falar com alguém do financeiro, pode me passar o link da segunda via da fatura do plano Pro?"
+                    },
+                    pipeline: {
+                        intent_classification: "suporte_financeiro",
+                        confidence_score: 0.92,
+                        pinecone_retrieval: {
+                            query: "segunda via fatura plano pro",
+                            top_matches: [
+                                { document: "links_financeiros.pdf", score: 0.78 }
+                            ]
+                        }
+                    }
+                },
+                messages: [
+                    { sender: "user", text: "Preciso falar com alguém do financeiro, pode me passar o link da segunda via da fatura do plano Pro?" },
+                    { sender: "bot", text: "Olá Carlos! Para segunda via de faturas e notas fiscais, eu preciso transferir o atendimento para nosso setor administrativo. Só um minuto que o Rodrigo vai te mandar o link correto por aqui." },
+                    { sender: "system_note", text: "👤 [Handoff Concluído]: Rodrigo Italiani assumiu o chat." },
+                    { sender: "bot", text: "Olá Carlos, Rodrigo aqui! Segue o link direto para puxar sua segunda via no portal da Hotmart: hotmart.com.br/faturas. Qualquer dúvida me avise!", isManual: true }
+                ],
+                logs: [
+                    { text: "Mensagem recebida via WhatsApp Webhook", type: "info" },
+                    { text: "Intenção identificada: Suporte Financeiro (Score: 0.92)", type: "info" },
+                    { text: "Pinecone query: 'segunda via fatura'", type: "info" },
+                    { text: "Necessário dados dinâmicos do cliente (não resolvido via RAG)", type: "alert" },
+                    { text: "Handoff acionado automaticamente para time financeiro", type: "info" },
+                    { text: "Notificação enviada ao WhatsApp Comercial", type: "success" },
+                    { text: "Rodrigo Italiani assumiu a chamada", type: "success" }
+                ]
+            },
+            {
+                id: "clara",
+                contact: "Clara Mendes",
+                phone: "+55 (19) 98122-7744",
+                preview: "Minha senha de acesso não funciona",
+                time: "2h atrás",
+                intent: "Suporte",
+                intentScore: 0.97,
+                status: "Resolvido por IA",
+                active: false,
+                hasAction: false,
+                json: {
+                    event: "message_received",
+                    channel: "whatsapp",
+                    contact: {
+                        name: "Clara Mendes",
+                        phone: "5519981227744"
+                    },
+                    message: {
+                        type: "text",
+                        content: "Minha senha de acesso não está funcionando na plataforma de alunos. Diz usuário inválido."
+                    },
+                    pipeline: {
+                        intent_classification: "suporte_operacional",
+                        confidence_score: 0.97,
+                        pinecone_retrieval: {
+                            query: "senha invalida acesso plataforma alunos",
+                            top_matches: [
+                                { document: "resolucao_problemas_login.pdf", score: 0.94 }
+                            ]
+                        }
+                    }
+                },
+                messages: [
+                    { sender: "user", text: "Minha senha de acesso não está funcionando na plataforma de alunos. Diz usuário inválido." },
+                    { sender: "bot", text: "Olá Clara! Isso geralmente acontece se houver algum espaço extra antes ou depois do e-mail no login, ou se o e-mail cadastrado for diferente. Tente limpar os dados do navegador ou abrir em aba anônima. Se mesmo assim der erro, você pode redefinir sua senha clicando em 'Esqueci minha senha' na página de login." },
+                    { sender: "user", text: "Deu certo na aba anônima! Devia ser o cache mesmo. Obrigada!" },
+                    { sender: "bot", text: "Maravilha, Clara! Fico feliz que resolveu. Ótimos estudos!" }
+                ],
+                logs: [
+                    { text: "Mensagem recebida via Evolution API", type: "info" },
+                    { text: "Intenção identificada: Suporte Operacional (Score: 0.97)", type: "success" },
+                    { text: "Pinecone query: 'senha invalida acesso plataforma'", type: "info" },
+                    { text: "RAG: Documento 'resolucao_problemas_login.pdf' recuperado.", type: "success" },
+                    { text: "Resposta enviada via WhatsApp", type: "success" },
+                    { text: "Ticket finalizado automaticamente", type: "success" }
+                ]
+            }
+        ];
+
+        // UI Selectors
+        const listContainer = document.getElementById("tickets-list");
+        
+        const chatTitle = document.getElementById("chat-title");
+        const chatSubtitle = document.getElementById("chat-subtitle");
+        const chatIntentBadge = document.getElementById("chat-intent-badge");
+        const chatHistory = document.getElementById("chat-history");
+        
+        const jsonVisualizer = document.getElementById("json-visualizer");
+        const terminalBox = document.getElementById("terminal-box");
+        
+        const btnTriggerAction = document.getElementById("btn-trigger-action");
+        const btnText = document.getElementById("btn-text");
+        
+        const slackPopup = document.getElementById("slack-popup");
+        const btnCloseSlack = document.getElementById("btn-close-slack");
+        const slackAttachmentText = document.getElementById("slack-attachment-text");
+        
+        const kpiTriados = document.getElementById("kpi-triados");
+        const kpiResolvidos = document.getElementById("kpi-resolvidos");
+        const kpiEscalados = document.getElementById("kpi-escalados");
+
+        let activeTicket = tickets[0];
+        let hasHandoffRun = false;
+        let isSimulating = false;
+
+        // Render the tickets list on sidebar
+        function renderTicketsList() {
+            listContainer.innerHTML = "";
+            tickets.forEach(ticket => {
+                const item = document.createElement("div");
+                item.className = `ticket-item ${ticket.id === activeTicket.id ? 'active' : ''}`;
+                item.dataset.id = ticket.id;
+                
+                // Get Tag Class
+                let tagClass = "rag";
+                if (ticket.intent === "Upsell") tagClass = "upsell";
+                if (ticket.intent === "Handoff SDR") tagClass = "comercial";
+
+                item.innerHTML = `
+                    <div class="ticket-item-header">
+                        <span class="ticket-contact">${ticket.contact}</span>
+                        <span class="ticket-time">${ticket.time}</span>
+                    </div>
+                    <div class="ticket-preview">${ticket.preview}</div>
+                    <div class="ticket-tags">
+                        <span class="tag-bubble ${tagClass}">${ticket.intent}</span>
+                        <span class="tag-bubble" style="background:rgba(255,255,255,0.04); color:var(--text-secondary)">${ticket.status}</span>
+                    </div>
+                `;
+
+                item.addEventListener("click", () => {
+                    if (isSimulating) return;
+                    selectTicket(ticket.id);
+                });
+
+                listContainer.appendChild(item);
+            });
+        }
+
+        // Highlight JSON values
+        function syntaxHighlightJson(json) {
+            if (typeof json !== 'string') {
+                json = JSON.stringify(json, undefined, 4);
+            }
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, function (match) {
+                let cls = 'json-val-num';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'json-key';
+                    } else {
+                        cls = 'json-val-str';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'json-val-bool';
+                } else if (/null/.test(match)) {
+                    cls = 'json-val-null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
+        // Render logs in terminal
+        function renderTerminalLogs(logs) {
+            terminalBox.innerHTML = "";
+            logs.forEach(log => {
+                appendTerminalLog(log.text, log.type);
+            });
+        }
+
+        function appendTerminalLog(text, type = "info") {
+            const line = document.createElement("div");
+            line.className = `console-line ${type}`;
+            
+            const now = new Date();
+            const timeStr = now.toTimeString().split(' ')[0];
+            
+            line.innerHTML = `<span class="console-ts">[${timeStr}]</span><span>${text}</span>`;
+            terminalBox.appendChild(line);
+            terminalBox.scrollTop = terminalBox.scrollHeight;
+        }
+
+        // Select a ticket to display in dashboard
+        function selectTicket(id) {
+            playClickSound();
+            const ticket = tickets.find(t => t.id === id);
+            if (!ticket) return;
+
+            activeTicket = ticket;
+            renderTicketsList();
+
+            // Header info
+            chatTitle.textContent = `${ticket.contact} (${ticket.phone})`;
+            chatSubtitle.textContent = `WhatsApp Status: ${ticket.status}`;
+            chatIntentBadge.textContent = `INTENÇÃO: ${ticket.intent.toUpperCase()} (${Math.floor(ticket.intentScore * 100)}%)`;
+
+            // Clear and render messages
+            chatHistory.innerHTML = "";
+            ticket.messages.forEach(msg => {
+                renderChatMessage(msg);
+            });
+
+            // Action Button config
+            if (ticket.hasAction && !hasHandoffRun) {
+                btnTriggerAction.style.display = "flex";
+                btnTriggerAction.disabled = false;
+                btnText.textContent = ticket.actionText;
+            } else {
+                btnTriggerAction.style.display = "none";
+            }
+
+            // JSON and Logs
+            jsonVisualizer.innerHTML = syntaxHighlightJson(ticket.json);
+            renderTerminalLogs(ticket.logs);
+
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        // Render message in chat
+        function renderChatMessage(msg) {
+            const row = document.createElement("div");
+            row.className = `chat-msg-row ${msg.sender === 'user' ? 'user' : 'bot'}`;
+            
+            if (msg.sender === 'system_note') {
+                row.className = "whisper-transcription-note";
+                row.innerHTML = msg.text;
+                chatHistory.appendChild(row);
+                return;
+            }
+
+            let msgHtml = "";
+            if (msg.type === "audio") {
+                msgHtml = `
+                    <div class="audio-attachment-box">
+                        <button class="audio-icon-btn" onclick="playClickSound()">
+                            <i data-lucide="play" style="width: 14px; height: 14px; fill: currentColor; margin-left: 2px"></i>
+                        </button>
+                        <div class="audio-waveform-bar">
+                            <span class="wave-line active" style="height: 6px"></span>
+                            <span class="wave-line active" style="height: 12px"></span>
+                            <span class="wave-line active" style="height: 10px"></span>
+                            <span class="wave-line active" style="height: 4px"></span>
+                            <span class="wave-line active" style="height: 14px"></span>
+                            <span class="wave-line active" style="height: 8px"></span>
+                            <span class="wave-line active" style="height: 12px"></span>
+                            <span class="wave-line active" style="height: 6px"></span>
+                        </div>
+                        <span>${msg.duration}</span>
+                    </div>
+                `;
+            }
+
+            row.innerHTML = `
+                <div class="chat-msg-bubble" style="${msg.isManual ? 'background: rgba(59, 130, 246, 0.08); border-color: rgba(59,130,246,0.2)' : ''}">
+                    ${msgHtml}
+                    ${msg.text}
+                </div>
+                <div class="chat-msg-meta">${msg.sender === 'user' ? 'Cliente' : (msg.isManual ? 'Rodrigo (SDR)' : 'Porteiro IA')} • 15:42</div>
+            `;
+            chatHistory.appendChild(row);
+            lucide.createIcons();
+        }
+
+        // Simulating the interactive handoff
+        function triggerHandoffSimulation() {
+            if (isSimulating || hasHandoffRun) return;
+            isSimulating = true;
+            btnTriggerAction.disabled = true;
+
+            playClickSound();
+            appendTerminalLog("Acionando pipeline de handoff no n8n...", "info");
+            
+            // Step 1: Loading status
+            btnText.innerHTML = '<i class="spinner" data-lucide="loader" style="width:14px;height:14px"></i> Processando Handoff...';
+            lucide.createIcons();
+
+            // Step 2: System processing logs
+            setTimeout(() => {
+                appendTerminalLog("Enviando webhook de alerta para o Slack API", "info");
+                playChime(440, 0.08, 0.02);
+            }, 800);
+
+            setTimeout(() => {
+                appendTerminalLog("Montando payload de resumo da conversa com Claude 3.5 Sonnet", "info");
+                playChime(494, 0.08, 0.02);
+            }, 1600);
+
+            setTimeout(() => {
+                appendTerminalLog("Slack API: Notificação entregue no canal #notificacoes-vendas", "success");
+                
+                // Show Slack Notification pop-up
+                playSlackChime();
+                slackPopup.classList.add("show");
+            }, 2400);
+
+            setTimeout(() => {
+                appendTerminalLog("Evolution API: Enviando contato comercial no WhatsApp de Renata", "info");
+            }, 3200);
+
+            // Step 3: Conclude handoff and send WhatsApp message
+            setTimeout(() => {
+                // Change ticket properties
+                activeTicket.status = "Handoff Concluído";
+                activeTicket.intent = "Handoff SDR";
+                hasHandoffRun = true;
+
+                // Push new WhatsApp message to thread
+                activeTicket.messages.push({
+                    sender: "bot",
+                    text: "Aqui está o link do WhatsApp do Rodrigo para acertar os detalhes da sua Mentoria Black: <a href='#' style='color: var(--color-amber); font-weight:600'>Iniciar conversa no WhatsApp</a>. Ele já recebeu o resumo das suas dúvidas e está te aguardando!"
+                });
+
+                // Rerender chat message and status
+                selectTicket(activeTicket.id);
+
+                // Update KPIs
+                kpiEscalados.textContent = "277 leads";
+                kpiEscalados.style.color = "var(--color-amber)";
+                kpiEscalados.style.textShadow = "0 0 10px rgba(245,158,11,0.4)";
+                
+                kpiTriados.textContent = "1.459";
+
+                appendTerminalLog("Pipeline de Handoff concluído com sucesso!", "success");
+                playSuccessChime();
+
+                btnTriggerAction.style.display = "none";
+                isSimulating = false;
+            }, 4000);
+        }
+
+        // Event listeners
+        btnTriggerAction.addEventListener("click", triggerHandoffSimulation);
+        
+        btnCloseSlack.addEventListener("click", () => {
+            playClickSound();
+            slackPopup.classList.remove("show");
+        });
+
+        // Initialize view
+        renderTicketsList();
+        selectTicket("renata");
+        lucide.createIcons();
+    </script>
+</body>
+</html>
