@@ -295,6 +295,44 @@
                         </svg>
                     </div>
 
+                    <!-- Item 4: Recuperador Inteligente de Vendas Abandonadas -->
+                    <div class="project-item" data-project-id="recuperador_vendas" id="item-recuperador">
+                        <div class="project-thumb">
+                            <img src="assets/recuperador_vendas.png" alt="Thumbnail Recuperador de Vendas">
+                            <div class="thumb-glow" style="--thumb-color: #EF4444;"></div>
+                        </div>
+                        <div class="project-meta-info">
+                            <div class="project-header">
+                                <h4 class="project-name">Recuperador de Vendas</h4>
+                                <span class="project-microtag">n8n</span>
+                            </div>
+                            <p class="project-summary">Negociador virtual inteligente com debounce contra spam.</p>
+                        </div>
+                        <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+
+                    <!-- Item 5: IA de Triagem de Suporte e Upsell -->
+                    <div class="project-item" data-project-id="ia_suporte_upsell" id="item-suporte">
+                        <div class="project-thumb">
+                            <img src="assets/ia_suporte_upsell.png" alt="Thumbnail IA de Triagem e Upsell">
+                            <div class="thumb-glow" style="--thumb-color: #F59E0B;"></div>
+                        </div>
+                        <div class="project-meta-info">
+                            <div class="project-header">
+                                <h4 class="project-name">Triagem &amp; Upsell</h4>
+                                <span class="project-microtag">LangChain</span>
+                            </div>
+                            <p class="project-summary">Classificador de intenções para WhatsApp com Whisper e RAG.</p>
+                        </div>
+                        <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+
                 </div>
             </div>
 
@@ -603,6 +641,129 @@
             <h4>Sua equipe comercial perde tempo com tarefas repetitivas?</h4>
             <p>Se você tem vendedores gastando horas editando documentos ou esperando designers para enviar propostas, nós podemos resolver esse atrito com automações inteligentes e painéis sob medida.</p>
             <a href="https://wa.me/5511987429611" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Fazer meu projeto de automação comercial</a>
+        </div>
+    </template>
+
+    <!-- Template 4: Recuperador de Vendas -->
+    <template id="template-case-recuperador_vendas">
+        <h1 class="article-title">O agente que resgata vendas perdidas no checkout (e a dor de cabeça de impedir que ele seja inconveniente)</h1>
+        <div class="article-meta">Estudo de Caso • Automação de Recuperação de Vendas • 5 min de leitura</div>
+
+        <p>Seja você o dono de um e-commerce ou um infoprodutor, a matemática do carrinho de compras é sempre cruel. Você paga caro em anúncios para levar 100 pessoas até o seu site. Dessas, talvez 10 cliquem no botão de comprar, e 7 delas vão abandonar a tela na hora de passar o cartão.</p>
+
+        <p>O dinheiro estava quase no seu caixa, mas ficou na mesa.</p>
+
+        <p>A maioria das empresas tenta resolver isso enviando sequências automáticas de e-mail e WhatsApp. Mas as pessoas não são bobas. Elas sabem que aquela mensagem "Ei, notei que você esqueceu algo no carrinho!" é um robô genérico. Elas ignoram.</p>
+
+        <p>Para consertar esse vazamento de receita, construímos um sistema de recuperação inteligente. Não é um disparador de spam, é um negociador virtual que entende o contexto do porquê a compra falhou.</p>
+
+        <figure class="article-figure">
+            <img src="assets/recuperador_vendas.png" alt="Painel do Recuperador de Vendas">
+            <figcaption>Métricas de conversão de carrinho e status do webhook n8n conectado ao banco Supabase.</figcaption>
+        </figure>
+
+        <h3>A Arquitetura do Sistema</h3>
+        <p>Desenvolvemos a automação estruturada em quatro pilares para máxima eficiência:</p>
+        <ul>
+            <li><strong>O Gatilho (Webhook):</strong> Assim que a plataforma de pagamento (Hotmart, Shopify, Stripe) detecta um carrinho abandonado ou um cartão recusado, ela envia um aviso silencioso para o <strong>n8n</strong>.</li>
+            <li><strong>O Banco de Memória (Supabase):</strong> O n8n cruza o e-mail ou telefone do cliente com um banco de dados em <strong>PostgreSQL (Supabase)</strong>. Ele verifica: Essa pessoa já comprou antes? Ela já tentou passar o cartão nos últimos 10 minutos?</li>
+            <li><strong>O Cérebro (Gemini Pro):</strong> O contexto é enviado para a IA. Se o cartão foi recusado por falta de limite, a IA aborda o cliente oferecendo um Pix parcelado. Se foi só abandono, a IA pergunta se restou alguma dúvida técnica sobre o produto.</li>
+            <li><strong>O Carteiro (Evolution API):</strong> A mensagem chega no WhatsApp do cliente como texto normal, sem parecer telemarketing, abrindo uma conversa real. Se a negociação ficar muito complexa, o bot paralisa e transfere o chat para um vendedor humano.</li>
+        </ul>
+
+        <blockquote>
+            "O robô entende a causa da falha e propõe a melhor alternativa financeira. A conversa é fluida, sem a frieza dos templates tradicionais."
+        </blockquote>
+
+        <h3>As Cicatrizes do Mundo Real (Bugs e Correções)</h3>
+        <p>Construir isso nos ensinou que IAs podem ser muito inconvenientes se não houver lógica rígida de negócios em volta delas:</p>
+        <p><strong>O bug da "Metralhadora de Mensagens"</strong><br>
+        No começo, se um cliente ansioso tentasse passar 3 cartões diferentes que estavam sem limite num intervalo de 2 minutos, a plataforma disparava 3 webhooks. O robô obedecia e mandava 3 mensagens idênticas no WhatsApp da pessoa ao mesmo tempo. Era o pesadelo do spam. Tivemos que implementar um sistema de <em>lock</em> (debounce) de 15 minutos no banco de dados. Se o número já recebeu uma mensagem, a automação bloqueia novos envios para não irritar o comprador.</p>
+
+        <p><strong>Respostas burras para erros genéricos</strong><br>
+        Às vezes o gateway de pagamento devolve um erro genérico apenas porque o cliente fechou a aba. O robô chegava dizendo "Vi que seu cartão foi recusado", e o cliente ficava furioso dizendo "Eu nem cheguei a digitar o cartão!". Passamos a mapear rigorosamente os códigos HTTP de erro para garantir que a IA não "alucinasse" motivos de recusa inexistentes.</p>
+
+        <h3>Métricas de Impacto</h3>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">15 min</div>
+                <div class="metric-label">Debounce lock de segurança contra disparos múltiplos</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">100%</div>
+                <div class="metric-label">De mapeamento de códigos HTTP do gateway</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">Zero</div>
+                <div class="metric-label">Mensagens duplicadas enviadas aos compradores</div>
+            </div>
+        </div>
+
+        <div class="article-cta-box">
+            <h4>Seu checkout tem faturamento sendo deixado na mesa?</h4>
+            <p>Se você quer resgatar clientes com uma abordagem inteligente e que respeita o lead, nós criamos a engrenagem certa de recuperação.</p>
+            <a href="https://wa.me/5511987429611" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Recuperar minhas vendas</a>
+        </div>
+    </template>
+
+    <!-- Template 5: IA de Triagem de Suporte e Upsell -->
+    <template id="template-case-ia_suporte_upsell">
+        <h1 class="article-title">Transformando o suporte que custa dinheiro em uma máquina de fechar vendas escondidas</h1>
+        <div class="article-meta">Estudo de Caso • Triagem de Suporte &amp; Upsell Inteligente • 5 min de leitura</div>
+
+        <p>Qualquer negócio que cresce esbarra no gargalo do atendimento. Seu time comercial quer focar em quem tem dinheiro na mão para comprar, mas o WhatsApp da empresa fica inundado de mensagens como *"qual o link do portal?"* ou *"meu pedido atrasou"*.</p>
+
+        <p>O resultado é péssimo: o cliente do suporte fica frustrado pela demora, e o lead quente que queria comprar um serviço premium esfria enquanto o vendedor responde dúvidas operacionais.</p>
+
+        <p>O mercado tentou resolver isso com aqueles menus robóticos terríveis de *"Digite 1 para Suporte, Digite 2 para Vendas"*. Ninguém gosta de falar com aquilo.</p>
+
+        <p>Para resolver o atrito de vez, criamos um "Porteiro Inteligente". Uma IA que lê tudo o que chega, resolve a burocracia instantaneamente e, se sentir cheiro de dinheiro, entrega a bola na mão do artilheiro (o vendedor humano).</p>
+
+        <figure class="article-figure">
+            <img src="assets/ia_suporte_upsell.png" alt="Interface de Monitoramento de Suporte e Handoff">
+            <figcaption>Visão unificada das triagens de suporte no WhatsApp, consultas ao RAG e notificações de redirecionamento comercial.</figcaption>
+        </figure>
+
+        <h3>A Arquitetura do Sistema</h3>
+        <p>A inteligência foi desenhada para atuar em duas frentes com base na intenção do usuário:</p>
+        <ul>
+            <li><strong>O Porteiro (Classificador de Intenção):</strong> Quando a mensagem chega via <strong>Evolution API (WhatsApp)</strong>, o n8n entrega o texto para um LLM treinado especificamente para julgar apenas uma coisa: *Isso é Suporte Operacional ou é Intenção de Compra/Upsell?*</li>
+            <li><strong>Caminho 1 - O Bibliotecário (RAG):</strong> Se for suporte, o sistema aciona uma busca vetorial (usando Pinecone ou pgvector no Supabase). Ele lê toda a documentação da empresa (políticas de reembolso, links de login) e formula uma resposta educada e precisa resolvendo o problema ali mesmo, sem acionar humanos.</li>
+            <li><strong>Caminho 2 - O Atacante (Human Handoff):</strong> Se a IA detectar que o cliente está perguntando se o plano "Pro" tem consultoria inclusa, ela não tenta vender sozinha. Ela envia uma mensagem dizendo: *"Essa é uma ótima pergunta técnica. Vou chamar nosso especialista para te ajudar a escolher o melhor plano."* Imediatamente, a IA envia um resumo de toda a conversa no Slack ou no WhatsApp do time comercial, que assume o volante.</li>
+        </ul>
+
+        <blockquote>
+            "O suporte repetitivo é resolvido em segundos pela IA. Quando surge uma dúvida comercial, o vendedor recebe o resumo da conversa mastigado."
+        </blockquote>
+
+        <h3>As Cicatrizes do Mundo Real (Bugs e Correções)</h3>
+        <p>Colocar uma inteligência artificial solta no canal de comunicação principal da empresa nos rendeu noites sem dormir:</p>
+        <p><strong>O bug da "Alucinação de Desconto"</strong><br>
+        Na primeira semana, um cliente apertou a IA sobre preços. Como o robô queria ser solícito e achou um documento antigo de "Black Friday" na base de dados, ele simplesmente ofereceu 50% de desconto no produto principal. Quase tivemos prejuízo. A solução foi drástica: removemos qualquer tabela de preço do banco vetorial de textos (RAG) e forçamos o robô a puxar os valores diretamente de uma API determinística via Python. Se o assunto for desconto, o robô passa a bola para o humano na hora.</p>
+
+        <p><strong>A armadilha do áudio sem fim</strong><br>
+        O Brasil é o país do áudio no WhatsApp. Quando mandavam áudio, a IA não entendia, respondia com "Não compreendi" e o cliente ficava furioso. Inserimos um módulo do Whisper (IA de transcrição da OpenAI) no meio do fluxo do n8n. Agora, a automação ouve o áudio, transcreve silenciosamente em texto e processa a intenção. O cliente nem percebe a mágica.</p>
+
+        <h3>Métricas de Impacto</h3>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">Zero</div>
+                <div class="metric-label">Custo com APIs de chat para tabelas estáticas de preços</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">100%</div>
+                <div class="metric-label">De áudios transcritos e interpretados pelo Whisper</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">&lt; 3s</div>
+                <div class="metric-label">Tempo médio de resposta automática de suporte básico</div>
+            </div>
+        </div>
+
+        <div class="article-cta-box">
+            <h4>Seu suporte está sobrecarregado ou perdendo vendas escondidas?</h4>
+            <p>Se você quer filtrar a burocracia e colocar leads quentes de upsell na cara do gol do comercial, fale conosco para estruturar esse fluxo.</p>
+            <a href="https://wa.me/5511987429611" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Automatizar meu suporte e upsell</a>
         </div>
     </template>
 

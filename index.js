@@ -120,6 +120,20 @@ document.addEventListener("DOMContentLoaded", () => {
             desc: "Painel web interativo para vendedores estruturarem escopos e orçamentos, gerando propostas comerciais prontas em PDF direto no Figma sem precisar de design.",
             image: "assets/gerador_propostas.png",
             techs: ["Python", "Figma API", "Cloud Panel", "Automation"]
+        },
+        recuperador_vendas: {
+            title: "Recuperador de Vendas",
+            subtitle: "Negociador Virtual de Carrinho Abandonado",
+            desc: "Sistema de recuperação inteligente via WhatsApp conectado à Hotmart/Stripe. Identifica motivos de falha de pagamento e negocia alternativas sem spammar o cliente.",
+            image: "assets/recuperador_vendas.png",
+            techs: ["n8n", "Supabase", "Evolution API", "Gemini"]
+        },
+        ia_suporte_upsell: {
+            title: "Triagem & Upsell por IA",
+            subtitle: "Classificador de WhatsApp e Handoff Comercial",
+            desc: "Agente de atendimento híbrido que resolve dúvidas recorrentes usando RAG e Whisper, identificando oportunidades de upsell e escalando leads quentes para vendedores.",
+            image: "assets/ia_suporte_upsell.png",
+            techs: ["LangChain", "Pinecone", "Evolution API", "Whisper"]
         }
     };
 
