@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
             title: "Redação de YouTube",
             subtitle: "Esteira de Conteúdo 100% Autônoma",
             desc: "Uma redação inteira de YouTube (pesquisa, roteiro, voz sintética, visual e montagem) rodando sem intervenção humana, retroalimentada por análise de comentários.",
-            image: "assets/tts_factory.png", // Usando o painel de exemplo
+            image: "assets/creative_writer.png",
             techs: ["Python", "Playwright", "FFmpeg", "Gemini API"]
         },
         tts_factory: {
