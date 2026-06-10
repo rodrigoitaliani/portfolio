@@ -1,10 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    // Respect users who prefer reduced motion (accessibility)
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     /* ==========================================
        0. LETTER GLITCH BACKGROUND
        ========================================== */
     const glitchCanvas = document.getElementById("bg-glitch-canvas");
-    if (glitchCanvas) {
+    if (glitchCanvas && !prefersReducedMotion) {
         const ctx = glitchCanvas.getContext("2d");
         
         let width, height, columns, rows;
@@ -30,11 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         function drawGlitch(time) {
             requestAnimationFrame(drawGlitch);
+            if (document.hidden) return; // don't burn CPU on background tabs
             if (time - lastTime < interval) return;
             lastTime = time;
 
             ctx.clearRect(0, 0, width, height);
-            ctx.font = `bold ${fontSize}px "Outfit", sans-serif`;
+            ctx.font = `bold ${fontSize}px "Plus Jakarta Sans", sans-serif`;
             ctx.textAlign = "center";
             
             for (let x = 0; x < columns; x++) {
@@ -97,42 +101,42 @@ document.addEventListener("DOMContentLoaded", () => {
             title: "Redação de YouTube",
             subtitle: "Esteira de Conteúdo 100% Autônoma",
             desc: "Uma redação inteira de YouTube (pesquisa, roteiro, voz sintética, visual e montagem) rodando sem intervenção humana, retroalimentada por análise de comentários.",
-            image: "assets/creative_writer.png",
+            image: "assets/narrator_bot.webp",
             techs: ["Python", "Playwright", "FFmpeg", "Gemini API"]
         },
         tts_factory: {
             title: "TTS Factory",
             subtitle: "Automação Desktop de Voz Realista por IA",
             desc: "Aplicativo desktop construído para otimizar pipelines de canais automatizados. Evita rate limits, elimina sussurros e processa roteiros gigantes em lote.",
-            image: "assets/tts_factory.png",
+            image: "assets/tts_factory.webp",
             techs: ["Python", "PySide6", "Gemini TTS", "SQLite"]
         },
         agente_sdr: {
             title: "Agente de Voz IA",
             subtitle: "Qualificação, Agenda e Follow-up",
             desc: "Agente autônomo que realiza chamadas telefônicas para novos leads em menos de 5 minutos, qualificando com RAG, agendando com Round-Robin e gerenciando WhatsApp.",
-            image: "assets/agente_sdr.png",
+            image: "assets/agente_sdr.webp",
             techs: ["Vapi.ai", "n8n", "Python", "WhatsApp API"]
         },
         gerador_propostas: {
             title: "Gerador de Propostas",
             subtitle: "Automação de PDFs via Figma API",
             desc: "Painel web interativo para vendedores estruturarem escopos e orçamentos, gerando propostas comerciais prontas em PDF direto no Figma sem precisar de design.",
-            image: "assets/gerador_propostas.png",
+            image: "assets/gerador_propostas.webp",
             techs: ["Python", "Figma API", "Cloud Panel", "Automation"]
         },
         recuperador_vendas: {
             title: "Recuperador de Vendas",
             subtitle: "Negociador Virtual de Carrinho Abandonado",
             desc: "Sistema de recuperação inteligente via WhatsApp conectado à Hotmart/Stripe. Identifica motivos de falha de pagamento e negocia alternativas sem spammar o cliente.",
-            image: "assets/recuperador_vendas.png",
+            image: "assets/recuperador_vendas.webp",
             techs: ["n8n", "Supabase", "Evolution API", "Gemini"]
         },
         ia_suporte_upsell: {
             title: "Triagem & Upsell por IA",
             subtitle: "Classificador de WhatsApp e Handoff Comercial",
             desc: "Agente de atendimento híbrido que resolve dúvidas recorrentes usando RAG e Whisper, identificando oportunidades de upsell e escalando leads quentes para vendedores.",
-            image: "assets/ia_suporte_upsell.png",
+            image: "assets/ia_suporte_upsell.webp",
             techs: ["LangChain", "Pinecone", "Evolution API", "Whisper"]
         }
     };
@@ -140,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ==========================================
        3. INTERACTIVE STATE MANAGEMENT
        ========================================== */
-    let currentProjectId = "redacao_youtube";
+    let currentProjectId = "agente_sdr";
     let isCaseOpen = false;
 
     // Mobile = where the case reader becomes a full-screen overlay
@@ -212,6 +216,21 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!template) return;
 
         const clone = template.content.cloneNode(true);
+
+        // Inject zoom wrappers for images in the article
+        const articleImages = clone.querySelectorAll('img:not(.ios-avatar)');
+        articleImages.forEach(img => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'img-zoom-wrapper';
+            img.parentNode.insertBefore(wrapper, img);
+            wrapper.appendChild(img);
+            
+            const btn = document.createElement('div');
+            btn.className = 'zoom-overlay-btn';
+            btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>';
+            wrapper.appendChild(btn);
+        });
+
         articleContent.innerHTML = "";
         articleContent.appendChild(clone);
 
@@ -258,7 +277,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     projectItems.forEach(item => {
-        item.addEventListener("click", () => {
+        // Keyboard accessibility: items are divs, so expose them as buttons
+        item.setAttribute("role", "button");
+        item.setAttribute("tabindex", "0");
+
+        const activateItem = () => {
             const projectId = item.getAttribute("data-project-id");
             if (!projectId) return;
 
@@ -276,6 +299,14 @@ document.addEventListener("DOMContentLoaded", () => {
             } else if (isCaseOpen) {
                 // Desktop: if reader is open, swap case study in real-time
                 openCaseStudy(projectId);
+            }
+        };
+
+        item.addEventListener("click", activateItem);
+        item.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                activateItem();
             }
         });
     });
@@ -327,6 +358,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    document.addEventListener("click", (e) => {
+        const zoomWrapper = e.target.closest('.img-zoom-wrapper');
+        if (zoomWrapper) {
+            const img = zoomWrapper.querySelector('img');
+            if (img) openLightbox(img.src, img.alt);
+        }
+    });
+
     if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
     if (lightbox) {
         lightbox.addEventListener("click", (e) => {
@@ -341,6 +380,7 @@ document.addEventListener("DOMContentLoaded", () => {
        6. PREMIUM BUTTONS MATRIX CANVAS (MODULAR)
        ========================================== */
     function initButtonMatrix() {
+        if (prefersReducedMotion) return; // skip decorative canvas animations
         const premiumButtons = document.querySelectorAll(".btn-premium");
         
         premiumButtons.forEach(button => {

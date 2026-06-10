@@ -6,6 +6,26 @@
     <meta name="description" content="Rodrigo Italiani — desenvolvedor de automações de IA e sistemas sob medida. De Itu, São Paulo.">
     <title>Rodrigo Italiani | Automações de IA & Sistemas sob Medida</title>
 
+    <!-- Open Graph (preview no LinkedIn, WhatsApp etc.) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rodrigoitaliani.github.io/portfolio/">
+    <meta property="og:title" content="Rodrigo Italiani | Automações de IA & Sistemas sob Medida">
+    <meta property="og:description" content="Crio sistemas e automações que tiram o trabalho repetitivo da frente da sua equipe. Estudos de caso reais, com bastidores e métricas.">
+    <meta property="og:image" content="https://rodrigoitaliani.github.io/portfolio/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="pt_BR">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rodrigo Italiani | Automações de IA & Sistemas sob Medida">
+    <meta name="twitter:description" content="Crio sistemas e automações que tiram o trabalho repetitivo da frente da sua equipe.">
+    <meta name="twitter:image" content="https://rodrigoitaliani.github.io/portfolio/assets/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="canonical" href="https://rodrigoitaliani.github.io/portfolio/">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,7 +62,7 @@
             <div class="bento-card card-profile" id="card-profile">
                 <div class="profile-top">
                     <div class="ios-avatar-wrapper">
-                        <img src="assets/avatar_certo.jpg" alt="Rodrigo Italiani" class="ios-avatar" id="img-avatar">
+                        <img src="assets/avatar.webp" alt="Rodrigo Italiani" class="ios-avatar" id="img-avatar" width="400" height="400">
                         <div class="ios-avatar-gloss"></div>
                     </div>
                     <div class="profile-headline">
@@ -152,25 +172,28 @@
                     <div class="showcase-tag">PROJETO EM DESTAQUE</div>
 
                     <div class="showcase-body">
-                        <div class="showcase-visual">
-                            <img src="assets/creative_writer.png" alt="Redação de YouTube UI Mockup" id="showcase-hero-img" class="hero-showcase-img">
+                        <div class="showcase-visual img-zoom-wrapper">
+                            <img src="assets/agente_sdr.webp" alt="Agente de Voz IA UI Mockup" id="showcase-hero-img" class="hero-showcase-img">
+                            <div class="zoom-overlay-btn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                            </div>
                         </div>
 
                         <div class="showcase-info">
-                            <h2 class="showcase-title" id="showcase-title">Redação de YouTube</h2>
-                            <p class="showcase-subtitle" id="showcase-subtitle">Esteira de Conteúdo 100% Autônoma</p>
+                            <h2 class="showcase-title" id="showcase-title">Agente de Voz IA</h2>
+                            <p class="showcase-subtitle" id="showcase-subtitle">Qualificação, Agenda e Follow-up</p>
                             <p class="showcase-desc" id="showcase-desc">
-                                Uma redação inteira de YouTube (pesquisa, roteiro, voz sintética, visual e montagem) rodando sem intervenção humana, retroalimentada por análise de comentários.
+                                Agente autônomo que liga para novos leads em menos de 5 minutos, qualifica com RAG, agenda com Round-Robin e entrega o resumo da conversa no WhatsApp do gestor.
                             </p>
 
                             <div class="showcase-meta">
-                                <span class="meta-pill" id="meta-tech1">Python</span>
-                                <span class="meta-pill" id="meta-tech2">Playwright</span>
-                                <span class="meta-pill" id="meta-tech3">FFmpeg</span>
-                                <span class="meta-pill" id="meta-tech4">Gemini API</span>
+                                <span class="meta-pill" id="meta-tech1">Vapi.ai</span>
+                                <span class="meta-pill" id="meta-tech2">n8n</span>
+                                <span class="meta-pill" id="meta-tech3">Python</span>
+                                <span class="meta-pill" id="meta-tech4">WhatsApp API</span>
                             </div>
 
-                            <button class="btn btn-premium btn-premium-red" id="btn-open-case" data-current-project="redacao_youtube">
+                            <button class="btn btn-premium btn-premium-red" id="btn-open-case" data-current-project="agente_sdr">
                                 <canvas class="btn-matrix-canvas" id="case-btn-canvas"></canvas>
                                 <div class="btn-vignette"></div>
                                 <svg class="btn-border-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -219,10 +242,10 @@
 
                 <div class="projects-feed">
 
-                    <!-- Item 0: Redação de YouTube (Active by default) -->
-                    <div class="project-item active" data-project-id="redacao_youtube" id="item-redacao">
+                    <!-- Item 0: Redação de YouTube -->
+                    <div class="project-item" data-project-id="redacao_youtube" id="item-redacao">
                         <div class="project-thumb">
-                            <img src="assets/creative_writer.png" alt="Thumbnail Redação de YouTube">
+                            <img src="assets/narrator_bot.webp" loading="lazy" decoding="async" alt="Thumbnail Redação de YouTube">
                             <div class="thumb-glow" style="--thumb-color: #10B981;"></div>
                         </div>
                         <div class="project-meta-info">
@@ -241,7 +264,7 @@
                     <!-- Item 1: TTS Factory -->
                     <div class="project-item" data-project-id="tts_factory" id="item-tts">
                         <div class="project-thumb">
-                            <img src="assets/tts_factory.png" alt="Thumbnail TTS Factory">
+                            <img src="assets/tts_factory.webp" loading="lazy" decoding="async" alt="Thumbnail TTS Factory">
                             <div class="thumb-glow" style="--thumb-color: #EF4444;"></div>
                         </div>
                         <div class="project-meta-info">
@@ -257,10 +280,10 @@
                         </svg>
                     </div>
 
-                    <!-- Item 2: Agente de Voz SDR -->
-                    <div class="project-item" data-project-id="agente_sdr" id="item-narrator">
+                    <!-- Item 2: Agente de Voz SDR (Active by default) -->
+                    <div class="project-item active" data-project-id="agente_sdr" id="item-narrator">
                         <div class="project-thumb">
-                            <img src="assets/agente_sdr.png" alt="Thumbnail Agente de Voz SDR">
+                            <img src="assets/agente_sdr.webp" loading="lazy" decoding="async" alt="Thumbnail Agente de Voz SDR">
                             <div class="thumb-glow" style="--thumb-color: #3B82F6;"></div>
                         </div>
                         <div class="project-meta-info">
@@ -279,7 +302,7 @@
                     <!-- Item 3: Gerador de Propostas -->
                     <div class="project-item" data-project-id="gerador_propostas" id="item-propostas">
                         <div class="project-thumb">
-                            <img src="assets/gerador_propostas.png" alt="Thumbnail Gerador de Propostas">
+                            <img src="assets/gerador_propostas.webp" loading="lazy" decoding="async" alt="Thumbnail Gerador de Propostas">
                             <div class="thumb-glow" style="--thumb-color: #F24E1E;"></div>
                         </div>
                         <div class="project-meta-info">
@@ -298,7 +321,7 @@
                     <!-- Item 4: Recuperador Inteligente de Vendas Abandonadas -->
                     <div class="project-item" data-project-id="recuperador_vendas" id="item-recuperador">
                         <div class="project-thumb">
-                            <img src="assets/recuperador_vendas.png" alt="Thumbnail Recuperador de Vendas">
+                            <img src="assets/recuperador_vendas.webp" loading="lazy" decoding="async" alt="Thumbnail Recuperador de Vendas">
                             <div class="thumb-glow" style="--thumb-color: #EF4444;"></div>
                         </div>
                         <div class="project-meta-info">
@@ -317,7 +340,7 @@
                     <!-- Item 5: IA de Triagem de Suporte e Upsell -->
                     <div class="project-item" data-project-id="ia_suporte_upsell" id="item-suporte">
                         <div class="project-thumb">
-                            <img src="assets/ia_suporte_upsell.png" alt="Thumbnail IA de Triagem e Upsell">
+                            <img src="assets/ia_suporte_upsell.webp" loading="lazy" decoding="async" alt="Thumbnail IA de Triagem e Upsell">
                             <div class="thumb-glow" style="--thumb-color: #F59E0B;"></div>
                         </div>
                         <div class="project-meta-info">
@@ -336,8 +359,9 @@
                 </div>
             </div>
 
-            <!-- Card 5: Testimonials Gallery (prints reais) -->
-            <div class="bento-card card-testimonials" id="card-testimonials">
+            <!-- Card 5: Testimonials Gallery (prints reais)
+                 OCULTO até ter o primeiro print real. Para reativar: remova o style="display: none;" abaixo. -->
+            <div class="bento-card card-testimonials" id="card-testimonials" style="display: none;">
                 <div class="card-head">
                     <h3 class="card-title">Depoimentos</h3>
                     <span class="card-tag">prints reais</span>
@@ -405,7 +429,7 @@
 
     <!-- Template 0: Redação de YouTube -->
     <template id="template-case-redacao_youtube">
-        <h1 class="article-title">Uma redação de YouTube rodando com zero pessoas (e o que eu aprendi fazendo essa loucura)</h1>
+        <h2 class="article-title">Uma redação de YouTube rodando com zero pessoas (e o que eu aprendi fazendo essa loucura)</h2>
         <div class="article-meta">Estudo de Caso • Automação de Conteúdo • 6 min de leitura</div>
 
         <p>Se você já tentou manter um canal ativo no YouTube, sabe que o processo é um moedor de carne. Antes do vídeo ir pro ar, tem que acontecer um monte de coisa chata ao mesmo tempo. Você precisa minerar o tema, escrever um roteiro que preste, gravar a narração, caçar ou gerar imagens que façam sentido, jogar tudo numa timeline, rezar pro editor não travar e, depois de tudo, ainda ler os comentários pra ver se alguém xingou sua mãe.</p>
@@ -427,17 +451,17 @@
         </ul>
 
         <h3>3. A batalha contra o "bug do sussurro" no áudio</h3>
-        <p>A narração foi o meu maior quebra-cabeça. Eu queria usar as vozes ultra-realistas do Gemini, mas caí em duas armadilhas: o plano gratuito bloqueia você se mandar o roteiro de uma vez (Rate Limit) e, de vez em quando, a IA simplesmente cismava em sussurrar o roteiro, parecendo um psicopata de filme de terror gótico.</p>
+        <p>A narração foi o meu maior quebra-cabeça. Eu queria usar as vozes ultra-realistas do Gemini, mas caí em duas armadilhas: a API bloqueia quem manda o roteiro inteiro de uma vez (rate limit) e, de vez em quando, a IA simplesmente cismava em sussurrar o roteiro, parecendo um psicopata de filme de terror gótico.</p>
         <p>Pra domar esse comportamento, criei um programinha desktop em <strong>PySide6 e SQLite</strong> chamado <strong>TTS Factory</strong>.</p>
         <ul>
             <li><strong>Chunking Semântico</strong>: Fatia o roteiro em pedaços pequenos de 400 palavras para não engasgar.</li>
-            <li><strong>Delay Cirúrgico</strong>: Enfia um delay de 35 segundos entre cada pedaço. É o tempo exato para o plano gratuito respirar e não me dar um bloqueio na testa.</li>
+            <li><strong>Delay Cirúrgico</strong>: Enfia um delay de 35 segundos entre cada pedaço. É o tempo exato para respeitar o limite da API sem nunca tomar um bloqueio na testa.</li>
             <li><strong>Prompt Anti-Sussurro</strong>: Injeta uma instrução de sistema em inglês (<em>“Read aloud in a cynical and friendly manner. Do not whisper.”</em>), usando a voz <em>Sadaltager</em> e temperatura em 1.4 para simular as oscilações naturais da fala.</li>
         </ul>
 
         <h3>4. Playwright para automatizar o que "não dava" para automatizar</h3>
         <p>Configurar a voz da IA manualmente todo santo dia é um porre. Entrar no site, fazer login no Google, selecionar a voz Sadaltager, desligar o recurso "Thinking" (para não pagar por processamento à toa) e ligar o tom "Affective" toma um tempo precioso.</p>
-        <p>Para matar essa etapa, escrevi o <strong>Narrator Bot</strong> usando <strong>Playwright</strong>. É um robô que roda silenciosamente em background. Ele usa um perfil de navegador que salvei localmente (pula a autenticação do Google por estar com a sessão persistida), entra no AI Studio, faz os cliques chatos in milissegundos, cola o roteiro gerado pelo Creative Writer, baixa o áudio e fecha a janela.</p>
+        <p>Para matar essa etapa, escrevi o <strong>Narrator Bot</strong> usando <strong>Playwright</strong>. É um robô que roda silenciosamente em background. Ele usa um perfil de navegador salvo localmente, entra no AI Studio, faz os cliques chatos em milissegundos, cola o roteiro gerado pelo Creative Writer, baixa o áudio e fecha a janela.</p>
 
         <h3>5. Imagens com a mesma cara e montagem sem abrir o Premiere</h3>
         <p>Canais de IA costumam parecer uma colcha de retalhos horrorosa. Uma foto realista, depois um desenho 3D, depois um vetor flat. Fica muito amador.</p>
@@ -477,30 +501,32 @@
 
     <!-- Template 1: TTS Factory -->
     <template id="template-case-tts_factory">
-        <h1 class="article-title">Como automatizei a geração de áudio de alta retenção sem limites de API e sem sussurros</h1>
-        <div class="article-meta">Estudo de Caso • Desktop Automation • 5 min de leitura</div>
+        <h2 class="article-title">O app desktop que doma voz de IA: sem bloqueio de API, sem sussurro, sem babá</h2>
+        <div class="article-meta">Estudo de Caso • Ferramenta Desktop • 4 min de leitura</div>
 
-        <p>Se você já tentou usar voz de IA para produzir vídeos de alta qualidade em escala, conhece bem o drama: as APIs bloqueiam por excesso de requisições, a voz começa a sussurrar do nada, e você perde horas preciosas dividindo textos longos manualmente.</p>
+        <p>Esse projeto nasceu dentro da minha esteira de YouTube (o outro estudo de caso aqui do lado). Lá, a narração era o elo mais frágil da corrente. A API de voz do Gemini trava se você manda texto demais de uma vez. E de vez em quando ela resolve sussurrar o roteiro inteiro, como um vilão de filme B.</p>
+
+        <p>Eu precisava de áudio confiável, em lote, três vezes por semana. Babá de script não era opção. Então peguei a gambiarra que rodava no terminal e transformei num produto de verdade.</p>
 
         <figure class="article-figure">
-            <img src="assets/tts_factory.png" alt="Painel Desktop do TTS Factory">
+            <img src="assets/tts_factory.webp" alt="Painel Desktop do TTS Factory">
             <figcaption>Interface do TTS Factory: design escuro premium feito em PySide6 rodando localmente.</figcaption>
         </figure>
 
-        <h3>O Gargalo de Produção</h3>
-        <p>A API de Text-to-Speech gratuita do Gemini 2.5 Pro é incrível, mas possui limites estritos de requisições por minuto no tier gratuito. Além disso, se os blocos de texto contiverem quebras confusas ou pontuações estranhas, o modelo tende a começar a narrar em tom de sussurro dramático. Para canais de alta retenção, isso é inaceitável.</p>
+        <h3>O problema, em uma frase</h3>
+        <p>A API de Text-to-Speech do Gemini tem limite de requisições por minuto. E se o bloco de texto chega com quebras confusas ou pontuação estranha, o modelo começa a narrar em tom de sussurro dramático. Num canal que vive de retenção, um áudio sussurrado mata o vídeo.</p>
 
-        <h3>A Solução Técnica Desenvolvida</h3>
-        <p>Criei o <strong>TTS Factory</strong>, um aplicativo desktop robusto e completo construído em <strong>Python, PySide6 e SQLite</strong>. O sistema resolve esses gargalos implementando as seguintes engenharias:</p>
+        <h3>O que o TTS Factory faz</h3>
+        <p>Construí o aplicativo em <strong>Python, PySide6 e SQLite</strong>. Ele roda local, na máquina de quem usa, e resolve o problema em quatro frentes:</p>
         <ul>
-            <li><strong>Chunking Inteligente de 400 Palavras:</strong> O app analisa semanticamente o roteiro e o divide em pedaços exatos sem cortar frases ao meio.</li>
-            <li><strong>Controle de Delay Anti-Rate-Limit:</strong> Executa um timer assíncrono de 35 segundos entre o envio de cada bloco, permitindo processar textos gigantescos inteiramente no tier gratuito sem erros.</li>
-            <li><strong>Impedimento de Sussurros via Prompt:</strong> Injeção automatizada de instruções de sistema e metadados específicos para o modelo, gerando um áudio claro, linear e consistente.</li>
-            <li><strong>SQLite local:</strong> Rastreio de histórico de geração, permitindo que você retome exportações falhas do exato ponto em que parou.</li>
+            <li><strong>Chunking de 400 palavras:</strong> O app analisa o roteiro e o divide em blocos exatos, sem nunca cortar uma frase ao meio.</li>
+            <li><strong>Delay anti-bloqueio:</strong> Um timer assíncrono espera 35 segundos entre cada bloco. Com isso, roteiros gigantes passam pela API sem esbarrar no limite uma única vez.</li>
+            <li><strong>Prompt anti-sussurro:</strong> Instruções de sistema injetadas automaticamente em cada requisição seguram o tom da voz no lugar. O áudio sai claro e consistente do primeiro ao último bloco.</li>
+            <li><strong>Histórico em SQLite:</strong> Cada geração fica registrada. Se a exportação falhar no bloco 17, você retoma do bloco 17, não do zero.</li>
         </ul>
 
         <blockquote>
-            "Você insere um roteiro longo de 10.000 palavras, clica em rodar, e o software entrega o arquivo consolidado pronto para edição enquanto você toma um café. O trabalho manual foi reduzido a zero."
+            Você cola um roteiro de 10.000 palavras, clica em rodar e vai tomar um café. O arquivo sai consolidado, pronto para a edição.
         </blockquote>
 
         <h3>Métricas de Impacto</h3>
@@ -510,8 +536,8 @@
                 <div class="metric-label">Falhas por limite de requisições</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value">100%</div>
-                <div class="metric-label">De automação sem cliques manuais</div>
+                <div class="metric-value">1 clique</div>
+                <div class="metric-label">Do roteiro colado ao áudio final</div>
             </div>
             <div class="metric-card">
                 <div class="metric-value">10k+</div>
@@ -520,8 +546,8 @@
         </div>
 
         <div class="article-cta-box">
-            <h4>Quer uma automação robusta como esta na sua empresa?</h4>
-            <p>Seja para produção de conteúdo ou otimização de fluxos operacionais, eu construo a ferramenta desktop sob medida que sua equipe precisa.</p>
+            <h4>Tem um processo que vive quebrando na sua operação?</h4>
+            <p>Eu construo a ferramenta sob medida que segura ele no lugar: desktop, web ou rodando em background, do jeito que a sua equipe precisa.</p>
             <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 15px;">
                 <a href="demos/tts-factory/index.html" class="btn btn-primary" style="background: linear-gradient(135deg, #06B6D4, #0891B2); border: none; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2); display: inline-flex; align-items: center; gap: 8px;">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top: -1px;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
@@ -534,7 +560,7 @@
 
     <!-- Template 2: Agente de Voz SDR -->
     <template id="template-case-agente_sdr">
-        <h1 class="article-title">O dia em que trocamos o telemarketing chato por uma IA que liga para o cliente em 2 minutos (e o inferno do "Alô... Alô?")</h1>
+        <h2 class="article-title">O dia em que troquei o telemarketing chato por uma IA que liga para o cliente em 2 minutos (e o inferno do "Alô... Alô?")</h2>
         <div class="article-meta">Estudo de Caso • Voice AI SDR &amp; Lead Management • 6 min de leitura</div>
 
         <p>Se você vende serviços ou produtos de ticket mais alto, sabe que o tempo é o seu ativo mais escasso.</p>
@@ -543,37 +569,37 @@
 
         <p>O problema é que sua equipe de vendas não pode viver colada no telefone esperando o formulário apitar. Eles estão em reuniões, almoçando ou focados em fechar contratos.</p>
 
-        <p>Para resolver essa fricção, desenhamos um sistema que faz o trabalho chato e cansativo de qualificação em minutos, deixando para os humanos apenas a parte de negociar e assinar o contrato.</p>
+        <p>Para resolver essa fricção, desenhei um sistema que faz o trabalho chato e cansativo de qualificação em minutos, deixando para os humanos apenas a parte de negociar e assinar o contrato.</p>
 
         <figure class="article-figure">
-            <img src="assets/agente_sdr.png" alt="Interface de controle do agente de voz">
+            <img src="assets/agente_sdr.webp" alt="Interface de controle do agente de voz">
             <figcaption>Visualização integrada do fluxo: transcrições de chamada em tempo real, distribuição na agenda dos vendedores e relatórios automáticos.</figcaption>
         </figure>
 
         <h3>A Arquitetura do Sistema</h3>
-        <p>Em vez de criar algo complexo demais para o próprio bem, dividimos a engrenagem em cinco etapas diretas:</p>
+        <p>Em vez de criar algo complexo demais para o próprio bem, dividi a engrenagem em cinco etapas diretas:</p>
         <ul>
             <li><strong>O Gatilho:</strong> Assim que o formulário do site é enviado, o <strong>n8n</strong> (que atua como os tubos de conexão dos dados) captura o lead e aciona o motor de telefonia.</li>
-            <li><strong>A Ligação via Vapi.ai + Groq:</strong> A API da Vapi liga para o número do cliente em menos de 2 minutos. Usamos o modelo Llama 3 rodando nos servidores da Groq para garantir que a latência (o tempo que a IA leva para processar a fala e responder) ficasse abaixo de <strong>800 milissegundos</strong>. Qualquer atraso maior do que isso faz a ligação parecer aquele delay irritante de chamada internacional de TV, e o cliente desliga na hora.</li>
-            <li><strong>Qualificação RAG:</strong> A IA tem acesso a um banco de dados de conhecimento da agência (RAG). Ela não inventa respostas. Ela explica o serviço de forma simples, ouve as necessidades do lead e avalia se ele atende aos critérios mínimos de orçamento e perfil.</li>
-            <li><strong>Distribuição Round-Robin (Python):</strong> Se o lead é qualificado, o agente avisa o cliente que vai agendar um horário com um especialista. Nosso script em Python bate na API do Google Calendar, analisa a carga de trabalho de cada vendedor e reserva a sala de reunião no calendário do vendedor disponível da vez.</li>
+            <li><strong>A Ligação via Vapi.ai + Groq:</strong> A API da Vapi liga para o número do cliente em menos de 2 minutos. Usei o modelo Llama 3 rodando nos servidores da Groq para garantir que a latência (o tempo que a IA leva para processar a fala e responder) ficasse abaixo de <strong>800 milissegundos</strong>. Qualquer atraso maior do que isso faz a ligação parecer aquele delay irritante de chamada internacional de TV, e o cliente desliga na hora.</li>
+            <li><strong>Qualificação RAG:</strong> A IA tem acesso a um banco de dados de conhecimento da empresa (RAG). Ela não inventa respostas. Ela explica o serviço de forma simples, ouve as necessidades do lead e avalia se ele atende aos critérios mínimos de orçamento e perfil.</li>
+            <li><strong>Distribuição Round-Robin (Python):</strong> Se o lead é qualificado, o agente avisa o cliente que vai agendar um horário com um especialista. Um script em Python bate na API do Google Calendar, analisa a carga de trabalho de cada vendedor e reserva a sala de reunião no calendário do vendedor disponível da vez.</li>
             <li><strong>O Relatório de Inteligência:</strong> A gravação e a transcrição da chamada são lidas pelo Claude 3.5 Sonnet, que resume a conversa no modelo BANT (Orçamento, Autoridade, Necessidade e Tempo) e envia um relatório formatado direto no WhatsApp do dono da empresa.</li>
         </ul>
 
         <blockquote>
-            "O tempo médio para a primeira ligação após o lead entrar no site caiu para menos de 5 minutos, com latência de conversa abaixo de 800ms."
+            O tempo médio para a primeira ligação após o lead entrar no site caiu para menos de 5 minutos, com latência de conversa abaixo de 800 ms.
         </blockquote>
 
         <h3>Os Bastidores e as Cicatrizes do Desenvolvimento</h3>
-        <p>Qualquer um que diga que implementar IA de voz é "só apertar um botão" nunca tentou fazer uma rodar no mundo real. Tivemos que resolver três problemas graves que quase arruinaram o projeto:</p>
+        <p>Qualquer um que diga que implementar IA de voz é "só apertar um botão" nunca tentou fazer uma rodar no mundo real. Tive que resolver três problemas que quase arruinaram o projeto:</p>
         <p><strong>1. O bug do "Alô... Alô?"</strong><br>
-        Nas primeiras versões, a IA interrompia as pessoas constantemente. A detecção de voz (VAD) interpretava qualquer pausa do lead para respirar como se ele tivesse terminado de falar. O resultado era um robô atropelando a fala do cliente, parecendo um vendedor de telemarketing desesperado. Tivemos que aumentar o tempo de silêncio tolerado e programar a IA para injetar marcadores de escuta natural (como <em>"Aham"</em>, <em>"Entendi"</em>, e <em>"Perfeito, continue"</em>), dando ritmo e humanidade à conversa.</p>
+        Nas primeiras versões, a IA interrompia as pessoas constantemente. A detecção de voz (VAD) interpretava qualquer pausa do lead para respirar como se ele tivesse terminado de falar. O resultado era um robô atropelando a fala do cliente, parecendo um vendedor de telemarketing desesperado. Tive que aumentar o tempo de silêncio tolerado e programar a IA para injetar marcadores de escuta natural (como <em>"Aham"</em>, <em>"Entendi"</em>, e <em>"Perfeito, continue"</em>), dando ritmo e humanidade à conversa.</p>
 
         <p><strong>2. O inferno dos Fusos Horários</strong><br>
         No mundo da programação, tudo roda no fuso UTC (Horário de Greenwich). Quando o script agendava uma reunião para as 14h de Brasília, ela era registrada no calendário do vendedor como 17h. Vendedores perdiam reuniões e clientes ficavam esperando em salas virtuais vazias. A correção exigiu mapear rigorosamente a conversão de fuso horário em todas as pontas do Python para forçar o padrão <code>America/Sao_Paulo</code> antes de qualquer requisição.</p>
 
         <p><strong>3. O banimento iminente no WhatsApp</strong><br>
-        Quando o sistema começou a enviar os links das reuniões por mensagens automatizadas no WhatsApp, o algoritmo da Meta começou a bloquear os números da agência. Disparos rápidos com links são o caminho mais curto para ser banido por spam. Tivemos que implementar um fluxo de "aquecimento" de chips, reduzir a frequência de envio e programar o script da Evolution API para incluir variações de tempo randômicas (entre 15 e 45 segundos) entre cada mensagem, simulando um humano real no teclado.</p>
+        Quando o sistema começou a enviar os links das reuniões por mensagens automatizadas no WhatsApp, o algoritmo da Meta começou a bloquear os números da operação. Disparos rápidos com links são o caminho mais curto para ser banido por spam. Tive que implementar um fluxo de "aquecimento" de chips, reduzir a frequência de envio e programar o script da Evolution API para incluir variações de tempo randômicas (entre 15 e 45 segundos) entre cada mensagem, simulando um humano real no teclado.</p>
 
         <h3>Métricas de Negócio</h3>
         <div class="metrics-grid">
@@ -593,7 +619,7 @@
 
         <div class="article-cta-box">
             <h4>Seu processo comercial perde leads por demora no atendimento?</h4>
-            <p>Se você tem leads esfriando no seu site ou quer que seu time comercial foque apenas em reuniões qualificadas e prontas, nós podemos desenhar essa automação sob medida.</p>
+            <p>Se você tem leads esfriando no seu site ou quer que seu time comercial foque apenas em reuniões qualificadas e prontas, eu desenho essa automação sob medida.</p>
             <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 15px;">
                 <a href="demos/agente-sdr/index.html" class="btn btn-primary" style="background: linear-gradient(135deg, #10B981, #059669); border: none; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2); display: inline-flex; align-items: center; gap: 8px;">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top: -1px;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
@@ -606,15 +632,15 @@
 
     <!-- Template 3: Gerador de Propostas -->
     <template id="template-case-gerador_propostas">
-        <h1 class="article-title">O dia em que tiramos os designers da linha de produção de propostas (e passamos a fechar negócios mais rápido)</h1>
+        <h2 class="article-title">O dia em que tirei os designers da linha de produção de propostas (e as vendas passaram a fechar mais rápido)</h2>
         <div class="article-meta">Estudo de Caso • Automação de Processos Comerciais • 5 min de leitura</div>
 
-        <p>Imagine o seguinte: o time de vendas é o motorista de um carro de corrida. O cliente em potencial é a linha de chegada. Quando o cliente mostra interesse real, você precisa acelerar e entregar a proposta comercial o mais rápido possível, enquanto a conversa ainda está fresca na cabeça dele.</p>
+        <p>O time de vendas é o motorista de um carro de corrida. O cliente em potencial é a linha de chegada. Quando o cliente mostra interesse real, você precisa acelerar e entregar a proposta comercial o mais rápido possível, enquanto a conversa ainda está fresca na cabeça dele.</p>
 
         <p>Mas em uma agência de marketing movimentada, o processo era diferente. Para gerar uma proposta em PDF que fosse visualmente atraente e personalizada, o vendedor dependia do time de design. Toda pequena alteração no escopo ou um ajuste de R$ 500 no valor final significava abrir um chamado interno. O designer precisava interromper a criação de campanhas para ajustar textos no Figma. A proposta demorava dias para ficar pronta, e o lead esfriava.</p>
 
         <figure class="article-figure">
-            <img src="assets/gerador_propostas.png" alt="Interface do Gerador de Propostas">
+            <img src="assets/gerador_propostas.webp" alt="Interface do Gerador de Propostas">
             <figcaption>O painel web integrado à API do Figma: vendedores editam dados e a automação constrói o PDF.</figcaption>
         </figure>
 
@@ -630,14 +656,14 @@
         </ul>
 
         <blockquote>
-            "O vendedor consegue alterar o escopo e enviar o PDF de 15 páginas enquanto está na ligação com o cliente. O designer nem fica sabendo que a proposta existiu."
+            O vendedor altera o escopo e envia o PDF de 15 páginas enquanto ainda está na ligação com o cliente. O designer nem fica sabendo que a proposta existiu.
         </blockquote>
 
         <h3>Os Bastidores e as Gambiarras Necessárias</h3>
-        <p>Nenhuma automação sobrevive ao primeiro contato com a realidade sem alguns ajustes. Durante o desenvolvimento, enfrentamos problemas que exigiram soluções práticas:</p>
-        <p><strong>A briga com os logos dos clientes:</strong> Vendedores subiam imagens de todos os formatos possíveis. Se o logo era muito vertical ou quadrado, a API do Figma esticava a imagem como se fosse um chiclete. Tivemos que programar uma regra em Python que identifica a proporção da imagem antes do envio e a acomoda de forma centralizada dentro de uma caixa invisível com tamanho fixo.</p>
-        <p><strong>Fontes invisíveis:</strong> No servidor headless, a API do Figma às vezes falhava em renderizar as fontes customizadas da marca da agência, substituindo-as por Arial e destruindo o layout. A solução foi forçar o carregamento de toda a árvore tipográfica no início do script de injeção de texto.</p>
-        <p><strong>A ansiedade do comercial:</strong> A renderização completa do PDF de alta resolução demorava cerca de 15 segundos. Para evitar que os vendedores clicassem repetidamente em "Gerar" achando que o sistema tinha travado, inserimos uma barra de carregamento e mensagens bem-humoradas na tela.</p>
+        <p>Nenhuma automação sobrevive ao primeiro contato com a realidade sem alguns ajustes. Durante o desenvolvimento, enfrentei problemas que exigiram soluções práticas:</p>
+        <p><strong>A briga com os logos dos clientes:</strong> Vendedores subiam imagens de todos os formatos possíveis. Se o logo era muito vertical ou quadrado, a API do Figma esticava a imagem como se fosse um chiclete. Tive que programar uma regra em Python que identifica a proporção da imagem antes do envio e a acomoda de forma centralizada dentro de uma caixa invisível com tamanho fixo.</p>
+        <p><strong>Fontes invisíveis:</strong> No servidor headless, a API do Figma às vezes falhava em renderizar as fontes customizadas da marca, substituindo-as por Arial e destruindo o layout. A solução foi forçar o carregamento de toda a árvore tipográfica no início do script de injeção de texto.</p>
+        <p><strong>A ansiedade do comercial:</strong> A renderização completa do PDF de alta resolução demorava cerca de 15 segundos. Para evitar que os vendedores clicassem repetidamente em "Gerar" achando que o sistema tinha travado, inseri uma barra de carregamento e mensagens bem-humoradas na tela.</p>
 
         <h3>Resultados Comerciais Reais</h3>
         <div class="metrics-grid">
@@ -657,7 +683,7 @@
 
         <div class="article-cta-box">
             <h4>Sua equipe comercial perde tempo com tarefas repetitivas?</h4>
-            <p>Se você tem vendedores gastando horas editando documentos ou esperando designers para enviar propostas, nós podemos resolver esse atrito com automações inteligentes e painéis sob medida.</p>
+            <p>Se você tem vendedores gastando horas editando documentos ou esperando designers para enviar propostas, eu resolvo esse atrito com automações e painéis sob medida.</p>
             <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 15px;">
                 <a href="demos/gerador-propostas/index.html" class="btn btn-primary" style="background: linear-gradient(135deg, #A259FF, #8B5CF6); border: none; box-shadow: 0 4px 15px rgba(162, 89, 255, 0.2); display: inline-flex; align-items: center; gap: 8px;">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top: -1px;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
@@ -670,7 +696,7 @@
 
     <!-- Template 4: Recuperador de Vendas -->
     <template id="template-case-recuperador_vendas">
-        <h1 class="article-title">O agente que resgata vendas perdidas no checkout (e a dor de cabeça de impedir que ele seja inconveniente)</h1>
+        <h2 class="article-title">O agente que resgata vendas perdidas no checkout (e a dor de cabeça de impedir que ele seja inconveniente)</h2>
         <div class="article-meta">Estudo de Caso • Automação de Recuperação de Vendas • 5 min de leitura</div>
 
         <p>Seja você o dono de um e-commerce ou um infoprodutor, a matemática do carrinho de compras é sempre cruel. Você paga caro em anúncios para levar 100 pessoas até o seu site. Dessas, talvez 10 cliquem no botão de comprar, e 7 delas vão abandonar a tela na hora de passar o cartão.</p>
@@ -679,15 +705,15 @@
 
         <p>A maioria das empresas tenta resolver isso enviando sequências automáticas de e-mail e WhatsApp. Mas as pessoas não são bobas. Elas sabem que aquela mensagem "Ei, notei que você esqueceu algo no carrinho!" é um robô genérico. Elas ignoram.</p>
 
-        <p>Para consertar esse vazamento de receita, construímos um sistema de recuperação inteligente. Não é um disparador de spam, é um negociador virtual que entende o contexto do porquê a compra falhou.</p>
+        <p>Para consertar esse vazamento de receita, construí um sistema de recuperação que age como um negociador virtual: ele entende o contexto do porquê a compra falhou antes de mandar qualquer mensagem.</p>
 
         <figure class="article-figure">
-            <img src="assets/recuperador_vendas.png" alt="Painel do Recuperador de Vendas">
+            <img src="assets/recuperador_vendas.webp" alt="Painel do Recuperador de Vendas">
             <figcaption>Métricas de conversão de carrinho e status do webhook n8n conectado ao banco Supabase.</figcaption>
         </figure>
 
         <h3>A Arquitetura do Sistema</h3>
-        <p>Desenvolvemos a automação estruturada em quatro pilares para máxima eficiência:</p>
+        <p>Estruturei a automação em quatro pilares:</p>
         <ul>
             <li><strong>O Gatilho (Webhook):</strong> Assim que a plataforma de pagamento (Hotmart, Shopify, Stripe) detecta um carrinho abandonado ou um cartão recusado, ela envia um aviso silencioso para o <strong>n8n</strong>.</li>
             <li><strong>O Banco de Memória (Supabase):</strong> O n8n cruza o e-mail ou telefone do cliente com um banco de dados em <strong>PostgreSQL (Supabase)</strong>. Ele verifica: Essa pessoa já comprou antes? Ela já tentou passar o cartão nos últimos 10 minutos?</li>
@@ -696,18 +722,18 @@
         </ul>
 
         <blockquote>
-            "O robô entende a causa da falha e propõe a melhor alternativa financeira. A conversa é fluida, sem a frieza dos templates tradicionais."
+            O robô entende a causa da falha e propõe a melhor alternativa financeira. A conversa é fluida, sem a frieza dos templates tradicionais.
         </blockquote>
 
         <h3>As Cicatrizes do Mundo Real (Bugs e Correções)</h3>
-        <p>Construir isso nos ensinou que IAs podem ser muito inconvenientes se não houver lógica rígida de negócios em volta delas:</p>
+        <p>Construir isso me ensinou que IAs podem ser muito inconvenientes se não houver lógica rígida de negócios em volta delas:</p>
         <p><strong>O bug da "Metralhadora de Mensagens"</strong><br>
-        No começo, se um cliente ansioso tentasse passar 3 cartões diferentes que estavam sem limite num intervalo de 2 minutos, a plataforma disparava 3 webhooks. O robô obedecia e mandava 3 mensagens idênticas no WhatsApp da pessoa ao mesmo tempo. Era o pesadelo do spam. Tivemos que implementar um sistema de <em>lock</em> (debounce) de 15 minutos no banco de dados. Se o número já recebeu uma mensagem, a automação bloqueia novos envios para não irritar o comprador.</p>
+        No começo, se um cliente ansioso tentasse passar 3 cartões diferentes que estavam sem limite num intervalo de 2 minutos, a plataforma disparava 3 webhooks. O robô obedecia e mandava 3 mensagens idênticas no WhatsApp da pessoa ao mesmo tempo. Era o pesadelo do spam. Tive que implementar um sistema de <em>lock</em> (debounce) de 15 minutos no banco de dados. Se o número já recebeu uma mensagem, a automação bloqueia novos envios para não irritar o comprador.</p>
 
         <p><strong>Respostas burras para erros genéricos</strong><br>
-        Às vezes o gateway de pagamento devolve um erro genérico apenas porque o cliente fechou a aba. O robô chegava dizendo "Vi que seu cartão foi recusado", e o cliente ficava furioso dizendo "Eu nem cheguei a digitar o cartão!". Passamos a mapear rigorosamente os códigos HTTP de erro para garantir que a IA não "alucinasse" motivos de recusa inexistentes.</p>
+        Às vezes o gateway de pagamento devolve um erro genérico apenas porque o cliente fechou a aba. O robô chegava dizendo "Vi que seu cartão foi recusado", e o cliente ficava furioso dizendo "Eu nem cheguei a digitar o cartão!". Passei a mapear rigorosamente os códigos HTTP de erro para garantir que a IA não "alucinasse" motivos de recusa inexistentes.</p>
 
-        <h3>Métricas de Impacto</h3>
+        <h3>O que o sistema garante</h3>
         <div class="metrics-grid">
             <div class="metric-card">
                 <div class="metric-value">15 min</div>
@@ -725,7 +751,7 @@
 
         <div class="article-cta-box">
             <h4>Seu checkout tem faturamento sendo deixado na mesa?</h4>
-            <p>Se você quer resgatar clientes com uma abordagem inteligente e que respeita o lead, nós criamos a engrenagem certa de recuperação.</p>
+            <p>Se você quer resgatar clientes com uma abordagem que respeita o lead em vez de spammar, eu crio a engrenagem certa de recuperação.</p>
             <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 15px;">
                 <a href="demos/recuperador-vendas/index.html" class="btn btn-primary" style="background: linear-gradient(135deg, #FF5A00, #FF7A00); border: none; box-shadow: 0 4px 15px rgba(255, 90, 0, 0.2); display: inline-flex; align-items: center; gap: 8px;">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top: -1px;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
@@ -738,41 +764,41 @@
 
     <!-- Template 5: IA de Triagem de Suporte e Upsell -->
     <template id="template-case-ia_suporte_upsell">
-        <h1 class="article-title">Transformando o suporte que custa dinheiro em uma máquina de fechar vendas escondidas</h1>
+        <h2 class="article-title">Transformando o suporte que custa dinheiro em uma máquina de fechar vendas escondidas</h2>
         <div class="article-meta">Estudo de Caso • Triagem de Suporte &amp; Upsell Inteligente • 5 min de leitura</div>
 
-        <p>Qualquer negócio que cresce esbarra no gargalo do atendimento. Seu time comercial quer focar em quem tem dinheiro na mão para comprar, mas o WhatsApp da empresa fica inundado de mensagens como *"qual o link do portal?"* ou *"meu pedido atrasou"*.</p>
+        <p>Qualquer negócio que cresce esbarra no gargalo do atendimento. Seu time comercial quer focar em quem tem dinheiro na mão para comprar, mas o WhatsApp da empresa fica inundado de mensagens como <em>"qual o link do portal?"</em> ou <em>"meu pedido atrasou"</em>.</p>
 
         <p>O resultado é péssimo: o cliente do suporte fica frustrado pela demora, e o lead quente que queria comprar um serviço premium esfria enquanto o vendedor responde dúvidas operacionais.</p>
 
-        <p>O mercado tentou resolver isso com aqueles menus robóticos terríveis de *"Digite 1 para Suporte, Digite 2 para Vendas"*. Ninguém gosta de falar com aquilo.</p>
+        <p>O mercado tentou resolver isso com aqueles menus robóticos terríveis de <em>"Digite 1 para Suporte, Digite 2 para Vendas"</em>. Ninguém gosta de falar com aquilo.</p>
 
-        <p>Para resolver o atrito de vez, criamos um "Porteiro Inteligente". Uma IA que lê tudo o que chega, resolve a burocracia instantaneamente e, se sentir cheiro de dinheiro, entrega a bola na mão do artilheiro (o vendedor humano).</p>
+        <p>Para resolver o atrito de vez, criei um "Porteiro Inteligente". Uma IA que lê tudo o que chega, resolve a burocracia instantaneamente e, se sentir cheiro de dinheiro, entrega a bola na mão do artilheiro (o vendedor humano).</p>
 
         <figure class="article-figure">
-            <img src="assets/ia_suporte_upsell.png" alt="Interface de Monitoramento de Suporte e Handoff">
+            <img src="assets/ia_suporte_upsell.webp" alt="Interface de Monitoramento de Suporte e Handoff">
             <figcaption>Visão unificada das triagens de suporte no WhatsApp, consultas ao RAG e notificações de redirecionamento comercial.</figcaption>
         </figure>
 
         <h3>A Arquitetura do Sistema</h3>
         <p>A inteligência foi desenhada para atuar em duas frentes com base na intenção do usuário:</p>
         <ul>
-            <li><strong>O Porteiro (Classificador de Intenção):</strong> Quando a mensagem chega via <strong>Evolution API (WhatsApp)</strong>, o n8n entrega o texto para um LLM treinado especificamente para julgar apenas uma coisa: *Isso é Suporte Operacional ou é Intenção de Compra/Upsell?*</li>
+            <li><strong>O Porteiro (Classificador de Intenção):</strong> Quando a mensagem chega via <strong>Evolution API (WhatsApp)</strong>, o n8n entrega o texto para um LLM treinado especificamente para julgar apenas uma coisa: <em>isso é Suporte Operacional ou é Intenção de Compra/Upsell?</em></li>
             <li><strong>Caminho 1 - O Bibliotecário (RAG):</strong> Se for suporte, o sistema aciona uma busca vetorial (usando Pinecone ou pgvector no Supabase). Ele lê toda a documentação da empresa (políticas de reembolso, links de login) e formula uma resposta educada e precisa resolvendo o problema ali mesmo, sem acionar humanos.</li>
-            <li><strong>Caminho 2 - O Atacante (Human Handoff):</strong> Se a IA detectar que o cliente está perguntando se o plano "Pro" tem consultoria inclusa, ela não tenta vender sozinha. Ela envia uma mensagem dizendo: *"Essa é uma ótima pergunta técnica. Vou chamar nosso especialista para te ajudar a escolher o melhor plano."* Imediatamente, a IA envia um resumo de toda a conversa no Slack ou no WhatsApp do time comercial, que assume o volante.</li>
+            <li><strong>Caminho 2 - O Atacante (Human Handoff):</strong> Se a IA detectar que o cliente está perguntando se o plano "Pro" tem consultoria inclusa, ela não tenta vender sozinha. Ela envia uma mensagem dizendo: <em>"Essa é uma ótima pergunta técnica. Vou chamar nosso especialista para te ajudar a escolher o melhor plano."</em> Imediatamente, a IA envia um resumo de toda a conversa no Slack ou no WhatsApp do time comercial, que assume o volante.</li>
         </ul>
 
         <blockquote>
-            "O suporte repetitivo é resolvido em segundos pela IA. Quando surge uma dúvida comercial, o vendedor recebe o resumo da conversa mastigado."
+            O suporte repetitivo é resolvido em segundos pela IA. Quando surge uma dúvida comercial, o vendedor recebe o resumo da conversa mastigado.
         </blockquote>
 
         <h3>As Cicatrizes do Mundo Real (Bugs e Correções)</h3>
-        <p>Colocar uma inteligência artificial solta no canal de comunicação principal da empresa nos rendeu noites sem dormir:</p>
+        <p>Colocar uma inteligência artificial solta no canal de comunicação principal da empresa me rendeu noites sem dormir:</p>
         <p><strong>O bug da "Alucinação de Desconto"</strong><br>
-        Na primeira semana, um cliente apertou a IA sobre preços. Como o robô queria ser solícito e achou um documento antigo de "Black Friday" na base de dados, ele simplesmente ofereceu 50% de desconto no produto principal. Quase tivemos prejuízo. A solução foi drástica: removemos qualquer tabela de preço do banco vetorial de textos (RAG) e forçamos o robô a puxar os valores diretamente de uma API determinística via Python. Se o assunto for desconto, o robô passa a bola para o humano na hora.</p>
+        Na primeira semana, um cliente apertou a IA sobre preços. Como o robô queria ser solícito e achou um documento antigo de "Black Friday" na base de dados, ele simplesmente ofereceu 50% de desconto no produto principal. Quase deu prejuízo. A solução foi drástica: removi qualquer tabela de preço do banco vetorial de textos (RAG) e forcei o robô a puxar os valores diretamente de uma API determinística via Python. Se o assunto for desconto, o robô passa a bola para o humano na hora.</p>
 
         <p><strong>A armadilha do áudio sem fim</strong><br>
-        O Brasil é o país do áudio no WhatsApp. Quando mandavam áudio, a IA não entendia, respondia com "Não compreendi" e o cliente ficava furioso. Inserimos um módulo do Whisper (IA de transcrição da OpenAI) no meio do fluxo do n8n. Agora, a automação ouve o áudio, transcreve silenciosamente em texto e processa a intenção. O cliente nem percebe a mágica.</p>
+        O Brasil é o país do áudio no WhatsApp. Quando mandavam áudio, a IA não entendia, respondia com "Não compreendi" e o cliente ficava furioso. Inseri um módulo do Whisper (IA de transcrição da OpenAI) no meio do fluxo do n8n. Agora, a automação ouve o áudio, transcreve silenciosamente em texto e processa a intenção. O cliente nem percebe a mágica.</p>
 
         <h3>Métricas de Impacto</h3>
         <div class="metrics-grid">
@@ -792,7 +818,7 @@
 
         <div class="article-cta-box">
             <h4>Seu suporte está sobrecarregado ou perdendo vendas escondidas?</h4>
-            <p>Se você quer filtrar a burocracia e colocar leads quentes de upsell na cara do gol do comercial, fale conosco para estruturar esse fluxo.</p>
+            <p>Se você quer filtrar a burocracia e colocar leads quentes de upsell na cara do gol do comercial, me chama para estruturar esse fluxo.</p>
             <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 15px;">
                 <a href="demos/ia-suporte-upsell/index.html" class="btn btn-primary" style="background: linear-gradient(135deg, #F59E0B, #D97706); border: none; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2); display: inline-flex; align-items: center; gap: 8px;">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top: -1px;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>

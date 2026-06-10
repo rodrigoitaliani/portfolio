@@ -1506,3 +1506,45 @@ html, body {
     .audio-waves span { animation: none; }
     * { scroll-behavior: auto; }
 }
+
+/* ==========================================
+   ZOOMABLE IMAGES
+   ========================================== */
+.img-zoom-wrapper {
+    position: relative;
+    display: block;
+}
+
+.img-zoom-wrapper img {
+    cursor: zoom-in;
+}
+
+.zoom-overlay-btn {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-in;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.zoom-overlay-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.img-zoom-wrapper:hover .zoom-overlay-btn {
+    opacity: 1;
+    transform: scale(1.05);
+}
