@@ -353,32 +353,26 @@
                 </div>
 
                 <!--
-                  COMO ADICIONAR UM DEPOIMENTO:
-                  Substitua o conteúdo interno de um ".testi-slide is-empty" por:
-                  <img src="assets/depoimento_1.webp" alt="Depoimento de cliente" loading="lazy">
-                  e remova a classe "is-empty" do slide.
-                  Imagens em proporção 4:5 (ex: 800x1000). Clique no slide central abre o lightbox.
+                  Para adicionar/trocar um depoimento: duplique um ".testi-slide" com
+                  <img src="assets/depoimento_N.webp" alt="..." loading="lazy">.
+                  Prints verticais aparecem inteiros (object-fit: contain). Clique no central abre o lightbox.
                 -->
                 <div class="testi-carousel" id="testi-carousel" aria-label="Carrossel de depoimentos">
                     <button class="testi-nav" id="testi-prev" aria-label="Depoimento anterior">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     </button>
                     <div class="testi-stage" id="testi-stage">
-                        <div class="testi-slide is-empty">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                            <span>Print em breve</span>
+                        <div class="testi-slide">
+                            <img src="assets/depoimento_1.webp" alt="Depoimento de cliente 1" loading="lazy">
                         </div>
-                        <div class="testi-slide is-empty">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                            <span>Print em breve</span>
+                        <div class="testi-slide">
+                            <img src="assets/depoimento_2.webp" alt="Depoimento de cliente 2" loading="lazy">
                         </div>
-                        <div class="testi-slide is-empty">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                            <span>Print em breve</span>
+                        <div class="testi-slide">
+                            <img src="assets/depoimento_3.webp" alt="Depoimento de cliente 3" loading="lazy">
                         </div>
-                        <div class="testi-slide is-empty">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                            <span>Print em breve</span>
+                        <div class="testi-slide">
+                            <img src="assets/depoimento_4.webp" alt="Depoimento de cliente 4" loading="lazy">
                         </div>
                     </div>
                     <button class="testi-nav" id="testi-next" aria-label="Próximo depoimento">

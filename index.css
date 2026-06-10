@@ -218,14 +218,14 @@ html, body {
     display: flex;
     gap: 24px;
     align-items: flex-start;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .ios-avatar-wrapper {
     position: relative;
     flex-shrink: 0;
-    width: 135px;
-    height: 135px;
+    width: 120px;
+    height: 120px;
     border-radius: 28px;
     box-shadow: -10px 15px 30px -5px rgba(0, 0, 0, 0.6);
     transform: perspective(800px) rotateY(8deg) rotateX(4deg) rotateZ(-2deg);
@@ -359,7 +359,7 @@ html, body {
     align-items: baseline;
     flex-wrap: wrap;
     gap: 4px 14px;
-    padding: 10px 0;
+    padding: 8px 0;
 }
 
 .skill-row + .skill-row {
@@ -480,14 +480,20 @@ html, body {
 .cta-subtitle {
     font-size: 13px;
     color: var(--color-text-secondary);
-    margin-bottom: 18px;
+    margin-bottom: 12px;
     line-height: 1.5;
+}
+
+/* Botões mais enxutos dentro do CTA para a base do bento alinhar */
+.card-cta .btn {
+    padding: 10px 14px;
+    font-size: 13px;
 }
 
 .cta-actions {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 .cta-secondary {
@@ -698,8 +704,9 @@ html, body {
     border-radius: 16px;
     overflow: hidden;
     width: 100%;
-    flex: 1 1 auto;
-    min-height: 160px;
+    flex: 0 1 auto;
+    min-height: 0;
+    aspect-ratio: 16 / 9; /* fallback; o JS ajusta para a proporção real da imagem */
     background: #0d0d0f;
     border: 1px solid rgba(255, 255, 255, 0.04);
     margin-bottom: 24px;
@@ -708,7 +715,7 @@ html, body {
 .showcase-visual img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* mostra a imagem inteira; o fundo escuro do card vira moldura */
     transition: var(--transition-smooth);
 }
 
@@ -1175,7 +1182,7 @@ html, body {
 .testi-slide img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* prints verticais aparecem inteiros, sem cortar texto */
     display: block;
 }
 

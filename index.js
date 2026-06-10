@@ -160,6 +160,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const showcaseSubtitle = document.getElementById("showcase-subtitle");
     const showcaseDesc = document.getElementById("showcase-desc");
     const showcaseHeroImg = document.getElementById("showcase-hero-img");
+
+    // A caixa do hero adota a proporção exata de cada imagem (sem corte, sem sobra)
+    if (showcaseHeroImg) {
+        const fitHeroBox = () => {
+            if (!showcaseHeroImg.naturalWidth || !showcaseHeroImg.naturalHeight) return;
+            const box = showcaseHeroImg.closest(".showcase-visual");
+            if (box) box.style.aspectRatio = showcaseHeroImg.naturalWidth + " / " + showcaseHeroImg.naturalHeight;
+        };
+        showcaseHeroImg.addEventListener("load", fitHeroBox);
+        if (showcaseHeroImg.complete) fitHeroBox();
+    }
+
     const openCaseBtn = document.getElementById("btn-open-case");
     const closeCaseBtn = document.getElementById("btn-close-case");
 
