@@ -638,14 +638,17 @@ html, body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    flex: 1 1 auto;
+    min-height: 0;
 }
 
 .showcase-visual {
     position: relative;
     border-radius: 16px;
     overflow: hidden;
-    width: 120px;
-    height: 120px;
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 160px;
     background: #0d0d0f;
     border: 1px solid rgba(255, 255, 255, 0.04);
     margin-bottom: 24px;
@@ -697,6 +700,7 @@ html, body {
 }
 
 .showcase-info {
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -1493,7 +1497,7 @@ html, body {
 
 /* Tablet: keep avatar row but tighten the showcase image height */
 @media (max-width: 1024px) and (min-width: 561px) {
-    .showcase-visual { position: relative; border-radius: 12px; overflow: hidden; width: 80px; height: 80px; background: #0d0d0f; border: 1px solid rgba(255, 255, 255, 0.04); margin-bottom: 20px; }
+    .showcase-visual { position: relative; border-radius: 12px; overflow: hidden; width: 100%; height: auto; flex: none; aspect-ratio: 16 / 9; max-height: 280px; min-height: 0; background: #0d0d0f; border: 1px solid rgba(255, 255, 255, 0.04); margin-bottom: 20px; }
     .testi-stage { min-height: 0; height: 300px; }
 }
 
@@ -1534,7 +1538,7 @@ html, body {
     /* Showcase tuned for narrow screens */
     .showcase-content-wrapper { padding: 18px; }
     .showcase-tag { margin-bottom: 14px; }
-    .showcase-visual { width: 80px; height: 80px; margin-bottom: 18px; }
+    .showcase-visual { width: 100%; height: auto; flex: none; aspect-ratio: 16 / 9; max-height: 220px; min-height: 0; margin-bottom: 18px; }
     .showcase-title { font-size: 23px; }
     .showcase-subtitle { font-size: 14px; }
     .showcase-meta { margin: 6px 0 14px; }
