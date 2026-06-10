@@ -1081,60 +1081,123 @@ html, body {
     overflow: hidden;
 }
 
-.testimonials-gallery {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    overflow-y: auto;
+.testi-carousel {
+    position: relative;
     flex: 1 1 auto;
     min-height: 0;
-    padding-right: 2px;
-    align-content: start;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.testi-frame {
+.testi-stage {
+    position: relative;
+    flex: 1 1 auto;
+    align-self: stretch;
+    min-height: 240px;
+    overflow: hidden;
+}
+
+.testi-slide {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 92%;
+    aspect-ratio: 4 / 5;
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid var(--card-border);
     background: rgba(255, 255, 255, 0.02);
-    aspect-ratio: 4/3;
-    cursor: pointer;
-    transition: var(--transition-smooth);
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0;
+    z-index: 1;
+    pointer-events: none;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.3s ease;
 }
 
-.testi-frame img {
+.testi-slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
 }
 
-.testi-frame:not(.is-empty):hover {
+/* Slide central: foco total */
+.testi-slide.is-center {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    z-index: 3;
+    pointer-events: auto;
+    cursor: zoom-in;
     border-color: var(--card-border-hover);
-    transform: translateY(-2px);
 }
+.testi-slide.is-center.is-empty { cursor: default; }
 
-.testi-frame.is-empty {
+/* Slides laterais: fade + escala, clicáveis para navegar */
+.testi-slide.is-left,
+.testi-slide.is-right {
+    opacity: 0.3;
+    z-index: 2;
+    pointer-events: auto;
+    cursor: pointer;
+}
+.testi-slide.is-left  { transform: translate(-50%, -50%) translateX(-62%) scale(0.78); }
+.testi-slide.is-right { transform: translate(-50%, -50%) translateX(62%) scale(0.78); }
+
+.testi-slide.is-left:hover,
+.testi-slide.is-right:hover { opacity: 0.55; }
+
+.testi-slide.is-empty {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    cursor: default;
     border-style: dashed;
     color: var(--color-text-muted);
 }
 
-.testi-frame.is-empty svg {
+.testi-slide.is-empty svg {
     width: 22px;
     height: 22px;
     opacity: 0.5;
 }
 
-.testi-frame.is-empty span {
+.testi-slide.is-empty span {
     font-size: 10.5px;
     font-weight: 500;
     letter-spacing: 0.3px;
+}
+
+/* Setas de navegação */
+.testi-nav {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--card-border);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    z-index: 4;
+}
+
+.testi-nav:hover {
+    background: rgba(255, 255, 255, 0.09);
+    color: var(--color-text-primary);
+    border-color: var(--card-border-hover);
+}
+
+.testi-nav svg {
+    width: 16px;
+    height: 16px;
 }
 
 /* ==========================================
@@ -1412,7 +1475,7 @@ html, body {
     }
 
     .projects-feed     { overflow-y: visible; }
-    .testimonials-gallery { overflow-y: visible; }
+    .testi-stage       { min-height: 0; height: 320px; }
 
     /* Disable hover-shift transforms (no hover on touch, avoids jitter) */
     .project-item:hover { transform: none; }
@@ -1431,7 +1494,7 @@ html, body {
 /* Tablet: keep avatar row but tighten the showcase image height */
 @media (max-width: 1024px) and (min-width: 561px) {
     .showcase-visual { position: relative; border-radius: 12px; overflow: hidden; width: 80px; height: 80px; background: #0d0d0f; border: 1px solid rgba(255, 255, 255, 0.04); margin-bottom: 20px; }
-    .testimonials-gallery { grid-template-columns: 1fr 1fr; }
+    .testi-stage { min-height: 0; height: 300px; }
 }
 
 /* ==========================================
@@ -1489,9 +1552,10 @@ html, body {
     .reader-publication { font-size: 10px; letter-spacing: 0.5px; }
     .btn-back { font-size: 13px; }
 
-    /* Testimonials: single, comfortable column */
-    .testimonials-gallery { grid-template-columns: 1fr; gap: 12px; }
-    .testi-frame { aspect-ratio: 16/9; }
+    /* Testimonials: carrossel mais compacto no celular */
+    .testi-stage { min-height: 0; height: 280px; }
+    .testi-slide.is-left  { transform: translate(-50%, -50%) translateX(-55%) scale(0.74); }
+    .testi-slide.is-right { transform: translate(-50%, -50%) translateX(55%) scale(0.74); }
 
     /* FAB sizing on small phones */
     .fab-toggle { width: 56px; height: 56px; }

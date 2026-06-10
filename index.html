@@ -359,9 +359,8 @@
                 </div>
             </div>
 
-            <!-- Card 5: Testimonials Gallery (prints reais)
-                 OCULTO até ter o primeiro print real. Para reativar: remova o style="display: none;" abaixo. -->
-            <div class="bento-card card-testimonials" id="card-testimonials" style="display: none;">
+            <!-- Card 5: Testimonials Carousel (prints reais) -->
+            <div class="bento-card card-testimonials" id="card-testimonials">
                 <div class="card-head">
                     <h3 class="card-title">Depoimentos</h3>
                     <span class="card-tag">prints reais</span>
@@ -369,27 +368,36 @@
 
                 <!--
                   COMO ADICIONAR UM DEPOIMENTO:
-                  Substitua um bloco ".testi-frame is-empty" abaixo por:
-                  <div class="testi-frame"><img src="assets/depoimento_1.png" alt="Depoimento de cliente"></div>
-                  A imagem abre ampliada ao clicar (lightbox).
+                  Substitua o conteúdo interno de um ".testi-slide is-empty" por:
+                  <img src="assets/depoimento_1.webp" alt="Depoimento de cliente" loading="lazy">
+                  e remova a classe "is-empty" do slide.
+                  Imagens em proporção 4:5 (ex: 800x1000). Clique no slide central abre o lightbox.
                 -->
-                <div class="testimonials-gallery" id="testi-gallery">
-                    <div class="testi-frame is-empty">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                        <span>Print em breve</span>
+                <div class="testi-carousel" id="testi-carousel" aria-label="Carrossel de depoimentos">
+                    <button class="testi-nav" id="testi-prev" aria-label="Depoimento anterior">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <div class="testi-stage" id="testi-stage">
+                        <div class="testi-slide is-empty">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                            <span>Print em breve</span>
+                        </div>
+                        <div class="testi-slide is-empty">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                            <span>Print em breve</span>
+                        </div>
+                        <div class="testi-slide is-empty">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                            <span>Print em breve</span>
+                        </div>
+                        <div class="testi-slide is-empty">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                            <span>Print em breve</span>
+                        </div>
                     </div>
-                    <div class="testi-frame is-empty">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                        <span>Print em breve</span>
-                    </div>
-                    <div class="testi-frame is-empty">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                        <span>Print em breve</span>
-                    </div>
-                    <div class="testi-frame is-empty">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                        <span>Print em breve</span>
-                    </div>
+                    <button class="testi-nav" id="testi-next" aria-label="Próximo depoimento">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
                 </div>
             </div>
 

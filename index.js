@@ -326,10 +326,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ==========================================
-       5. TESTIMONIALS LIGHTBOX
-       Clicking a filled testimonial frame opens it enlarged.
+       5. TESTIMONIALS CAROUSEL + LIGHTBOX
+       Carrossel rotatório: slide central em foco,
+       laterais com fade, setas e clique para navegar.
        ========================================== */
-    const gallery = document.getElementById("testi-gallery");
+    const testiStage = document.getElementById("testi-stage");
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
     const lightboxClose = document.getElementById("lightbox-close");
@@ -349,13 +350,75 @@ document.addEventListener("DOMContentLoaded", () => {
         lightboxImg.src = "";
     }
 
-    if (gallery) {
-        gallery.addEventListener("click", (e) => {
-            const frame = e.target.closest(".testi-frame");
-            if (!frame || frame.classList.contains("is-empty")) return;
-            const img = frame.querySelector("img");
-            if (img) openLightbox(img.src, img.alt);
+    if (testiStage) {
+        const slides = Array.from(testiStage.querySelectorAll(".testi-slide"));
+        const prevBtn = document.getElementById("testi-prev");
+        const nextBtn = document.getElementById("testi-next");
+        const total = slides.length;
+        let centerIndex = 0;
+
+        function renderCarousel() {
+            slides.forEach((slide, i) => {
+                slide.classList.remove("is-center", "is-left", "is-right");
+                const offset = (i - centerIndex + total) % total;
+
+                if (offset === 0) {
+                    slide.classList.add("is-center");
+                } else if (offset === 1) {
+                    slide.classList.add("is-right");
+                } else if (offset === total - 1 && total > 2) {
+                    slide.classList.add("is-left");
+                }
+                // Demais slides ficam no estado base (escondidos atrás, com fade total)
+            });
+        }
+
+        function rotate(direction) {
+            centerIndex = (centerIndex + direction + total) % total;
+            renderCarousel();
+        }
+
+        if (prevBtn) prevBtn.addEventListener("click", () => rotate(-1));
+        if (nextBtn) nextBtn.addEventListener("click", () => rotate(1));
+
+        // Clique nos slides: lateral navega, central abre o lightbox (se tiver imagem)
+        testiStage.addEventListener("click", (e) => {
+            const slide = e.target.closest(".testi-slide");
+            if (!slide) return;
+
+            if (slide.classList.contains("is-left")) {
+                rotate(-1);
+            } else if (slide.classList.contains("is-right")) {
+                rotate(1);
+            } else if (slide.classList.contains("is-center") && !slide.classList.contains("is-empty")) {
+                const img = slide.querySelector("img");
+                if (img) openLightbox(img.src, img.alt);
+            }
         });
+
+        // Navegação por teclado quando o carrossel está em foco
+        const carousel = document.getElementById("testi-carousel");
+        if (carousel) {
+            carousel.setAttribute("tabindex", "0");
+            carousel.addEventListener("keydown", (e) => {
+                if (e.key === "ArrowLeft") { e.preventDefault(); rotate(-1); }
+                if (e.key === "ArrowRight") { e.preventDefault(); rotate(1); }
+            });
+        }
+
+        // Suporte a swipe no touch
+        let touchStartX = null;
+        testiStage.addEventListener("touchstart", (e) => {
+            touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        testiStage.addEventListener("touchend", (e) => {
+            if (touchStartX === null) return;
+            const deltaX = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(deltaX) > 40) rotate(deltaX < 0 ? 1 : -1);
+            touchStartX = null;
+        }, { passive: true });
+
+        renderCarousel();
     }
 
     document.addEventListener("click", (e) => {
