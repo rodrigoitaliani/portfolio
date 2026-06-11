@@ -963,6 +963,11 @@ html, body {
     text-align: center;
 }
 
+/* Centraliza o botão de CTA junto com o texto */
+.article-cta-box > div {
+    justify-content: center;
+}
+
 .reader-article .article-cta-box h4 {
     font-size: 18px;
     font-weight: 700;
