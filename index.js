@@ -100,72 +100,30 @@ document.addEventListener("DOMContentLoaded", () => {
         fourp: {
             title: "FOURP",
             subtitle: "Growth, CRM & Sales Intelligence",
-            desc: "Arquitetura de Growth e Sales Intelligence com Apollo e processo human-in-the-loop para organizar prospecção, dados e operação comercial.",
-            marker: "4P",
-            techs: ["Growth", "CRM", "Apollo", "Human-in-the-loop"]
+            desc: "Arquitetura de GTM, esteira de enriquecimento de dados no Apollo.io e prospecção human-in-the-loop com Monday CRM para agência de grande porte.",
+            image: "assets/fourp.webp",
+            techs: ["Monday CRM", "Apollo.io", "Sales Intelligence", "Python"]
         },
         ecorenova: {
             title: "EcoRenova",
-            subtitle: "Geração de Demanda B2B",
-            desc: "Mídia paga, CRM e tracking server-side conectados à geração de demanda B2B.",
-            marker: "ER",
-            techs: ["Demanda B2B", "Mídia paga", "CRM", "Tracking server-side"]
+            subtitle: "Geração de Demanda B2B Industrial",
+            desc: "Estratégia de Account-Based Marketing com LinkedIn Ads e Meta Ads, tracking server-side e conquista de grandes contas como Piracanjuba e Gol.",
+            image: "assets/ecorenova.webp",
+            techs: ["LinkedIn Ads", "Meta Ads", "CRM", "Server-Side"]
         },
-        momix_engenharia: {
+        momix: {
             title: "Momix Engenharia",
-            subtitle: "Leads High-Ticket & CRM",
-            desc: "Google e Meta para geração de leads high-ticket, com CRM, deduplicação e captura de eventos no edge.",
-            marker: "ME",
-            techs: ["Google", "Meta", "CRM", "Deduplicação"]
+            subtitle: "Leads High-Ticket & Tracking Avançado",
+            desc: "Infraestrutura de GTM Server-Side na borda (Cloudflare), deduplicação via Meta CAPI e Google Ads, e qualificação de leads para obras corporativas.",
+            image: "assets/momix.webp",
+            techs: ["Google Ads", "Meta CAPI", "GTM Server-Side", "Deduplicação"]
         },
         pezzette_loro: {
             title: "Pezzette Loro",
-            subtitle: "Aquisição, CRM & Data Hygiene",
-            desc: "LinkedIn e Google, CRM, tracking server-side e higienização de dados para apoiar a aquisição.",
-            marker: "PL",
-            techs: ["LinkedIn", "Google", "CRM", "Data hygiene"]
-        },
-        redacao_youtube: {
-            title: "Redação de YouTube",
-            subtitle: "Esteira de Conteúdo 100% Autônoma",
-            desc: "Uma redação inteira de YouTube (pesquisa, roteiro, voz sintética, visual e montagem) rodando sem intervenção humana, retroalimentada por análise de comentários.",
-            image: "assets/narrator_bot.webp",
-            techs: ["Python", "Playwright", "FFmpeg", "Gemini API"]
-        },
-        tts_factory: {
-            title: "TTS Factory",
-            subtitle: "Automação Desktop de Voz Realista por IA",
-            desc: "Aplicativo desktop construído para otimizar pipelines de canais automatizados. Evita rate limits, elimina sussurros e processa roteiros gigantes em lote.",
-            image: "assets/tts_factory.webp",
-            techs: ["Python", "PySide6", "Gemini TTS", "SQLite"]
-        },
-        agente_sdr: {
-            title: "Agente de Voz IA",
-            subtitle: "Qualificação, Agenda e Follow-up",
-            desc: "Agente autônomo que realiza chamadas telefônicas para novos leads em menos de 5 minutos, qualificando com RAG, agendando com Round-Robin e gerenciando WhatsApp.",
-            image: "assets/agente_sdr.webp",
-            techs: ["Vapi.ai", "n8n", "Python", "WhatsApp API"]
-        },
-        gerador_propostas: {
-            title: "Gerador de Propostas",
-            subtitle: "Automação de PDFs via Figma API",
-            desc: "Painel web interativo para vendedores estruturarem escopos e orçamentos, gerando propostas comerciais prontas em PDF direto no Figma sem precisar de design.",
-            image: "assets/gerador_propostas.webp",
-            techs: ["Python", "Figma API", "Cloud Panel", "Automation"]
-        },
-        recuperador_vendas: {
-            title: "Recuperador de Vendas",
-            subtitle: "Negociador Virtual de Carrinho Abandonado",
-            desc: "Sistema de recuperação inteligente via WhatsApp conectado à Hotmart/Stripe. Identifica motivos de falha de pagamento e negocia alternativas sem spammar o cliente.",
-            image: "assets/recuperador_vendas.webp",
-            techs: ["n8n", "Supabase", "Evolution API", "Gemini"]
-        },
-        ia_suporte_upsell: {
-            title: "Triagem & Upsell por IA",
-            subtitle: "Classificador de WhatsApp e Handoff Comercial",
-            desc: "Agente de atendimento híbrido que resolve dúvidas recorrentes usando RAG e Whisper, identificando oportunidades de upsell e escalando leads quentes para vendedores.",
-            image: "assets/ia_suporte_upsell.webp",
-            techs: ["LangChain", "Pinecone", "Evolution API", "Whisper"]
+            subtitle: "LinkedIn Ads, CRM & Higienização de Dados",
+            desc: "Aquisição de clientes C-level para projetos arquitetônicos de alto padrão, higienização de dados corporativos na entrada e integração de pipeline.",
+            image: "assets/pezzette_loro.webp",
+            techs: ["LinkedIn Ads", "Google Ads", "CRM", "Data Clean"]
         }
     };
 
@@ -187,9 +145,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const showcaseTitle = document.getElementById("showcase-title");
     const showcaseSubtitle = document.getElementById("showcase-subtitle");
     const showcaseDesc = document.getElementById("showcase-desc");
-    const showcaseMarker = document.getElementById("showcase-marker");
-    const showcaseMarkerCode = document.getElementById("showcase-marker-code");
-    const showcaseMarkerLabel = document.getElementById("showcase-marker-label");
+    const showcaseHeroImg = document.getElementById("showcase-hero-img");
+
+    // A caixa do hero adota a proporção exata de cada imagem (sem corte, sem sobra)
+    if (showcaseHeroImg) {
+        const fitHeroBox = () => {
+            if (!showcaseHeroImg.naturalWidth || !showcaseHeroImg.naturalHeight) return;
+            const box = showcaseHeroImg.closest(".showcase-visual");
+            if (box) box.style.aspectRatio = showcaseHeroImg.naturalWidth + " / " + showcaseHeroImg.naturalHeight;
+        };
+        showcaseHeroImg.addEventListener("load", fitHeroBox);
+        if (showcaseHeroImg.complete) fitHeroBox();
+    }
 
     const openCaseBtn = document.getElementById("btn-open-case");
     const closeCaseBtn = document.getElementById("btn-close-case");
@@ -213,9 +180,8 @@ document.addEventListener("DOMContentLoaded", () => {
             showcaseTitle.textContent = data.title;
             showcaseSubtitle.textContent = data.subtitle;
             showcaseDesc.textContent = data.desc;
-            if (showcaseMarkerCode) showcaseMarkerCode.textContent = data.marker || data.title.slice(0, 2).toUpperCase();
-            if (showcaseMarkerLabel) showcaseMarkerLabel.textContent = data.title;
-            if (showcaseMarker) showcaseMarker.setAttribute("aria-label", `Marcador textual do case ${data.title}`);
+            showcaseHeroImg.src = data.image;
+            showcaseHeroImg.alt = `${data.title} UI Mockup`;
 
             openCaseBtn.setAttribute("data-current-project", projectId);
 
