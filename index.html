@@ -111,8 +111,8 @@
 
             <!-- Card 3: CTA — contato direto -->
             <div class="bento-card card-cta" id="card-cta">
-                <h3 class="cta-title">Quer automatizar sua operação?</h3>
-                <p class="cta-subtitle">Pare de desperdiçar horas com tarefas repetitivas. Me chama.</p>
+                <h3 class="cta-title">Quer estruturar seu Growth Comercial?</h3>
+                <p class="cta-subtitle">Conecto aquisição, CRM e vendas em uma operação que o time consegue executar.</p>
                 <div class="cta-actions">
                     <a href="https://wa.me/5511987429611" target="_blank" rel="noopener noreferrer" class="btn btn-premium btn-premium-green" id="btn-wa">
                         <canvas class="btn-matrix-canvas" id="wa-btn-canvas"></canvas>
@@ -158,11 +158,9 @@
                     <div class="showcase-tag">CASE EM DESTAQUE</div>
 
                     <div class="showcase-body">
-                        <div class="showcase-visual img-zoom-wrapper">
-                            <img src="assets/agente_sdr.webp" alt="Agente de Voz IA UI Mockup" id="showcase-hero-img" class="hero-showcase-img">
-                            <div class="zoom-overlay-btn">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                            </div>
+                        <div class="showcase-visual showcase-text-marker" id="showcase-marker" aria-label="Marcador textual do case FOURP">
+                            <span class="showcase-marker-code" id="showcase-marker-code">4P</span>
+                            <span class="showcase-marker-label" id="showcase-marker-label">FOURP</span>
                         </div>
 
                         <div class="showcase-info">
@@ -173,13 +171,13 @@
                             </p>
 
                             <div class="showcase-meta">
-                                <span class="meta-pill" id="meta-tech1">Vapi.ai</span>
-                                <span class="meta-pill" id="meta-tech2">n8n</span>
-                                <span class="meta-pill" id="meta-tech3">Python</span>
-                                <span class="meta-pill" id="meta-tech4">WhatsApp API</span>
+                                <span class="meta-pill" id="meta-tech1">Growth</span>
+                                <span class="meta-pill" id="meta-tech2">CRM</span>
+                                <span class="meta-pill" id="meta-tech3">Apollo</span>
+                                <span class="meta-pill" id="meta-tech4">Human-in-the-loop</span>
                             </div>
 
-                            <button class="btn btn-premium btn-premium-red" id="btn-open-case" data-current-project="agente_sdr">
+                            <button class="btn btn-premium btn-premium-red" id="btn-open-case" data-current-project="fourp">
                                 <canvas class="btn-matrix-canvas" id="case-btn-canvas"></canvas>
                                 <div class="btn-vignette"></div>
                                 <svg class="btn-border-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -228,11 +226,10 @@
 
                 <div class="projects-feed">
 
-                    <!-- Item 0: Redação de YouTube -->
-                    <div class="project-item" data-project-id="redacao_youtube" id="item-redacao">
-                        <div class="project-thumb">
-                            <img src="assets/narrator_bot.webp" loading="lazy" decoding="async" alt="Thumbnail Redação de YouTube">
-                            <div class="thumb-glow" style="--thumb-color: #10B981;"></div>
+                    <!-- Item 0: FOURP -->
+                    <div class="project-item active" data-project-id="fourp" id="item-fourp">
+                        <div class="project-thumb project-marker" aria-label="Marcador textual FOURP">
+                            <span class="project-marker-code">4P</span>
                         </div>
                         <div class="project-meta-info">
                             <div class="project-header">
@@ -247,11 +244,10 @@
                         </svg>
                     </div>
 
-                    <!-- Item 1: TTS Factory -->
-                    <div class="project-item" data-project-id="tts_factory" id="item-tts">
-                        <div class="project-thumb">
-                            <img src="assets/tts_factory.webp" loading="lazy" decoding="async" alt="Thumbnail TTS Factory">
-                            <div class="thumb-glow" style="--thumb-color: #EF4444;"></div>
+                    <!-- Item 1: EcoRenova -->
+                    <div class="project-item" data-project-id="ecorenova" id="item-ecorenova">
+                        <div class="project-thumb project-marker" aria-label="Marcador textual EcoRenova">
+                            <span class="project-marker-code">ER</span>
                         </div>
                         <div class="project-meta-info">
                             <div class="project-header">
@@ -266,11 +262,10 @@
                         </svg>
                     </div>
 
-                    <!-- Item 2: Agente de Voz SDR (Active by default) -->
-                    <div class="project-item active" data-project-id="agente_sdr" id="item-narrator">
-                        <div class="project-thumb">
-                            <img src="assets/agente_sdr.webp" loading="lazy" decoding="async" alt="Thumbnail Agente de Voz SDR">
-                            <div class="thumb-glow" style="--thumb-color: #3B82F6;"></div>
+                    <!-- Item 2: Momix Engenharia -->
+                    <div class="project-item" data-project-id="momix_engenharia" id="item-momix">
+                        <div class="project-thumb project-marker" aria-label="Marcador textual Momix Engenharia">
+                            <span class="project-marker-code">ME</span>
                         </div>
                         <div class="project-meta-info">
                             <div class="project-header">
@@ -285,11 +280,10 @@
                         </svg>
                     </div>
 
-                    <!-- Item 3: Gerador de Propostas -->
-                    <div class="project-item" data-project-id="gerador_propostas" id="item-propostas">
-                        <div class="project-thumb">
-                            <img src="assets/gerador_propostas.webp" loading="lazy" decoding="async" alt="Thumbnail Gerador de Propostas">
-                            <div class="thumb-glow" style="--thumb-color: #F24E1E;"></div>
+                    <!-- Item 3: Pezzette Loro -->
+                    <div class="project-item" data-project-id="pezzette_loro" id="item-pezzette">
+                        <div class="project-thumb project-marker" aria-label="Marcador textual Pezzette Loro">
+                            <span class="project-marker-code">PL</span>
                         </div>
                         <div class="project-meta-info">
                             <div class="project-header">
@@ -413,6 +407,70 @@
     </div>
 
     <!-- ================= CASE STUDIES TEMPLATES (HTML only, for JS rendering) ================= -->
+
+    <template id="template-case-fourp">
+        <h2 class="article-title">FOURP: Growth e Sales Intelligence para uma operação comercial mais coordenada</h2>
+        <div class="article-meta">Estudo de Caso • Growth Comercial • CRM e Sales Intelligence</div>
+        <p>O trabalho conectou Growth, CRM e Sales Intelligence para dar mais contexto à prospecção e à rotina comercial.</p>
+        <h3>Estrutura da operação</h3>
+        <ul>
+            <li><strong>Growth e CRM:</strong> organização das frentes de aquisição e do acompanhamento das oportunidades.</li>
+            <li><strong>Sales Intelligence com Apollo:</strong> apoio à pesquisa e à priorização de contas.</li>
+            <li><strong>Human-in-the-loop:</strong> pessoas mantêm a decisão e o contexto comercial nas etapas críticas.</li>
+        </ul>
+        <div class="article-cta-box">
+            <h4>Quer alinhar aquisição e operação comercial?</h4>
+            <p>Vamos conversar sobre uma estrutura de Growth que faça sentido para o seu processo de vendas.</p>
+        </div>
+    </template>
+
+    <template id="template-case-ecorenova">
+        <h2 class="article-title">EcoRenova: geração de demanda B2B conectada ao CRM</h2>
+        <div class="article-meta">Estudo de Caso • Demanda B2B • Mídia, CRM e Tracking</div>
+        <p>O foco foi estruturar geração de demanda B2B com mídia paga, CRM e leitura mais consistente do percurso até a oportunidade.</p>
+        <h3>Frentes conectadas</h3>
+        <ul>
+            <li><strong>Mídia paga:</strong> apoio à geração de demanda B2B.</li>
+            <li><strong>CRM:</strong> organização do acompanhamento comercial dos contatos gerados.</li>
+            <li><strong>Tracking server-side:</strong> captura de sinais para uma operação de aquisição mais confiável.</li>
+        </ul>
+        <div class="article-cta-box">
+            <h4>Precisa conectar mídia e CRM?</h4>
+            <p>Posso ajudar a estruturar uma base de demanda B2B que o comercial consiga acompanhar.</p>
+        </div>
+    </template>
+
+    <template id="template-case-momix_engenharia">
+        <h2 class="article-title">Momix Engenharia: geração de leads high-ticket com dados mais consistentes</h2>
+        <div class="article-meta">Estudo de Caso • Geração de Leads • CRM e Tracking</div>
+        <p>O case reuniu Google e Meta para geração de leads high-ticket, com CRM preparado para acompanhar o processo comercial.</p>
+        <h3>Operação de captura e qualidade</h3>
+        <ul>
+            <li><strong>Google e Meta:</strong> canais de aquisição voltados à geração de leads high-ticket.</li>
+            <li><strong>CRM e deduplicação:</strong> cuidado para evitar registros repetidos e preservar o contexto das oportunidades.</li>
+            <li><strong>Captura de eventos no edge:</strong> uma camada de tracking alinhada à leitura da jornada.</li>
+        </ul>
+        <div class="article-cta-box">
+            <h4>Quer melhorar a qualidade da operação de leads?</h4>
+            <p>Vamos organizar aquisição, CRM e tracking para o seu processo de vendas.</p>
+        </div>
+    </template>
+
+    <template id="template-case-pezzette_loro">
+        <h2 class="article-title">Pezzette Loro: aquisição e dados confiáveis para o CRM</h2>
+        <div class="article-meta">Estudo de Caso • Aquisição B2B • CRM e Data Hygiene</div>
+        <p>O trabalho conectou LinkedIn e Google à rotina de CRM, com atenção à qualidade dos dados e ao tracking server-side.</p>
+        <h3>Base para a operação comercial</h3>
+        <ul>
+            <li><strong>LinkedIn e Google:</strong> frentes de aquisição conectadas ao processo comercial.</li>
+            <li><strong>CRM e tracking server-side:</strong> dados de aquisição disponíveis para acompanhar a jornada.</li>
+            <li><strong>Higienização de dados:</strong> cuidado com a qualidade das informações que chegam à operação.</li>
+        </ul>
+        <div class="article-cta-box">
+            <h4>Seu CRM precisa de uma base mais confiável?</h4>
+            <p>Podemos desenhar uma operação de aquisição com dados mais úteis para vendas.</p>
+        </div>
+    </template>
 
     <!-- Template 0: Redação de YouTube -->
     <template id="template-case-redacao_youtube">

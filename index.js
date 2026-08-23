@@ -97,6 +97,34 @@ document.addEventListener("DOMContentLoaded", () => {
        2. CASE STUDIES & SHOWCASE DATA
        ========================================== */
     const projectsData = {
+        fourp: {
+            title: "FOURP",
+            subtitle: "Growth, CRM & Sales Intelligence",
+            desc: "Arquitetura de Growth e Sales Intelligence com Apollo e processo human-in-the-loop para organizar prospecção, dados e operação comercial.",
+            marker: "4P",
+            techs: ["Growth", "CRM", "Apollo", "Human-in-the-loop"]
+        },
+        ecorenova: {
+            title: "EcoRenova",
+            subtitle: "Geração de Demanda B2B",
+            desc: "Mídia paga, CRM e tracking server-side conectados à geração de demanda B2B.",
+            marker: "ER",
+            techs: ["Demanda B2B", "Mídia paga", "CRM", "Tracking server-side"]
+        },
+        momix_engenharia: {
+            title: "Momix Engenharia",
+            subtitle: "Leads High-Ticket & CRM",
+            desc: "Google e Meta para geração de leads high-ticket, com CRM, deduplicação e captura de eventos no edge.",
+            marker: "ME",
+            techs: ["Google", "Meta", "CRM", "Deduplicação"]
+        },
+        pezzette_loro: {
+            title: "Pezzette Loro",
+            subtitle: "Aquisição, CRM & Data Hygiene",
+            desc: "LinkedIn e Google, CRM, tracking server-side e higienização de dados para apoiar a aquisição.",
+            marker: "PL",
+            techs: ["LinkedIn", "Google", "CRM", "Data hygiene"]
+        },
         redacao_youtube: {
             title: "Redação de YouTube",
             subtitle: "Esteira de Conteúdo 100% Autônoma",
@@ -144,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ==========================================
        3. INTERACTIVE STATE MANAGEMENT
        ========================================== */
-    let currentProjectId = "agente_sdr";
+    let currentProjectId = "fourp";
     let isCaseOpen = false;
 
     // Mobile = where the case reader becomes a full-screen overlay
@@ -159,18 +187,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const showcaseTitle = document.getElementById("showcase-title");
     const showcaseSubtitle = document.getElementById("showcase-subtitle");
     const showcaseDesc = document.getElementById("showcase-desc");
-    const showcaseHeroImg = document.getElementById("showcase-hero-img");
-
-    // A caixa do hero adota a proporção exata de cada imagem (sem corte, sem sobra)
-    if (showcaseHeroImg) {
-        const fitHeroBox = () => {
-            if (!showcaseHeroImg.naturalWidth || !showcaseHeroImg.naturalHeight) return;
-            const box = showcaseHeroImg.closest(".showcase-visual");
-            if (box) box.style.aspectRatio = showcaseHeroImg.naturalWidth + " / " + showcaseHeroImg.naturalHeight;
-        };
-        showcaseHeroImg.addEventListener("load", fitHeroBox);
-        if (showcaseHeroImg.complete) fitHeroBox();
-    }
+    const showcaseMarker = document.getElementById("showcase-marker");
+    const showcaseMarkerCode = document.getElementById("showcase-marker-code");
+    const showcaseMarkerLabel = document.getElementById("showcase-marker-label");
 
     const openCaseBtn = document.getElementById("btn-open-case");
     const closeCaseBtn = document.getElementById("btn-close-case");
@@ -194,8 +213,9 @@ document.addEventListener("DOMContentLoaded", () => {
             showcaseTitle.textContent = data.title;
             showcaseSubtitle.textContent = data.subtitle;
             showcaseDesc.textContent = data.desc;
-            showcaseHeroImg.src = data.image;
-            showcaseHeroImg.alt = `${data.title} UI Mockup`;
+            if (showcaseMarkerCode) showcaseMarkerCode.textContent = data.marker || data.title.slice(0, 2).toUpperCase();
+            if (showcaseMarkerLabel) showcaseMarkerLabel.textContent = data.title;
+            if (showcaseMarker) showcaseMarker.setAttribute("aria-label", `Marcador textual do case ${data.title}`);
 
             openCaseBtn.setAttribute("data-current-project", projectId);
 
