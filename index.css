@@ -1067,6 +1067,10 @@ html, body {
     width: 3px;
     height: 28px;
     background: var(--accent-red);
+    border-radius: 0 4px 4px 0;
+    box-shadow: 0 0 8px var(--accent-red);
+}
+
 /* Monogram Brand Badges (Logos) */
 .project-thumb {
     width: 44px;

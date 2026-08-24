@@ -309,17 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (showcaseViewer) {
         showcaseViewer.style.transition = "opacity 0.2s ease, transform 0.2s ease";
     }
-
-    /* ==========================================
-       5. TESTIMONIALS CAROUSEL + LIGHTBOX
-       Carrossel rotatório: slide central em foco,
-       laterais com fade, setas e clique para navegar.
-       ========================================== */
-    const testiStage = document.getElementById("testi-stage");
-    const lightbox = document.getElementById("lightbox");
-    const lightboxClose = document.getElementById("lightbox-close");
-
-    );
+});
 
 
 
