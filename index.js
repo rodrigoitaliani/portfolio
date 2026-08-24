@@ -99,31 +99,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const projectsData = {
         fourp: {
             title: "FOURP",
-            subtitle: "Growth, CRM & Sales Intelligence",
-            desc: "Arquitetura de GTM, esteira de enriquecimento de dados no Apollo.io e prospecção human-in-the-loop com Monday CRM para agência de grande porte.",
+            subtitle: "Inteligência Comercial, Enriquecimento e Pipeline",
+            desc: "Reestruturação do processo de prospecção e pipeline no Monday CRM para time comercial de grande porte, integrando Apollo, scoring e validação humana para atender contas como Panobianco e RH Expo.",
             image: "assets/fourp.webp",
-            techs: ["Monday CRM", "Apollo.io", "Sales Intelligence", "Python"]
+            techs: ["Monday CRM", "Apollo.io", "Enriquecimento", "Python"]
         },
         ecorenova: {
             title: "EcoRenova",
-            subtitle: "Geração de Demanda B2B Industrial",
-            desc: "Estratégia de Account-Based Marketing com LinkedIn Ads e Meta Ads, tracking server-side e conquista de grandes contas como Piracanjuba e Gol.",
+            subtitle: "Geração de Demanda Industrial & ABM",
+            desc: "Estratégia de LinkedIn Ads e remarketing institucional no Meta Ads para atração de indústrias, resultando na conquista de contas corporativas como a Piracanjuba.",
             image: "assets/ecorenova.webp",
-            techs: ["LinkedIn Ads", "Meta Ads", "CRM", "Server-Side"]
+            techs: ["LinkedIn Ads", "Meta Ads", "CRM", "GA4"]
         },
         momix: {
             title: "Momix Engenharia",
-            subtitle: "Leads High-Ticket & Tracking Avançado",
-            desc: "Infraestrutura de GTM Server-Side na borda (Cloudflare), deduplicação via Meta CAPI e Google Ads, e qualificação de leads para obras corporativas.",
+            subtitle: "Performance High-Ticket & Server-Side",
+            desc: "Google Ads cirúrgico para obras pesadas aliado a GTM Server-Side na borda (Cloudflare) com deduplicação CAPI e qualificação prévia de leads no CRM.",
             image: "assets/momix.webp",
-            techs: ["Google Ads", "Meta CAPI", "GTM Server-Side", "Deduplicação"]
+            techs: ["Google Ads", "Meta CAPI", "GTM Server-Side", "Cloudflare"]
         },
         pezzette_loro: {
             title: "Pezzette Loro",
-            subtitle: "LinkedIn Ads, CRM & Higienização de Dados",
-            desc: "Aquisição de clientes C-level para projetos arquitetônicos de alto padrão, higienização de dados corporativos na entrada e integração de pipeline.",
+            subtitle: "LinkedIn Ads Corporativo & Higienização",
+            desc: "Campanhas no LinkedIn Ads para tomadores de decisão corporativos e camada de validação e enriquecimento de dados na entrada do formulário para o CRM.",
             image: "assets/pezzette_loro.webp",
-            techs: ["LinkedIn Ads", "Google Ads", "CRM", "Data Clean"]
+            techs: ["LinkedIn Ads", "Google Ads", "CRM", "Data Hygiene"]
         }
     };
 
