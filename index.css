@@ -1067,45 +1067,77 @@ html, body {
     width: 3px;
     height: 28px;
     background: var(--accent-red);
-    border-radius: 0 4px 4px 0;
-    box-shadow: 0 0 8px var(--accent-red);
-}
-
-.project-thumb { width: 48px; height: 48px; border-radius: 10px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255, 255, 255, 0.08); position: relative; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.03); } .thumb-initials { font-weight: 800; font-size: 16px; color: var(--color-text-secondary); z-index: 2; transition: var(--transition-smooth); } .project-item:hover .thumb-initials, .project-item.active .thumb-initials { color: #fff; }
-
-.project-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.project-marker {
+/* Monogram Brand Badges (Logos) */
+.project-thumb {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: visible;
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.28), rgba(255, 255, 255, 0.06));
-}
-
-.project-marker-code {
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    color: #fff;
-}
-
-.thumb-glow {
-    position: absolute;
-    inset: 0;
-    background: var(--thumb-color);
-    opacity: 0;
+    background: #18181b;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
     transition: var(--transition-smooth);
-    mix-blend-mode: overlay;
+    user-select: none;
 }
 
-.project-item:hover .thumb-glow,
-.project-item.active .thumb-glow {
-    opacity: 0.6;
+.thumb-initials {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #e4e4e7;
+    margin: 0;
+    padding: 0;
+    transition: var(--transition-smooth);
+}
+
+/* Accent Color Variations per Project */
+.project-item[data-project-id="fourp"] .project-thumb {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.22), rgba(24, 24, 27, 0.95));
+    border-color: rgba(59, 130, 246, 0.35);
+}
+.project-item[data-project-id="fourp"] .thumb-initials {
+    color: #93c5fd;
+}
+
+.project-item[data-project-id="ecorenova"] .project-thumb {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(24, 24, 27, 0.95));
+    border-color: rgba(245, 158, 11, 0.35);
+}
+.project-item[data-project-id="ecorenova"] .thumb-initials {
+    color: #fcd34d;
+}
+
+.project-item[data-project-id="momix"] .project-thumb {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(24, 24, 27, 0.95));
+    border-color: rgba(16, 185, 129, 0.35);
+}
+.project-item[data-project-id="momix"] .thumb-initials {
+    color: #6ee7b7;
+}
+
+.project-item[data-project-id="pezzette_loro"] .project-thumb {
+    background: linear-gradient(135deg, rgba(217, 119, 6, 0.22), rgba(24, 24, 27, 0.95));
+    border-color: rgba(217, 119, 6, 0.35);
+}
+.project-item[data-project-id="pezzette_loro"] .thumb-initials {
+    color: #fdba74;
+}
+
+.project-item:hover .project-thumb,
+.project-item.active .project-thumb {
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+    transform: scale(1.04);
 }
 
 .project-meta-info {
