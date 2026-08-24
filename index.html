@@ -158,12 +158,6 @@
                     <div class="showcase-tag">PROJETO EM DESTAQUE</div>
 
                     <div class="showcase-body">
-                        <div class="showcase-visual img-zoom-wrapper">
-                            <img src="assets/fourp.webp" alt="FOURP Sales Intelligence Dashboard Mockup" id="showcase-hero-img" class="hero-showcase-img">
-                            <div class="zoom-overlay-btn">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                            </div>
-                        </div>
 
                         <div class="showcase-info">
                             <h2 class="showcase-title" id="showcase-title">FOURP</h2>
@@ -231,7 +225,7 @@
                     <!-- Item 0: FOURP (Active by default) -->
                     <div class="project-item active" data-project-id="fourp" id="item-fourp">
                         <div class="project-thumb">
-                            <img src="assets/fourp.webp" loading="lazy" decoding="async" alt="Thumbnail FOURP Sales Intelligence">
+                            <span class="thumb-initials">4P</span>
                             <div class="thumb-glow" style="--thumb-color: #3B82F6;"></div>
                         </div>
                         <div class="project-meta-info">
@@ -250,7 +244,7 @@
                     <!-- Item 1: EcoRenova -->
                     <div class="project-item" data-project-id="ecorenova" id="item-ecorenova">
                         <div class="project-thumb">
-                            <img src="assets/ecorenova.webp" loading="lazy" decoding="async" alt="Thumbnail EcoRenova Demanda B2B">
+                            <span class="thumb-initials">ER</span>
                             <div class="thumb-glow" style="--thumb-color: #F59E0B;"></div>
                         </div>
                         <div class="project-meta-info">
@@ -269,7 +263,7 @@
                     <!-- Item 2: Momix Engenharia -->
                     <div class="project-item" data-project-id="momix" id="item-momix">
                         <div class="project-thumb">
-                            <img src="assets/momix.webp" loading="lazy" decoding="async" alt="Thumbnail Momix Engenharia">
+                            <span class="thumb-initials">ME</span>
                             <div class="thumb-glow" style="--thumb-color: #10B981;"></div>
                         </div>
                         <div class="project-meta-info">
@@ -288,7 +282,7 @@
                     <!-- Item 3: Pezzette Loro Arquitetura -->
                     <div class="project-item" data-project-id="pezzette_loro" id="item-pezzette">
                         <div class="project-thumb">
-                            <img src="assets/pezzette_loro.webp" loading="lazy" decoding="async" alt="Thumbnail Pezzette Loro Arquitetura">
+                            <span class="thumb-initials">PL</span>
                             <div class="thumb-glow" style="--thumb-color: #D97706;"></div>
                         </div>
                         <div class="project-meta-info">
@@ -352,11 +346,6 @@
 
         <p>Era a clássica corrida dos ratos do comercial: muito esforço manual para pouca reunião qualificada na agenda dos executivos.</p>
 
-        <figure class="article-figure">
-            <img src="assets/fourp.webp" alt="Painel de Sales Intelligence e CRM RevOps">
-            <figcaption>Visão da infraestrutura: enriquecimento automático no Apollo.io, fila human-in-the-loop e pipeline no Monday CRM.</figcaption>
-        </figure>
-
         <h3>1. Mineração de ICP e Enriquecimento em Tempo Real (Chega de comprar lista fria)</h3>
         <p>Comprar lista pronta de e-mails é a forma mais rápida de queimar o domínio da empresa e cair direto na caixa de spam. A gente precisava de inteligência de verdade.</p>
         <p>Estruturei uma esteira de captura conectada à API do <strong>Apollo.io</strong> com filtros cirúrgicos: faturamento estimado, porte de equipe, stack de tecnologia instalada e cargos de decisão (CMOs, Heads de Growth, Diretores de Expansão). Assim que uma empresa entrava no radar, scripts em Python cruzavam dados públicos da Receita Federal e do LinkedIn para validar se o contato ainda estava na cadeira e qual era o momento daquela marca.</p>
@@ -412,11 +401,6 @@
 
         <p>A <strong>EcoRenova</strong> atua no gerenciamento e valorização de resíduos industriais para grandes complexos fabris. Eles já tinham clientes gigantescos na casa, como a <strong>Gol Linhas Aéreas</strong>, mas dependiam quase 100% de indicações e relacionamentos históricos. O desafio que assumimos foi criar um canal previsível de geração de demanda que colocasse a marca na mesa de diretores das maiores indústrias do país.</p>
 
-        <figure class="article-figure">
-            <img src="assets/ecorenova.webp" alt="Dashboard de Geração de Demanda B2B Industrial">
-            <figcaption>Painel de Account-Based Marketing e métricas de conversão: engajamento por setor industrial e velocidade de pipeline.</figcaption>
-        </figure>
-
         <h3>1. A Estratégia de Mídia: LinkedIn Ads de Precisão + Remarketing Institucional</h3>
         <p>Em vez de jogar verba fora tentando volume de leads baratos, desenhamos uma estratégia de <strong>Account-Based Marketing (ABM)</strong> via tráfego pago:</p>
         <ul>
@@ -465,11 +449,6 @@
         <p>No setor de engenharia de infraestrutura e grandes obras civis, a matemática do tráfego não perdoa amadorismo. Um clique de palavra-chave no Google Ads pode custar facilmente R$ 40 ou R$ 60 reais. Se você atrair curiosos procurando reforma de calçada residencial, sua verba mensal vai para o ralo em dois dias sem gerar uma única oportunidade real.</p>
 
         <p>Quando comecei a estruturar a operação de performance da <strong>Momix Engenharia</strong>, o cenário era esse: o time comercial recebia contatos desqualificados e, para piorar, as plataformas de mídia (Google e Meta) estavam praticamente cegas por conta das restrições do Safari/iOS, bloqueadores de anúncio e perda de cookies de terceiros.</p>
-
-        <figure class="article-figure">
-            <img src="assets/momix.webp" alt="Telemetria de Server-Side Tracking na Borda">
-            <figcaption>Console de telemetria: GTM Server-side rodando na borda via Cloudflare, deduplicação CAPI e Event Match Quality 9.6/10.</figcaption>
-        </figure>
 
         <h3>1. Blindando a Coleta de Dados com GTM Server-Side na Borda (Edge)</h3>
         <p>Para resolver a perda de atribuição e calibrar os algoritmos de leilão, migramos todo o tracking para uma infraestrutura <strong>server-side rodando na borda via Cloudflare</strong>:</p>
@@ -520,11 +499,6 @@
 
         <p>Na <strong>Pezzette Loro Arquitetura</strong>, o objetivo era atrair CEOs, diretores de expansão imobiliária e famílias com patrimônio consolidado que estivessem planejando construir novas sedes ou reformas completas. O problema clássico desse mercado é que campanhas abertas atraem centenas de contatos perguntando "quanto custa a hora do arquiteto?", gerando um volume enorme de conversas inúteis que consomem o tempo dos sócios.</p>
 
-        <figure class="article-figure">
-            <img src="assets/pezzette_loro.webp" alt="Dashboard de LinkedIn Ads e Governança de CRM Pezzette Loro">
-            <figcaption>Painel de atribuição de campanhas LinkedIn/Google e validação de dados corporativos no CRM.</figcaption>
-        </figure>
-
         <h3>1. LinkedIn Ads &amp; Google Search com Posicionamento Executivo</h3>
         <p>Montamos uma estrutura de mídia que combinava duas forças complementares:</p>
         <ul>
@@ -573,3 +547,7 @@
     <script src="index.js"></script>
 </body>
 </html>
+
+
+
+

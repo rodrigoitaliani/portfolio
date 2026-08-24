@@ -1071,15 +1071,7 @@ html, body {
     box-shadow: 0 0 8px var(--accent-red);
 }
 
-.project-thumb {
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
-    overflow: hidden;
-    flex-shrink: 0;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    position: relative;
-}
+.project-thumb { width: 48px; height: 48px; border-radius: 10px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255, 255, 255, 0.08); position: relative; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.03); } .thumb-initials { font-weight: 800; font-size: 16px; color: var(--color-text-secondary); z-index: 2; transition: var(--transition-smooth); } .project-item:hover .thumb-initials, .project-item.active .thumb-initials { color: #fff; }
 
 .project-thumb img {
     width: 100%;
@@ -1723,3 +1715,4 @@ html, body {
     opacity: 1;
     transform: scale(1.05);
 }
+
